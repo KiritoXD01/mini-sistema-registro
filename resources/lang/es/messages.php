@@ -27,5 +27,6 @@ return [
     'update' => 'Actualizar',
     'change' => 'Cambiar',
     'confirmUserDelete' => "Desea eliminar este usuario?",
-    'yes' => 'Si'
+    'yes' => 'Si',
+    'createdBy' => "Creado por"
 ];

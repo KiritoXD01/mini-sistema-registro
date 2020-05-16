@@ -28,4 +28,5 @@ return [
     'change' => 'Change',
     'confirmUserDelete' => "Do you want to delete this user?",
     'yes' => 'Yes',
+    'createdBy' => "Created By"
 ];

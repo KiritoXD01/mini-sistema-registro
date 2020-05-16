@@ -53,6 +53,10 @@
                             <input type="email" id="email" name="email" required class="form-control" value="{{ old('email') ?? $user->email }}" placeholder="Email...">
                         </div>
                         <div class="form-group">
+                            <label for="created_by">@lang('messages.createdBy')</label>
+                            <input type="text" id="created_by" readonly class="form-control" value="{{ $user->createdBy->name }}">
+                        </div>
+                        <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="hidden" name="status" value="0">
                                 <input type="checkbox" class="custom-control-input" id="status" name="status" @if($user->status) checked @endif value="1">
@@ -63,11 +67,11 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="password">@lang('messages.change') @lang('messages.password')</label>
-                            <input type="password" id="password" name="password" class="form-control" required value="" placeholder="@lang('messages.password')...">
+                            <input type="password" id="password" name="password" class="form-control" value="" placeholder="@lang('messages.password')...">
                         </div>
                         <div class="form-group">
                             <label for="password_confirmation">@lang('messages.confirmPassword')</label>
-                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required value="" placeholder="@lang('messages.confirmPassword')...">
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" value="" placeholder="@lang('messages.confirmPassword')...">
                         </div>
                     </div>
                 </div>
