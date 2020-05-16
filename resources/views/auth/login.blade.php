@@ -36,10 +36,19 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">@lang('messages.welcome')</h1>
                                 </div>
-                                <form action="" class="user needs-validation" autocomplete="off" method="post" id="form">
+                                <form action="{{ route('login') }}" class="user needs-validation" autocomplete="off" method="post" id="form">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul class="list-group">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     @csrf
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" id="email" name="email" autofocus required placeholder="@lang('messages.pleaseEnterEmail')...">
+                                        <input type="email" class="form-control form-control-user" id="email" name="email" autofocus required placeholder="@lang('messages.pleaseEnterEmail')..." value="{{ old('email') }}">
                                         <div class="invalid-feedback">@lang('messages.pleaseEnterEmail')</div>
                                     </div>
                                     <div class="form-group">
