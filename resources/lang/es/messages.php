@@ -15,9 +15,12 @@ return [
     'actions' => 'Acciones',
     'disabled' => 'Desactivado',
     'enabled' => 'Activado',
+    'disable' => 'Desactivar',
+    'enable' => 'Activar',
     'userCreated' => 'Usuario creado existosamente',
     'userUpdated' => 'Usuario actualizado existosamente',
-    'userDeleted' => 'Usuario eliminado existosamente',
+    'userActivated' => 'Usuario activado existosamente',
+    'userDeactivated' => 'Usuario desactivado existosamente',
     'edit' => 'Editar',
     'delete' => 'Eliminar',
     'cancel' => 'Cancelar',
@@ -26,7 +29,9 @@ return [
     'confirmPassword' => 'Confirmar Contraseña',
     'update' => 'Actualizar',
     'change' => 'Cambiar',
-    'confirmUserDelete' => "Desea eliminar este usuario?",
+    'confirmUserDeactivation' => "Desea desactivar este usuario?",
+    'confirmUserActivation' => "Desea reactivar este usuario?",
     'yes' => 'Si',
-    'createdBy' => "Creado por"
+    'createdBy' => "Creado por",
+    'createdAt' => "Fecha de creación"
 ];

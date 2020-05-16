@@ -9,7 +9,6 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
-    use SoftDeletes;
 
     /**
      * Table name in the database (this is optional)
@@ -47,7 +46,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Gets the user that created the current user, is created_by is
+     * Gets the user that created the current user, if created_by is
      * null, it was created by SYSTEM
      */
     public function createdBy()

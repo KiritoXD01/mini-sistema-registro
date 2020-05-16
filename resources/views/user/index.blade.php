@@ -21,12 +21,13 @@
             </div>
         @endif
         <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="datatable" width="100%" cellspacing="0">
+            <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>@lang('messages.name')</th>
                         <th>Email</th>
                         <th>@lang('messages.status')</th>
+                        <th>@lang('messages.createdAt')</th>
                         <td>@lang('messages.actions')</td>
                     </tr>
                 </thead>
@@ -42,19 +43,27 @@
                                 <span class="badge badge-danger">@lang('messages.disabled')</span>
                             @endif
                         </td>
+                        <td>{{ $user->created_at }}</td>
                         <td>
                             <form action="{{ route('user.destroy', $user->id) }}" method="post" id="formDelete{{ $user->id }}">
-                                @method('DELETE')
+                                @method("DELETE")
                                 @csrf
                                 <div class="btn-group" role="group">
                                     <a href="{{ route('user.edit', $user->id) }}" class="btn btn-info">
-                                        <i class="fa fa-edit"></i> @lang('messages.edit')
+                                        <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
                                     </a>
-                                    @if ($user->id != auth()->user()->id)
-                                    <button type="button" class="btn btn-danger" onclick="deleteItem({{ $user->id }})">
-                                        <i class="fa fa-trash"></i> @lang('messages.delete')
-                                    </button>
+                                    @if($user->status)
+                                        <input type="hidden" name="status" value="0">
+                                        <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $user }}')" @if($user->id == auth()->user()->id) disabled @endif>
+                                            <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
+                                        </button>
+                                    @else
+                                        <input type="hidden" name="status" value="1">
+                                        <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $user }}')" @if($user->id == auth()->user()->id) disabled @endif>
+                                            <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
+                                        </button>
                                     @endif
+
                                 </div>
                             </form>
                         </td>
@@ -71,9 +80,11 @@
 @section('javascript')
 <script>
 function deleteItem(item) {
+    item = JSON.parse(item);
+
     Swal
         .fire({
-            title: "@lang('messages.confirmUserDelete')",
+            title: (item.status) ? "@lang('messages.confirmUserDeactivation')" : "@lang('messages.confirmUserActivation')",
             icon: 'question',
             showCancelButton: true,
             allowEscapeKey: false,
@@ -91,7 +102,7 @@ function deleteItem(item) {
                     showConfirmButton: false,
                     onOpen: () => {
                         Swal.showLoading();
-                        document.getElementById(`formDelete${item}`).submit();
+                        document.getElementById(`formDelete${item.id}`).submit();
                     }
                 });
             }
@@ -99,7 +110,9 @@ function deleteItem(item) {
 }
 
 $(document).ready(function(){
-    $("#datatable").dataTable();
+    $("#datatable").dataTable({
+        "order": [[ 3, "desc" ]]
+    });
 });
 </script>
 @endsection

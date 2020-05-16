@@ -10,17 +10,6 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    /*
-     * Protected Variable to handle user repository
-     */
-    protected $user;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        //Assign the repository to the user
-        $this->user = $userRepository;
-    }
-
     public function index()
     {
         $users = User::all();
@@ -36,11 +25,15 @@ class UserController extends Controller
     {
         Validator::make($request->all(), [
             'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'max:255', 'unique:users,email'],
+            'email'    => ['required', 'email:rfc', 'max:255', 'unique:users,email,{email}'],
             'password' => ['required', 'string', 'min:8', 'confirmed']
         ])->validate();
 
-        $user = $this->user->create($request->all());
+        $data = $request->all();
+        $data['email']      = strtolower($data['email']);
+        $data['created_by'] = auth()->user()->id;
+
+        $user = User::create($data);
 
         return redirect(route('user.edit', compact('user')))->with('success', trans('messages.userCreated'));
     }
@@ -54,17 +47,27 @@ class UserController extends Controller
     {
         Validator::make($request->all(), [
             'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'max:255', Rule::unique('users')->ignoreModel($user)],
+            'email'    => ['required', 'email:rfc', 'max:255', Rule::unique('users')->ignoreModel($user)],
+            'password' => ['nullable', 'string', 'min:8']
         ])->validate();
 
-        $this->user->update($request->all(), $user);
+        $data = $request->all();
+        $data['email'] = strtolower($data['email']);
+
+        $user->update($data);
 
         return redirect(route('user.edit', compact('user')))->with('success', trans('messages.userUpdated'));
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
-        $user->delete();
-        return redirect(route('user.index'))->with('success', trans('messages.userDeleted'));
+        $user->update($request->all());
+
+        if (trim($request->status) == 0) {
+            return redirect(route('user.index'))->with('success', trans('messages.userDeactivated'));
+        }
+        else {
+            return redirect(route('user.index'))->with('success', trans('messages.userActivated'));
+        }
     }
 }
