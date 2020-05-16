@@ -19,11 +19,19 @@
         </a>
     </li>
 
-    <!-- Nav Item - Charts -->
+    <!-- Nav Item - Users -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('user.index') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>@lang('messages.users')</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Users -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('user.index') }}">
+            <i class="fas fa-fw fa-users-cog"></i>
+            <span>@lang('messages.userRoles')</span>
         </a>
     </li>
 </ul>

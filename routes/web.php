@@ -38,3 +38,8 @@ Route::group(['prefix' => 'user'], function(){
     //DELETE: Deletes and user
     Route::delete('/{user}', 'UserController@destroy')->middleware('auth')->name('user.destroy');
 });
+
+Route::group(['prefix' => 'userrol'], function(){
+    //GET: Get all user roles
+    Route::get('/', 'UserRolController@index')->middleware('auth')->name('userRol.index');
+});

@@ -33,5 +33,6 @@ return [
     'confirmUserActivation' => "Desea reactivar este usuario?",
     'yes' => 'Si',
     'createdBy' => "Creado por",
-    'createdAt' => "Fecha de creación"
+    'createdAt' => "Fecha de creación",
+    'userRoles' => 'Roles de Usuario'
 ];
