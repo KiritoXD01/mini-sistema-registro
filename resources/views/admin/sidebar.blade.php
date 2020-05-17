@@ -29,7 +29,7 @@
 
     <!-- Nav Item - Users -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('user.index') }}">
+        <a class="nav-link" href="{{ route('role.index') }}">
             <i class="fas fa-fw fa-users-cog"></i>
             <span>@lang('messages.userRoles')</span>
         </a>

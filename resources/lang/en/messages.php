@@ -34,5 +34,9 @@ return [
     'yes' => 'Yes',
     'createdBy' => "Created By",
     'createdAt' => "Created at",
-    'userRoles' => 'User Roles'
+    'userRoles' => 'User Roles',
+    'userRol' => 'User Rol',
+    'roleCreated' => 'Role created successfully',
+    'roleUpdated' => 'Role updated successfully',
+    'roleDeleted' => 'Role deleted successfully',
 ];

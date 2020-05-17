@@ -34,5 +34,9 @@ return [
     'yes' => 'Si',
     'createdBy' => "Creado por",
     'createdAt' => "Fecha de creación",
-    'userRoles' => 'Roles de Usuario'
+    'userRoles' => 'Roles de Usuario',
+    'userRol' => 'Rol de Usuario',
+    'roleCreated' => 'Rol creado existosamente',
+    'roleUpdated' => 'Role actualizado existosamente',
+    'roleDeleted' => 'Role eliminado existosamente',
 ];

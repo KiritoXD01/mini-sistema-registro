@@ -24,7 +24,7 @@
                     </button>
                 </div>
             </div>
-        </div>'
+        </div>
         <div class="card-body">
             @if ($errors->any())
                 <div class="alert alert-danger">
