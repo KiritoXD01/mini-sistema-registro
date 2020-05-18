@@ -74,4 +74,7 @@ return [
     'studySubjectDeactivated' => 'Materia desactivada existosamente',
     'confirmStudySubjectDeactivation' => "Desea desactivar esta materia?",
     'confirmStudySubjectActivation' => "Desea reactivar esta materia?",
+    'add' => 'Agregar',
+    'studentAdded' => "Estudiante agregado existosamente",
+    'studentRemoved' => "Estudiante removido existosamente"
 ];

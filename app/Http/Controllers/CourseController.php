@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Student;
 use App\Models\StudySubject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
@@ -40,7 +41,8 @@ class CourseController extends Controller
     {
         $teachers = Teacher::all();
         $studySubjects = StudySubject::all();
-        return view('course.edit', compact('course', 'teachers', 'studySubjects'));
+        $students = Student::whereNotIn('id', $course->students->pluck('id')->all())->get();
+        return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students'));
     }
 
     public function store(Request $request)
@@ -84,5 +86,15 @@ class CourseController extends Controller
         else {
             return redirect(route('course.index'))->with('success', trans('messages.courseActivated'));
         }
+    }
+
+    public function addStudent(Request $request, Course $course)
+    {
+        $course->students()->create([
+            "student_id"  => $request->student_id,
+            "assigned_by" => auth()->user()->id
+        ]);
+
+        return redirect(route('course.edit', compact('course')))->with('success', trans('messages.studentAdded'));
     }
 }

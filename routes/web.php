@@ -93,6 +93,8 @@ Route::group(['prefix' => 'course'], function(){
     Route::get('/{course}', 'CourseController@edit')->middleware('auth')->name('course.edit');
     //POST: Create a new course
     Route::post('/', 'CourseController@store')->middleware('auth')->name('course.store');
+    //POST: Add a student to a course
+    Route::post('/{course}/addstudent', 'CourseController@addStudent')->middleware('auth')->name('course.addStudent');
     //PATCH: Update an existing course
     Route::patch('/{course}', 'CourseController@update')->middleware('auth')->name('course.update');
     //DELETE: Deletes a course

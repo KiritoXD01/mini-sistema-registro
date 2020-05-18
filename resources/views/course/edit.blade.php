@@ -93,6 +93,79 @@
                 </div>
             </div>
         </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-6">
+                        <h1 class="h3 mb-0 text-gray-800">
+                            <i class="fas fa-fw fa-user-graduate"></i> @lang('messages.students')
+                        </h1>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-primary float-right" id="btnAddStudent">
+                            <i class="fa fa-fw fa-user-plus"></i> @lang('messages.add') @lang('messages.student')
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>@lang('messages.name')</th>
+                                <td>@lang('messages.actions')</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($course->students as $student)
+                                <tr>
+                                    <td>{{ $student->student->full_name }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger">
+                                            <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form action="{{ route('course.addStudent', $course->id) }}" method="post" autocomplete="off" id="formStudent">
+        @csrf
+        <!-- The Modal -->
+        <div class="modal fade" id="modalAddStudent">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">@lang('messages.add') @lang('messages.student')</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="student_id">@lang('messages.student')</label>
+                            <select id="student_id" name="student_id" required class="form-control">
+                                <option value="" disabled hidden selected>-- @lang('messages.student') --</option>
+                                @foreach($students as $student)
+                                    <option value="{{ $student->id }}">{{ $student->full_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="btnCloseAddStudent">@lang('messages.cancel')</button>
+                        <button type="button" class="btn btn-success" id="btnSaveStudent">@lang('messages.save')</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 @endsection
 
@@ -109,6 +182,41 @@
                         Swal.showLoading();
                     }
                 });
+            });
+
+            $("#datatable").dataTable();
+
+            $("#btnAddStudent").click(function() {
+                $("#modalAddStudent").modal({
+                    backdrop: 'static'
+                });
+            });
+
+            $("#btnCloseAddStudent").click(function(){
+                document.getElementById("student_id").value = "";
+                $("#modalAddStudent").modal("hide");
+            });
+
+            $("#btnSaveStudent").click(function() {
+                let student_id = document.getElementById("student_id");
+
+                if (student_id.checkValidity())
+                {
+                    Swal.fire({
+                        title: "@lang('messages.pleaseWait')",
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        onOpen: () => {
+                            Swal.showLoading();
+                            document.getElementById("formStudent").submit();
+                        }
+                    });
+                }
+                else
+                {
+                    student_id.focus();
+                }
             });
         });
     </script>

@@ -57,4 +57,12 @@ class Course extends Model
     {
         return $this->belongsTo('App\Models\StudySubject', 'study_subject_id', 'id');
     }
+
+    /**
+     * Get all teh students enrolled to this course
+     */
+    public function students()
+    {
+        return $this->hasMany('App\Models\CourseStudent', 'course_id', 'id');
+    }
 }
