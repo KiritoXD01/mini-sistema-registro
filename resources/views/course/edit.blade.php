@@ -85,6 +85,10 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="created_at">@lang('messages.createdAt')</label>
+                            <input type="text" id="created_at" class="form-control" readonly value="{{ $course->created_at }}">
+                        </div>
                     </div>
                 </div>
             </div>
