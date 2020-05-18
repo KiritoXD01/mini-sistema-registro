@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', env('APP_NAME').' - '.trans('messages.students'))
+@section('title', env('APP_NAME').' - '.trans('messages.courses'))
 
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">
-            <i class="fas fa-fw fa-user-graduate"></i> @lang('messages.students')
+            <i class="fas fa-fw fa-university"></i> @lang('messages.courses')
         </h1>
-        @can('student-create')
-            <a href="{{ route('student.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
-                <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.student')
+        @can('course-create')
+            <a href="{{ route('course.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
+                <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.course')
             </a>
         @endcan
     </div>
@@ -29,7 +29,6 @@
                     <thead>
                     <tr>
                         <th>@lang('messages.name')</th>
-                        <th>Email</th>
                         <th>@lang('messages.code')</th>
                         <th>@lang('messages.status')</th>
                         <th>@lang('messages.createdAt')</th>
@@ -37,38 +36,37 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($students as $student)
+                    @foreach($courses as $course)
                         <tr class="text-center">
-                            <td>{{ $student->full_name }}</td>
-                            <td>{{ $student->email }}</td>
-                            <td>{{ $student->code }}</td>
+                            <td>{{ $course->name }}</td>
+                            <td>{{ $course->code }}</td>
                             <td>
-                                @if($student->status)
+                                @if($course->status)
                                     <span class="badge badge-primary">@lang('messages.enabled')</span>
                                 @else
                                     <span class="badge badge-danger">@lang('messages.disabled')</span>
                                 @endif
                             </td>
-                            <td>{{ $student->created_at }}</td>
+                            <td>{{ $course->created_at }}</td>
                             <td>
-                                <form action="{{ route('student.destroy', $student->id) }}" method="post" id="formDelete{{ $student->id }}">
+                                <form action="{{ route('course.destroy', $course->id) }}" method="post" id="formDelete{{ $course->id }}">
                                     @method("DELETE")
                                     @csrf
                                     <div class="btn-group" role="group">
-                                        @can('student-edit')
-                                            <a href="{{ route('student.edit', $student->id) }}" class="btn btn-info">
+                                        @can('course-edit')
+                                            <a href="{{ route('course.edit', $course->id) }}" class="btn btn-info">
                                                 <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
                                             </a>
                                         @endcan
-                                        @can('student-delete')
-                                            @if($student->status)
+                                        @can('course-delete')
+                                            @if($course->status)
                                                 <input type="hidden" name="status" value="0">
-                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $student->id }}')">
+                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $course->id }}')">
                                                     <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
                                                 </button>
                                             @else
                                                 <input type="hidden" name="status" value="1">
-                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $student->id }}')">
+                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $course->id }}')">
                                                     <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
                                                 </button>
                                             @endif
@@ -91,7 +89,7 @@
         function deleteItem(item) {
             Swal
                 .fire({
-                    title: (item.status) ? "@lang('messages.confirmStudentActivation')" : "@lang('messages.confirmStudentReactivation')",
+                    title: (item.status) ? "@lang('messages.confirmTeacherActivation')" : "@lang('messages.confirmTeacherDeactivation')",
                     icon: 'question',
                     showCancelButton: true,
                     allowEscapeKey: false,
@@ -118,7 +116,7 @@
 
         $(document).ready(function(){
             $("#datatable").dataTable({
-                "order": [[ 4, "desc" ]]
+                "order": [[ 0, "asc" ]]
             });
         });
     </script>

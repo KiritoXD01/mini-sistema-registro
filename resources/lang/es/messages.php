@@ -58,4 +58,12 @@ return [
     'studentDeactivated' => 'Estudiante desactivado existosamente',
     'confirmStudentDeactivation' => "Desea desactivar este estudiante?",
     'confirmStudentActivation' => "Desea reactivar este estudiante?",
+    'course' => "Curso",
+    'courses' => "Cursos",
+    'courseCreated' => 'Curso creado existosamente',
+    'courseUpdated' => 'Curso actualizado existosamente',
+    'courseActivated' => 'Curso activado existosamente',
+    'courseDeactivated' => 'Curso desactivado existosamente',
+    'confirmCourseDeactivation' => "Desea desactivar este curso?",
+    'confirmCourseActivation' => "Desea reactivar este curso?",
 ];

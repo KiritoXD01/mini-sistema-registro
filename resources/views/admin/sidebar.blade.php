@@ -59,5 +59,15 @@
         </li>
     @endcan
 
+    @can('course-list')
+    <!-- Nav Item - Teachers -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('course.index') }}">
+                <i class="fas fa-fw fa-university"></i>
+                <span>@lang('messages.courses')</span>
+            </a>
+        </li>
+    @endcan
+
 </ul>
 <!-- End of Sidebar -->

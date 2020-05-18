@@ -58,4 +58,12 @@ return [
     'studentDeactivated' => 'Student deactivated successfully',
     'confirmStudentDeactivation' => "Do you want to deactivate this student?",
     'confirmStudentActivation' => "Do you want to deactivate this student?",
+    'course' => "Course",
+    'courses' => "Courses",
+    'courseCreated' => 'Course created successfully',
+    'courseUpdated' => 'Course updated successfully',
+    'courseActivated' => 'Course activated successfully',
+    'courseDeactivated' => 'Course deactivated successfully',
+    'confirmCourseDeactivation' => "Do you want to deactivate this course?",
+    'confirmCourseActivation' => "Do you want to deactivate this course?",
 ];
