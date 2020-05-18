@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
@@ -23,6 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.home');
+        $users = User::count();
+        $userRoles = Role::count();
+        $teachers = Teacher::count();
+        $students = Student::count();
+        return view('admin.home', compact('users', 'userRoles', 'teachers', 'students'));
     }
 }
