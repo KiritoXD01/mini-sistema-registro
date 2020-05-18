@@ -5,9 +5,11 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@lang('messages.userRoles')</h1>
+        @can('role-create')
         <a href="{{ route('role.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
             <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.userRol')
         </a>
+        @endcan
     </div>
     <!-- End Page Heading -->
 
@@ -39,13 +41,16 @@
                                     @method("DELETE")
                                     @csrf
                                     <div class="btn-group" role="group">
+                                        @can('role-edit')
                                         <a href="{{ route('role.edit', $role->id) }}" class="btn btn-info">
                                             <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
                                         </a>
-                                        <input type="hidden" name="status" value="1">
+                                        @endcan
+                                        @can('role-delete')
                                         <button type="button" class="btn btn-danger" onclick="deleteItem({{ $role->id }})">
                                             <i class="fa fa-trash fa-fw"></i> @lang('messages.delete')
                                         </button>
+                                        @endcan
                                     </div>
                                 </form>
                             </td>

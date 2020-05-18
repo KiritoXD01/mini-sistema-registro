@@ -29,6 +29,7 @@
     </li>
     @endif
 
+    @can('role-list')
     <!-- Nav Item - Users -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('role.index') }}">
@@ -36,5 +37,6 @@
             <span>@lang('messages.userRoles')</span>
         </a>
     </li>
+    @endcan
 </ul>
 <!-- End of Sidebar -->

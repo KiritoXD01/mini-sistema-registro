@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermissionSeeder extends Seeder
 {
@@ -12,17 +13,31 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        // Permission list
         $permissions = [
+            //users page
             "user-list",
             "user-create",
             "user-edit",
-            "user-delete"
+            "user-delete",
+
+            //roles page
+            "role-list",
+            "role-create",
+            "role-edit",
+            "role-delete"
         ];
 
+        /**
+         * Create each permission in Database if it doesn't exists
+         */
         foreach ($permissions as $permission) {
             Permission::firstOrCreate([
                 'name' => $permission
             ]);
         }
+
+        //Assign all the permissions to the ADMIN user role
+        Role::first()->syncPermissions($permissions);
     }
 }

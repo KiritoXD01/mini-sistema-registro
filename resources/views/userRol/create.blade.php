@@ -41,12 +41,16 @@
                             <label for="name">@lang('messages.name')</label>
                             <input type="text" id="name" name="name" required autofocus class="form-control" value="{{ old('name') }}" placeholder="@lang('messages.name')...">
                         </div>
-                        @foreach($permissions as $permission)
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" name="permission[]" id="permission-{{ $permission->id }}" value="{{ $permission->id }}">
-                                <label class="custom-control-label" for="permission-{{ $permission->id }}">{{ $permission->name }}</label>
-                            </div>
-                        @endforeach
+                        <div class="form-group row">
+                            @foreach($permissions as $permission)
+                                <div class="col-md-6">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="permission[]" id="permission-{{ $permission->id }}" value="{{ $permission->id }}">
+                                        <label class="custom-control-label" for="permission-{{ $permission->id }}">{{ $permission->name }}</label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
