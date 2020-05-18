@@ -30,6 +30,7 @@
                     <tr>
                         <th>@lang('messages.name')</th>
                         <th>@lang('messages.code')</th>
+                        <th>@lang('messages.teacher')</th>
                         <th>@lang('messages.status')</th>
                         <th>@lang('messages.createdAt')</th>
                         <td>@lang('messages.actions')</td>
@@ -40,6 +41,7 @@
                         <tr class="text-center">
                             <td>{{ $course->name }}</td>
                             <td>{{ $course->code }}</td>
+                            <td>{{ $course->teacher->full_name }}</td>
                             <td>
                                 @if($course->status)
                                     <span class="badge badge-primary">@lang('messages.enabled')</span>

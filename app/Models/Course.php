@@ -17,7 +17,8 @@ class Course extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'code', 'status', 'created_by'
+        'name', 'code', 'status', 'created_by',
+        'teacher_id', 'study_subject_id'
     ];
 
     /**
@@ -39,5 +40,21 @@ class Course extends Model
         return $this->belongsTo('App\Models\User', 'created_by', 'id')->withDefault([
             'name' => 'SYSTEM'
         ]);
+    }
+
+    /**
+     * Gets the teacher that is assigned to this course
+     */
+    public function teacher()
+    {
+        return $this->belongsTo('App\Models\Teacher', 'teacher_id', 'id');
+    }
+
+    /**
+     * Gets the teacher that is assigned to this course
+     */
+    public function studySubject()
+    {
+        return $this->belongsTo('App\Models\StudySubject', 'study_subject_id', 'id');
     }
 }

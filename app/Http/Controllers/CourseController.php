@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\StudySubject;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -29,12 +31,16 @@ class CourseController extends Controller
 
     public function create()
     {
-        return view('course.create');
+        $teachers = Teacher::all();
+        $studySubjects = StudySubject::all();
+        return view('course.create', compact('teachers', 'studySubjects'));
     }
 
     public function edit(Course $course)
     {
-        return view('course.edit', compact('course'));
+        $teachers = Teacher::all();
+        $studySubjects = StudySubject::all();
+        return view('course.edit', compact('course', 'teachers', 'studySubjects'));
     }
 
     public function store(Request $request)

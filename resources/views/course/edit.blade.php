@@ -51,6 +51,15 @@
                             <input type="text" id="name" name="name" required autofocus class="form-control" value="{{ old('name') ?? $course->name }}" placeholder="@lang('messages.name')...">
                         </div>
                         <div class="form-group">
+                            <label for="teacher_id">@lang('messages.teacher')</label>
+                            <select id="teacher_id" name="teacher_id" class="form-control" required>
+                                <option value="" disabled selected hidden>-- @lang('messages.teacher') --</option>
+                                @foreach($teachers as $teacher)
+                                    <option value="{{ $teacher->id }}" @if(old('teacher_id') == $teacher->id || $course->teacher_id == $teacher->id) selected @endif>{{ $teacher->full_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="created_by">@lang('messages.createdBy')</label>
                             <input type="text" id="created_by" readonly class="form-control" value="{{ $course->createdBy->name }}">
                         </div>
@@ -66,6 +75,15 @@
                         <div class="form-group">
                             <label for="code">@lang('messages.code')</label>
                             <input type="text" id="code" name="code" required class="form-control" value="{{ old('code') ?? $course->code }}" placeholder="@lang('messages.code')...">
+                        </div>
+                        <div class="form-group">
+                            <label for="study_subject_id">@lang('messages.studySubject')</label>
+                            <select id="study_subject_id" name="study_subject_id" class="form-control" required>
+                                <option value="" disabled selected hidden>-- @lang('messages.studySubject') --</option>
+                                @foreach($studySubjects as $studySubject)
+                                    <option value="{{ $studySubject->id }}" @if(old('study_subject_id') == $studySubject->id || $course->study_subject_id == $studySubject->id) selected @endif>{{ $studySubject->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

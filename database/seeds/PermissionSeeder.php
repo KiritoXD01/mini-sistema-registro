@@ -49,7 +49,7 @@ class PermissionSeeder extends Seeder
             "study-subject-list",
             "study-subject-create",
             "study-subject-edit",
-            "study-subject-delete",
+            "study-subject-delete"
         ];
 
         /**
@@ -60,8 +60,5 @@ class PermissionSeeder extends Seeder
                 'name' => $permission
             ]);
         }
-
-        //Assign all the permissions to the ADMIN user role
-        Role::first()->syncPermissions($permissions);
     }
 }
