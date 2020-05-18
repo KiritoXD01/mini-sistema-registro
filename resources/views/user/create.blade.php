@@ -4,7 +4,9 @@
 @section('content')
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">@lang('messages.create') @lang('messages.user')</h1>
+    <h1 class="h3 mb-0 text-gray-800">
+        <i class="fas fa-fw fa-users"></i> @lang('messages.create') @lang('messages.user')
+    </h1>
 </div>
 <!-- End Page Heading -->
 

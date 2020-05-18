@@ -25,7 +25,13 @@ class PermissionSeeder extends Seeder
             "role-list",
             "role-create",
             "role-edit",
-            "role-delete"
+            "role-delete",
+
+            //teachers pages
+            "teacher-list",
+            "teacher-create",
+            "teacher-edit",
+            "teacher-delete"
         ];
 
         /**

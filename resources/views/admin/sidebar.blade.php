@@ -38,5 +38,14 @@
         </a>
     </li>
     @endcan
+
+<!-- Nav Item - Teachers -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('teacher.index') }}">
+            <i class="fas fa-fw fa-chalkboard-teacher"></i>
+            <span>@lang('messages.teachers')</span>
+        </a>
+    </li>
+
 </ul>
 <!-- End of Sidebar -->

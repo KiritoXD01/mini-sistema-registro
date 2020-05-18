@@ -53,3 +53,18 @@ Route::group(['prefix' => 'role'], function(){
     //DELETE: Deletes and role
     Route::delete('/{role}', 'RoleController@destroy')->middleware('auth')->name('role.destroy');
 });
+
+Route::group(['prefix' => 'teacher'], function(){
+    //GET: Get all user roles
+    Route::get('/', 'TeacherController@index')->middleware('auth')->name('teacher.index');
+    //GET: Create a new role view
+    Route::get('/create', 'TeacherController@create')->middleware('auth')->name('teacher.create');
+    //GET: Edit an role view
+    Route::get('/{teacher}', 'TeacherController@edit')->middleware('auth')->name('teacher.edit');
+    //POST: Create a new role
+    Route::post('/', 'TeacherController@store')->middleware('auth')->name('teacher.store');
+    //PATCH: Update an existing role
+    Route::patch('/{teacher}', 'TeacherController@update')->middleware('auth')->name('teacher.update');
+    //DELETE: Deletes and role
+    Route::delete('/{teacher}', 'TeacherController@destroy')->middleware('auth')->name('teacher.destroy');
+});

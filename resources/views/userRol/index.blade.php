@@ -4,7 +4,9 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">@lang('messages.userRoles')</h1>
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-fw fa-users-cog"></i> @lang('messages.userRoles')
+        </h1>
         @can('role-create')
         <a href="{{ route('role.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
             <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.userRol')
