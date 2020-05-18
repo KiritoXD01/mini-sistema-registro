@@ -11,6 +11,17 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        /**
+         * Sets the user permissions for this controller
+         */
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $users = User::all();
@@ -60,7 +71,7 @@ class UserController extends Controller
         $data['email'] = strtolower($data['email']);
 
         $user->update($data);
-        $user->assignRole($data['role']);
+        $user->syncRoles($data['role']);
 
         return redirect(route('user.edit', compact('user')))->with('success', trans('messages.userUpdated'));
     }

@@ -5,9 +5,11 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">@lang('messages.users')</h1>
-    <a href="{{ route('user.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
-        <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.user')
-    </a>
+    @can('user-create')
+        <a href="{{ route('user.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
+            <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.user')
+        </a>
+    @endcan
 </div>
 <!-- End Page Heading -->
 
@@ -27,6 +29,7 @@
                         <th>@lang('messages.name')</th>
                         <th>Email</th>
                         <th>@lang('messages.status')</th>
+                        <th>@lang('messages.userRol')</th>
                         <th>@lang('messages.createdAt')</th>
                         <td>@lang('messages.actions')</td>
                     </tr>
@@ -43,27 +46,31 @@
                                 <span class="badge badge-danger">@lang('messages.disabled')</span>
                             @endif
                         </td>
+                        <td>{{ $user->roles->first()->name }}</td>
                         <td>{{ $user->created_at }}</td>
                         <td>
                             <form action="{{ route('user.destroy', $user->id) }}" method="post" id="formDelete{{ $user->id }}">
                                 @method("DELETE")
                                 @csrf
                                 <div class="btn-group" role="group">
+                                    @can('user-edit')
                                     <a href="{{ route('user.edit', $user->id) }}" class="btn btn-info">
                                         <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
                                     </a>
-                                    @if($user->status)
-                                        <input type="hidden" name="status" value="0">
-                                        <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $user }}')" @if($user->id == auth()->user()->id) disabled @endif>
-                                            <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
-                                        </button>
-                                    @else
-                                        <input type="hidden" name="status" value="1">
-                                        <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $user }}')" @if($user->id == auth()->user()->id) disabled @endif>
-                                            <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
-                                        </button>
-                                    @endif
-
+                                    @endcan
+                                    @can('user-delete')
+                                        @if($user->status)
+                                            <input type="hidden" name="status" value="0">
+                                            <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $user }}')" @if($user->id == auth()->user()->id) disabled @endif>
+                                                <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
+                                            </button>
+                                        @else
+                                            <input type="hidden" name="status" value="1">
+                                            <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $user }}')" @if($user->id == auth()->user()->id) disabled @endif>
+                                                <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
+                                            </button>
+                                        @endif
+                                    @endcan
                                 </div>
                             </form>
                         </td>

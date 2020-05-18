@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\UserLogin;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -17,5 +18,9 @@ class UserSeeder extends Seeder
         UserLogin::create([
             'user_id' => $user->id
         ]);
+
+        $role = Role::pluck('name')->all();
+
+        $user->assignRole($role);
     }
 }

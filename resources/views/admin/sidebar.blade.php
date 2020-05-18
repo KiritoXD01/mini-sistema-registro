@@ -19,6 +19,7 @@
         </a>
     </li>
 
+    @can('user-list')
     <!-- Nav Item - Users -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('user.index') }}">
@@ -26,6 +27,7 @@
             <span>@lang('messages.users')</span>
         </a>
     </li>
+    @endif
 
     <!-- Nav Item - Users -->
     <li class="nav-item">
