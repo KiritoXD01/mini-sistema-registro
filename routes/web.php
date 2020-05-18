@@ -98,3 +98,18 @@ Route::group(['prefix' => 'course'], function(){
     //DELETE: Deletes a course
     Route::delete('/{course}', 'CourseController@destroy')->middleware('auth')->name('course.destroy');
 });
+
+Route::group(['prefix' => 'studysubject'], function(){
+    //GET: Get all study subjects
+    Route::get('/', 'StudySubjectController@index')->middleware('auth')->name('studySubject.index');
+    //GET: Create a new study subject view
+    Route::get('/create', 'StudySubjectController@create')->middleware('auth')->name('studySubject.create');
+    //GET: Edit an study subject view
+    Route::get('/{studySubject}', 'StudySubjectController@edit')->middleware('auth')->name('studySubject.edit');
+    //POST: Create a new study subject
+    Route::post('/', 'StudySubjectController@store')->middleware('auth')->name('studySubject.store');
+    //PATCH: Update an existing study subject
+    Route::patch('/{studySubject}', 'StudySubjectController@update')->middleware('auth')->name('studySubject.update');
+    //DELETE: Deletes a study subject
+    Route::delete('/{studySubject}', 'StudySubjectController@destroy')->middleware('auth')->name('studySubject.destroy');
+});

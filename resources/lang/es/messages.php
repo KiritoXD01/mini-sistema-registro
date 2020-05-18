@@ -66,4 +66,12 @@ return [
     'courseDeactivated' => 'Curso desactivado existosamente',
     'confirmCourseDeactivation' => "Desea desactivar este curso?",
     'confirmCourseActivation' => "Desea reactivar este curso?",
+    'studySubject' => "Materia",
+    'studySubjects' => "Materias",
+    'studySubjectCreated' => 'Materia creada existosamente',
+    'studySubjectUpdated' => 'Materia actualizada existosamente',
+    'studySubjectActivated' => 'Materia activada existosamente',
+    'studySubjectDeactivated' => 'Materia desactivada existosamente',
+    'confirmStudySubjectDeactivation' => "Desea desactivar esta materia?",
+    'confirmStudySubjectActivation' => "Desea reactivar esta materia?",
 ];

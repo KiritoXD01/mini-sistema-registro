@@ -69,5 +69,15 @@
         </li>
     @endcan
 
+    @can('study-subject-list')
+    <!-- Nav Item - Teachers -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('studySubject.index') }}">
+                <i class="fas fa-fw fa-book"></i>
+                <span>@lang('messages.studySubjects')</span>
+            </a>
+        </li>
+    @endcan
+
 </ul>
 <!-- End of Sidebar -->

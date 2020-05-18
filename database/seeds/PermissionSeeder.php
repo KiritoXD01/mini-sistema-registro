@@ -43,7 +43,13 @@ class PermissionSeeder extends Seeder
             "course-list",
             "course-create",
             "course-edit",
-            "course-delete"
+            "course-delete",
+
+            //study subject pages
+            "study-subject-list",
+            "study-subject-create",
+            "study-subject-edit",
+            "study-subject-delete",
         ];
 
         /**

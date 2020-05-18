@@ -66,4 +66,12 @@ return [
     'courseDeactivated' => 'Course deactivated successfully',
     'confirmCourseDeactivation' => "Do you want to deactivate this course?",
     'confirmCourseActivation' => "Do you want to deactivate this course?",
+    'studySubject' => "Study Subject",
+    'studySubjects' => "Study Subjects",
+    'studySubjectCreated' => 'Study Subject created successfully',
+    'studySubjectUpdated' => 'Study Subject updated successfully',
+    'studySubjectActivated' => 'Study Subject activated successfully',
+    'studySubjectDeactivated' => 'Study Subject deactivated successfully',
+    'confirmStudySubjectDeactivation' => "Do you want to deactivate this study subject?",
+    'confirmStudySubjectActivation' => "Do you want to deactivate this study subject?",
 ];
