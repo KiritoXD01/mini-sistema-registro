@@ -71,7 +71,7 @@
         function deleteItem(item) {
             Swal
                 .fire({
-                    title: (item.status) ? "@lang('messages.confirmUserDeactivation')" : "@lang('messages.confirmUserActivation')",
+                    title: (item.status) ? "@lang('messages.confirmUserActivation')" : "@lang('messages.confirmUserDeactivation')",
                     icon: 'question',
                     showCancelButton: true,
                     allowEscapeKey: false,

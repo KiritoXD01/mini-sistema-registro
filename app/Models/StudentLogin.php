@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TeacherLogin extends Model
+class StudentLogin extends Model
 {
     /**
      * Table name in the database (this is optional)
      */
-    protected $table = "teacher_logins";
+    protected $table = "student_logins";
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,7 @@ class TeacherLogin extends Model
      * @var array
      */
     protected $fillable = [
-        'teacher_id'
+        'student_id'
     ];
 
     /**
@@ -35,6 +35,6 @@ class TeacherLogin extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\Teacher', 'teacher_id', 'id');
+        return $this->belongsTo('App\Models\Student', 'student_id', 'id');
     }
 }

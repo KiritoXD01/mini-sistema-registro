@@ -50,4 +50,12 @@ return [
     'code' => 'Código',
     'confirmTeacherDeactivation' => "Desea desactivar este profesor?",
     'confirmTeacherActivation' => "Desea reactivar este profesor?",
+    'student' => "Estudiante",
+    'students' => "Estudiantes",
+    'studentCreated' => 'Estudiante creado existosamente',
+    'studentUpdated' => 'Estudiante actualizado existosamente',
+    'studentActivated' => 'Estudiante activado existosamente',
+    'studentDeactivated' => 'Estudiante desactivado existosamente',
+    'confirmStudentDeactivation' => "Desea desactivar este estudiante?",
+    'confirmStudentActivation' => "Desea reactivar este estudiante?",
 ];

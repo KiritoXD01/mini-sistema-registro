@@ -31,7 +31,13 @@ class PermissionSeeder extends Seeder
             "teacher-list",
             "teacher-create",
             "teacher-edit",
-            "teacher-delete"
+            "teacher-delete",
+
+            // students pages
+            "student-list",
+            "student-create",
+            "student-edit",
+            "student-delete"
         ];
 
         /**

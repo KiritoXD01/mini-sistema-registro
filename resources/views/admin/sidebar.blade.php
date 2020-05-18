@@ -39,13 +39,25 @@
     </li>
     @endcan
 
-<!-- Nav Item - Teachers -->
+    @can('teacher-list')
+    <!-- Nav Item - Teachers -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('teacher.index') }}">
             <i class="fas fa-fw fa-chalkboard-teacher"></i>
             <span>@lang('messages.teachers')</span>
         </a>
     </li>
+    @endcan
+
+    @can('student-list')
+    <!-- Nav Item - Teachers -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('student.index') }}">
+                <i class="fas fa-fw fa-user-graduate"></i>
+                <span>@lang('messages.students')</span>
+            </a>
+        </li>
+    @endcan
 
 </ul>
 <!-- End of Sidebar -->
