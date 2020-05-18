@@ -65,7 +65,6 @@
                     showConfirmButton: false,
                     onOpen: () => {
                         Swal.showLoading();
-                        document.getElementById("form").submit();
                     }
                 });
             });

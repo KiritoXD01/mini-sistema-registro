@@ -7,6 +7,7 @@ use App\Repositories\Contracts\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -18,7 +19,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('user.create');
+        $roles = Role::pluck('name')->all();
+        return view('user.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -34,13 +36,16 @@ class UserController extends Controller
         $data['created_by'] = auth()->user()->id;
 
         $user = User::create($data);
+        $user->assignRole($data['role']);
 
         return redirect(route('user.edit', compact('user')))->with('success', trans('messages.userCreated'));
     }
 
     public function edit(User $user)
     {
-        return view('user.edit', compact('user'));
+        $roles = Role::pluck('name', 'name')->all();
+        $userRole = $user->roles->first()->name;
+        return view('user.edit', compact('user', 'roles', 'userRole'));
     }
 
     public function update(Request $request, User $user)
@@ -55,6 +60,7 @@ class UserController extends Controller
         $data['email'] = strtolower($data['email']);
 
         $user->update($data);
+        $user->assignRole($data['role']);
 
         return redirect(route('user.edit', compact('user')))->with('success', trans('messages.userUpdated'));
     }

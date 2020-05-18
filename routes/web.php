@@ -42,14 +42,14 @@ Route::group(['prefix' => 'user'], function(){
 Route::group(['prefix' => 'role'], function(){
     //GET: Get all user roles
     Route::get('/', 'RoleController@index')->middleware('auth')->name('role.index');
-    //GET: Create a new user view
+    //GET: Create a new role view
     Route::get('/create', 'RoleController@create')->middleware('auth')->name('role.create');
-    //GET: Edit an user view
+    //GET: Edit an role view
     Route::get('/{role}', 'RoleController@edit')->middleware('auth')->name('role.edit');
-    //POST: Create a new user
+    //POST: Create a new role
     Route::post('/', 'RoleController@store')->middleware('auth')->name('role.store');
-    //PATCH: Update an existing user
+    //PATCH: Update an existing role
     Route::patch('/{role}', 'RoleController@update')->middleware('auth')->name('role.update');
-    //DELETE: Deletes and user
+    //DELETE: Deletes and role
     Route::delete('/{role}', 'RoleController@destroy')->middleware('auth')->name('role.destroy');
 });

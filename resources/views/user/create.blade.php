@@ -46,6 +46,15 @@
                         <input type="email" id="email" name="email" required class="form-control" value="{{ old('email') }}" placeholder="Email...">
                     </div>
                     <div class="form-group">
+                        <label for="role">@lang('messages.userRol')</label>
+                        <select id="role" name="role" class="form-control" required>
+                            <option value="" selected hidden disabled>-- @lang('messages.userRol') --</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role }}">{{ $role }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <div class="custom-control custom-switch">
                             <input type="hidden" name="status" value="0">
                             <input type="checkbox" class="custom-control-input" id="status" name="status" checked value="1">
@@ -80,7 +89,6 @@ $(document).ready(function(){
             showConfirmButton: false,
             onOpen: () => {
                 Swal.showLoading();
-                document.getElementById("form").submit();
             }
         });
     });

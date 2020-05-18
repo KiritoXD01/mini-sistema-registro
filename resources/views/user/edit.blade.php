@@ -8,7 +8,7 @@
     </div>
     <!-- End Page Heading -->
 
-    <form action="{{ route('user.update', $user->id) }}" method="post" autocomplete="off">
+    <form action="{{ route('user.update', $user->id) }}" method="post" id="form" autocomplete="off">
         @csrf
         @method("PATCH")
         <div class="card shadow mb-4">
@@ -57,6 +57,15 @@
                             <input type="text" id="created_by" readonly class="form-control" value="{{ $user->createdBy->name }}">
                         </div>
                         <div class="form-group">
+                            <label for="role">@lang('messages.userRol')</label>
+                            <select id="role" name="role" class="form-control" required>
+                                <option value="" selected hidden disabled>-- @lang('messages.userRol') --</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role }}" @if($userRole == $role) selected @endif>{{ $role }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="hidden" name="status" value="0">
                                 <input type="checkbox" class="custom-control-input" id="status" name="status" @if($user->status) checked @endif value="1">
@@ -87,7 +96,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
+                    <table class="table table-hover" id="tableLogins" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Login</th>
@@ -109,8 +118,27 @@
 
 @section('javascript')
 <script>
-    $("#password").keyup(function(){
-        document.getElementById("password_confirmation").required = this.value.trim().length > 0;
+    $(document).ready(function(){
+        $("#password").keyup(function(){
+            document.getElementById("password_confirmation").required = this.value.trim().length > 0;
+        });
+
+        $("#tableLogins").dataTable({
+            "order": [[ 0, "desc" ]]
+        });
+
+        $("#form").submit(function() {
+            Swal.fire({
+                title: "@lang('messages.pleaseWait')",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                onOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        });
     });
+
 </script>
 @endsection

@@ -40,12 +40,14 @@ class RoleController extends Controller
         ])->validate();
 
         $role = Role::create([
-            'name' => $request->name
+            'name' => strtoupper($request->name)
         ]);
 
         $role->syncPermissions($request->input('permission'));
 
-        return redirect(route('role.edit', compact('role')))->with('success', trans('messages.roleCreated'));
+        return redirect()
+                ->route('role.edit', $role)
+                ->with('success', trans('messages.roleCreated'));
     }
 
     public function update(Request $request, Role $role)
@@ -55,7 +57,7 @@ class RoleController extends Controller
         ])->validate();
 
         $role->update([
-            'name' => $request->name
+            'name' => strtoupper($request->name)
         ]);
 
         $role->syncPermissions($request->input('permission'));

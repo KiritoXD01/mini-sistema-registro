@@ -8,7 +8,7 @@
     </div>
     <!-- End Page Heading -->
 
-    <form action="{{ route('role.update', $role->id) }}" method="post" autocomplete="off">
+    <form action="{{ route('role.update', $role->id) }}" method="post" id="form" autocomplete="off">
         @csrf
         @method("PATCH")
         <div class="card shadow mb-4">
@@ -59,4 +59,22 @@
             </div>
         </div>
     </form>
+@endsection
+
+@section('javascript')
+    <script>
+        $(document).ready(function(){
+            $("#form").submit(function(){
+                Swal.fire({
+                    title: "@lang('messages.pleaseWait')",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    onOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
