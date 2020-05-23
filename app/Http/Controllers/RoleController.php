@@ -17,6 +17,7 @@ class RoleController extends Controller
          * Sets the user permissions for this controller
          */
         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:user-show', ['only' => ['show']]);
         $this->middleware('permission:role-create', ['only' => ['create','store']]);
         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
@@ -32,6 +33,15 @@ class RoleController extends Controller
     {
         $permissions = Permission::all();
         return view('userRol.create', compact('permissions'));
+    }
+
+    public function show(Role $role)
+    {
+        $permissions = Permission::all();
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
+            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+            ->all();
+        return view('userRol.show', compact('role', 'permissions', 'rolePermissions'));
     }
 
     public function edit(Role $role)

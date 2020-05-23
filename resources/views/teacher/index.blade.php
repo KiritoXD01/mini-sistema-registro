@@ -55,6 +55,11 @@
                                     @method("DELETE")
                                     @csrf
                                     <div class="btn-group" role="group">
+                                        @can('teacher-show')
+                                            <a href="{{ route('teacher.show', $teacher->id) }}" class="btn btn-primary">
+                                                <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
+                                            </a>
+                                        @endcan
                                         @can('teacher-edit')
                                             <a href="{{ route('teacher.edit', $teacher->id) }}" class="btn btn-info">
                                                 <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
@@ -63,12 +68,12 @@
                                         @can('teacher-delete')
                                             @if($teacher->status)
                                                 <input type="hidden" name="status" value="0">
-                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $teacher->id }}')">
+                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $teacher }}')">
                                                     <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
                                                 </button>
                                             @else
                                                 <input type="hidden" name="status" value="1">
-                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $teacher->id }}')">
+                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $teacher }}')">
                                                     <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
                                                 </button>
                                             @endif
@@ -89,9 +94,11 @@
 @section('javascript')
     <script>
         function deleteItem(item) {
+            item = JSON.parse(item);
+
             Swal
                 .fire({
-                    title: (item.status) ? "@lang('messages.confirmTeacherActivation')" : "@lang('messages.confirmTeacherDeactivation')",
+                    title: (item.status) ? "@lang('messages.confirmTeacherDeactivation')" : "@lang('messages.confirmTeacherActivation')",
                     icon: 'question',
                     showCancelButton: true,
                     allowEscapeKey: false,
@@ -109,7 +116,7 @@
                             showConfirmButton: false,
                             onOpen: () => {
                                 Swal.showLoading();
-                                document.getElementById(`formDelete${item}`).submit();
+                                document.getElementById(`formDelete${item.id}`).submit();
                             }
                         });
                     }

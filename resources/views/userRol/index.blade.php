@@ -43,15 +43,20 @@
                                     @method("DELETE")
                                     @csrf
                                     <div class="btn-group" role="group">
+                                        @can('role-show')
+                                            <a href="{{ route('role.show', $role->id) }}" class="btn btn-primary">
+                                                <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
+                                            </a>
+                                        @endcan
                                         @can('role-edit')
-                                        <a href="{{ route('role.edit', $role->id) }}" class="btn btn-info">
-                                            <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
-                                        </a>
+                                            <a href="{{ route('role.edit', $role->id) }}" class="btn btn-info">
+                                                <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
+                                            </a>
                                         @endcan
                                         @can('role-delete')
-                                        <button type="button" class="btn btn-danger" onclick="deleteItem({{ $role->id }})">
-                                            <i class="fa fa-trash fa-fw"></i> @lang('messages.delete')
-                                        </button>
+                                            <button type="button" class="btn btn-danger" onclick="deleteItem({{ $role->id }})">
+                                                <i class="fa fa-trash fa-fw"></i> @lang('messages.delete')
+                                            </button>
                                         @endcan
                                     </div>
                                 </form>
@@ -71,7 +76,7 @@
         function deleteItem(item) {
             Swal
                 .fire({
-                    title: (item.status) ? "@lang('messages.confirmUserActivation')" : "@lang('messages.confirmUserDeactivation')",
+                    title: "@lang('messages.deleteRole')",
                     icon: 'question',
                     showCancelButton: true,
                     allowEscapeKey: false,

@@ -19,6 +19,7 @@ class CourseController extends Controller
          * Sets the user permissions for this controller
          */
         $this->middleware('permission:course-list|course-create|course-edit|course-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:course-show', ['only' => ['show']]);
         $this->middleware('permission:course-create', ['only' => ['create','store']]);
         $this->middleware('permission:course-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:course-delete', ['only' => ['destroy']]);
@@ -35,6 +36,11 @@ class CourseController extends Controller
         $teachers = Teacher::all();
         $studySubjects = StudySubject::all();
         return view('course.create', compact('teachers', 'studySubjects'));
+    }
+
+    public function show(Course $course)
+    {
+        return view('course.show', compact('course'));
     }
 
     public function edit(Course $course)

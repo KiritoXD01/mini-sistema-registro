@@ -33,7 +33,6 @@
                         <th>@lang('messages.teacher')</th>
                         <th>@lang('messages.students')</th>
                         <th>@lang('messages.status')</th>
-                        <th>@lang('messages.createdAt')</th>
                         <td>@lang('messages.actions')</td>
                     </tr>
                     </thead>
@@ -51,12 +50,16 @@
                                     <span class="badge badge-danger">@lang('messages.disabled')</span>
                                 @endif
                             </td>
-                            <td>{{ $course->created_at }}</td>
                             <td>
                                 <form action="{{ route('course.destroy', $course->id) }}" method="post" id="formDelete{{ $course->id }}">
                                     @method("DELETE")
                                     @csrf
                                     <div class="btn-group" role="group">
+                                        @can('course-show')
+                                            <a href="{{ route('course.show', $course->id) }}" class="btn btn-primary">
+                                                <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
+                                            </a>
+                                        @endcan
                                         @can('course-edit')
                                             <a href="{{ route('course.edit', $course->id) }}" class="btn btn-info">
                                                 <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
@@ -65,12 +68,12 @@
                                         @can('course-delete')
                                             @if($course->status)
                                                 <input type="hidden" name="status" value="0">
-                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $course->id }}')">
+                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $course }}')">
                                                     <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
                                                 </button>
                                             @else
                                                 <input type="hidden" name="status" value="1">
-                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $course->id }}')">
+                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $course }}')">
                                                     <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
                                                 </button>
                                             @endif
@@ -91,6 +94,7 @@
 @section('javascript')
     <script>
         function deleteItem(item) {
+            item = JSON.parse(item);
             Swal
                 .fire({
                     title: (item.status) ? "@lang('messages.confirmTeacherActivation')" : "@lang('messages.confirmTeacherDeactivation')",

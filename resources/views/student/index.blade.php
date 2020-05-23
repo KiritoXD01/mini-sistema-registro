@@ -55,6 +55,11 @@
                                     @method("DELETE")
                                     @csrf
                                     <div class="btn-group" role="group">
+                                        @can('student-show')
+                                            <a href="{{ route('student.show', $student->id) }}" class="btn btn-primary">
+                                                <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
+                                            </a>
+                                        @endcan
                                         @can('student-edit')
                                             <a href="{{ route('student.edit', $student->id) }}" class="btn btn-info">
                                                 <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')

@@ -76,5 +76,7 @@ return [
     'confirmStudySubjectActivation' => "Desea reactivar esta materia?",
     'add' => 'Agregar',
     'studentAdded' => "Estudiante agregado existosamente",
-    'studentRemoved' => "Estudiante removido existosamente"
+    'studentRemoved' => "Estudiante removido existosamente",
+    'show' => 'Mostrar',
+    'deleteRole' => 'Desea eliminar este Rol?'
 ];

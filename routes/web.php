@@ -30,7 +30,9 @@ Route::group(['prefix' => 'user'], function(){
     //GET: Create a new user view
     Route::get('/create', 'UserController@create')->middleware('auth')->name('user.create');
     //GET: Edit an user view
-    Route::get('/{user}', 'UserController@edit')->middleware('auth')->name('user.edit');
+    Route::get('/{user}/edit', 'UserController@edit')->middleware('auth')->name('user.edit');
+    //GET: Show an user view
+    Route::get('/{user}/show', 'UserController@show')->middleware('auth')->name('user.show');
     //POST: Create a new user
     Route::post('/', 'UserController@store')->middleware('auth')->name('user.store');
     //PATCH: Update an existing user
@@ -45,7 +47,9 @@ Route::group(['prefix' => 'role'], function(){
     //GET: Create a new role view
     Route::get('/create', 'RoleController@create')->middleware('auth')->name('role.create');
     //GET: Edit an role view
-    Route::get('/{role}', 'RoleController@edit')->middleware('auth')->name('role.edit');
+    Route::get('/{role}/edit', 'RoleController@edit')->middleware('auth')->name('role.edit');
+    //GET: Show an role view
+    Route::get('/{role}/show', 'RoleController@show')->middleware('auth')->name('role.show');
     //POST: Create a new role
     Route::post('/', 'RoleController@store')->middleware('auth')->name('role.store');
     //PATCH: Update an existing role
@@ -60,7 +64,9 @@ Route::group(['prefix' => 'teacher'], function(){
     //GET: Create a new teacher view
     Route::get('/create', 'TeacherController@create')->middleware('auth')->name('teacher.create');
     //GET: Edit an teacher view
-    Route::get('/{teacher}', 'TeacherController@edit')->middleware('auth')->name('teacher.edit');
+    Route::get('/{teacher}/edit', 'TeacherController@edit')->middleware('auth')->name('teacher.edit');
+    //GET: Show an teacher view
+    Route::get('/{teacher}/show', 'TeacherController@show')->middleware('auth')->name('teacher.show');
     //POST: Create a new teacher
     Route::post('/', 'TeacherController@store')->middleware('auth')->name('teacher.store');
     //PATCH: Update an existing teacher
@@ -75,7 +81,9 @@ Route::group(['prefix' => 'student'], function(){
     //GET: Create a new student view
     Route::get('/create', 'StudentController@create')->middleware('auth')->name('student.create');
     //GET: Edit an student view
-    Route::get('/{student}', 'StudentController@edit')->middleware('auth')->name('student.edit');
+    Route::get('/{student}/edit', 'StudentController@edit')->middleware('auth')->name('student.edit');
+    //GET: Edit an student view
+    Route::get('/{student}/show', 'StudentController@show')->middleware('auth')->name('student.show');
     //POST: Create a new student
     Route::post('/', 'StudentController@store')->middleware('auth')->name('student.store');
     //PATCH: Update an existing student
@@ -90,7 +98,9 @@ Route::group(['prefix' => 'course'], function(){
     //GET: Create a new course view
     Route::get('/create', 'CourseController@create')->middleware('auth')->name('course.create');
     //GET: Edit an course view
-    Route::get('/{course}', 'CourseController@edit')->middleware('auth')->name('course.edit');
+    Route::get('/{course}/edit', 'CourseController@edit')->middleware('auth')->name('course.edit');
+    //GET: Show an course view
+    Route::get('/{course}/show', 'CourseController@show')->middleware('auth')->name('course.show');
     //POST: Create a new course
     Route::post('/', 'CourseController@store')->middleware('auth')->name('course.store');
     //POST: Add a student to a course

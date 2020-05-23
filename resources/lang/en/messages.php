@@ -76,5 +76,7 @@ return [
     'confirmStudySubjectActivation' => "Do you want to deactivate this study subject?",
     'add' => 'Add',
     'studentAdded' => "Student added successfully",
-    'studentRemoved' => "Student removed successfully"
+    'studentRemoved' => "Student removed successfully",
+    'show' => 'Show',
+    'deleteRole' => 'Do you want to delete this role?'
 ];
