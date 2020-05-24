@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label for="status">@lang('messages.status')</label>
-                        <input type="text" id="status" class="form-control" value="@if($course->status) @lang('messages.enabled') @else @lang('messages.disabled') @endif">
+                        <input type="text" id="status" class="form-control" value="@if($course->status) @lang('messages.enabled') @else @lang('messages.disabled') @endif" readonly>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -77,18 +77,9 @@
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <div class="row">
-                <div class="col-6">
-                    <h1 class="h3 mb-0 text-gray-800">
-                        <i class="fas fa-fw fa-user-graduate"></i> @lang('messages.students')
-                    </h1>
-                </div>
-                <div class="col-6">
-                    <button type="button" class="btn btn-primary float-right" id="btnAddStudent">
-                        <i class="fa fa-fw fa-user-plus"></i> @lang('messages.add') @lang('messages.student')
-                    </button>
-                </div>
-            </div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-fw fa-user-graduate"></i> @lang('messages.students')
+            </h1>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -114,52 +105,7 @@
 @section('javascript')
     <script>
         $(document).ready(function(){
-            $("#form").submit(function(){
-                Swal.fire({
-                    title: "@lang('messages.pleaseWait')",
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    onOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-            });
-
             $("#datatable").dataTable();
-
-            $("#btnAddStudent").click(function() {
-                $("#modalAddStudent").modal({
-                    backdrop: 'static'
-                });
-            });
-
-            $("#btnCloseAddStudent").click(function(){
-                document.getElementById("student_id").value = "";
-                $("#modalAddStudent").modal("hide");
-            });
-
-            $("#btnSaveStudent").click(function() {
-                let student_id = document.getElementById("student_id");
-
-                if (student_id.checkValidity())
-                {
-                    Swal.fire({
-                        title: "@lang('messages.pleaseWait')",
-                        allowEscapeKey: false,
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        onOpen: () => {
-                            Swal.showLoading();
-                            document.getElementById("formStudent").submit();
-                        }
-                    });
-                }
-                else
-                {
-                    student_id.focus();
-                }
-            });
         });
     </script>
 @endsection
