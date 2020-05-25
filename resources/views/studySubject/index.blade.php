@@ -53,20 +53,25 @@
                                     @method("DELETE")
                                     @csrf
                                     <div class="btn-group" role="group">
-                                        @can('course-edit')
+                                        @can('study-subject-show')
+                                            <a href="{{ route('studySubject.show', $studySubject->id) }}" class="btn btn-primary">
+                                                <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
+                                            </a>
+                                        @endcan
+                                        @can('study-subject-edit')
                                             <a href="{{ route('studySubject.edit', $studySubject->id) }}" class="btn btn-info">
                                                 <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
                                             </a>
                                         @endcan
-                                        @can('course-delete')
+                                        @can('study-subject-delete')
                                             @if($studySubject->status)
                                                 <input type="hidden" name="status" value="0">
-                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $studySubject->id }}')">
+                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $studySubject }}')">
                                                     <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
                                                 </button>
                                             @else
                                                 <input type="hidden" name="status" value="1">
-                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $studySubject->id }}')">
+                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $studySubject }}')">
                                                     <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
                                                 </button>
                                             @endif
@@ -87,9 +92,11 @@
 @section('javascript')
     <script>
         function deleteItem(item) {
+            item = JSON.parse(item);
+
             Swal
                 .fire({
-                    title: (item.status) ? "@lang('messages.confirmTeacherActivation')" : "@lang('messages.confirmTeacherDeactivation')",
+                    title: (item.status) ? "@lang('messages.confirmStudySubjectDeactivation')" : "@lang('messages.confirmStudySubjectActivation')",
                     icon: 'question',
                     showCancelButton: true,
                     allowEscapeKey: false,
@@ -107,7 +114,7 @@
                             showConfirmButton: false,
                             onOpen: () => {
                                 Swal.showLoading();
-                                document.getElementById(`formDelete${item}`).submit();
+                                document.getElementById(`formDelete${item.id}`).submit();
                             }
                         });
                     }

@@ -16,6 +16,7 @@ class StudySubjectController extends Controller
          * Sets the user permissions for this controller
          */
         $this->middleware('permission:study-subject-list|study-subject-create|study-subject-edit|study-subject-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:user-show', ['only' => ['show']]);
         $this->middleware('permission:study-subject-create', ['only' => ['create','store']]);
         $this->middleware('permission:study-subject-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:study-subject-delete', ['only' => ['destroy']]);
@@ -35,6 +36,11 @@ class StudySubjectController extends Controller
     public function edit(StudySubject $studySubject)
     {
         return view('studySubject.edit', compact('studySubject'));
+    }
+
+    public function show(StudySubject $studySubject)
+    {
+        return view('studySubject.show', compact('studySubject'));
     }
 
     public function store(Request $request)

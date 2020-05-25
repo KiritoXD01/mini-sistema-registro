@@ -117,7 +117,9 @@ Route::group(['prefix' => 'studysubject'], function(){
     //GET: Create a new study subject view
     Route::get('/create', 'StudySubjectController@create')->middleware('auth')->name('studySubject.create');
     //GET: Edit an study subject view
-    Route::get('/{studySubject}', 'StudySubjectController@edit')->middleware('auth')->name('studySubject.edit');
+    Route::get('/{studySubject}/edit', 'StudySubjectController@edit')->middleware('auth')->name('studySubject.edit');
+    //GET: Show an study subject view
+    Route::get('/{studySubject}/show', 'StudySubjectController@show')->middleware('auth')->name('studySubject.show');
     //POST: Create a new study subject
     Route::post('/', 'StudySubjectController@store')->middleware('auth')->name('studySubject.store');
     //PATCH: Update an existing study subject
