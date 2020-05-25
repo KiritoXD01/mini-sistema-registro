@@ -18,11 +18,6 @@
                 <a href="{{ route('course.index') }}" class="btn btn-warning">
                     <i class="fa fa-fw fa-arrow-circle-left"></i> @lang('messages.cancel')
                 </a>
-                @if(auth()->guard('teacher')->check())
-                    <a href="{{ route('course.edit', $course->id) }}" class="btn btn-primary">
-                        <i class="fa fa-fw fa-edit"></i> @lang('messages.edit') @lang('messages.course')
-                    </a>
-                @endif
                 @can('course-edit')
                     <a href="{{ route('course.edit', $course->id) }}" class="btn btn-primary">
                         <i class="fa fa-fw fa-edit"></i> @lang('messages.edit') @lang('messages.course')
@@ -92,12 +87,14 @@
                     <thead>
                     <tr>
                         <th>@lang('messages.name')</th>
+                        <th>@lang('messages.points')</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($course->students as $student)
                         <tr>
                             <td>{{ $student->student->full_name }}</td>
+                            <td>{{ $student->points }}</td>
                         </tr>
                     @endforeach
                     </tbody>

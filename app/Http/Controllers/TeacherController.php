@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CourseStudent;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -92,7 +93,9 @@ class TeacherController extends Controller
 
     public function home()
     {
-        return view('teacher.home');
+        $students = CourseStudent::whereIn('course_id', auth()->guard('teacher')->user()->courses->pluck("id"))->count();
+        $courses = auth()->guard('teacher')->user()->courses->count();
+        return view('teacher.home', compact('students', 'courses'));
     }
 
     private function generateCode($length = 20)

@@ -114,7 +114,7 @@ Route::group(['prefix' => 'course'], function(){
     //PATCH: Update an existing course
     Route::patch('/{course}', 'CourseController@update')->middleware('auth')->name('course.update');
     //PATCH: Update the student points
-    Route::patch('/{course}/updatepoints', 'CourseController@updatePoints')->middleware('auth')->name('course.updatePoints');
+    Route::patch('/{course}/updatepoints', 'CourseController@updatePoints')->middleware('auth:teacher,web')->name('course.updatePoints');
     //DELETE: Deletes a course
     Route::delete('/{course}', 'CourseController@destroy')->middleware('auth')->name('course.destroy');
     //DELETE: Remove a student from a course

@@ -56,8 +56,8 @@
                             </td>
                             <td>
                                 @if(auth()->guard('teacher')->check())
-                                    <a href="{{ route('course.show', $course->id) }}" class="btn btn-primary btn-block">
-                                        <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
+                                    <a href="{{ route('course.edit', $course->id) }}" class="btn btn-primary btn-block">
+                                        <i class="fa fa-eye fa-fw"></i> @lang('messages.edit') @lang('messages.points')
                                     </a>
                                 @else
                                     <form action="{{ route('course.destroy', $course->id) }}" method="post" id="formDelete{{ $course->id }}">

@@ -126,6 +126,12 @@
                 </div>
             </div>
             <div class="card-body">
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>{{ session('success') }}</strong>
+                    </div>
+                @endif
                 <div class="table-responsive">
                     <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
                         <thead>
@@ -134,8 +140,9 @@
                                 <th>@lang('messages.lastName')</th>
                                 <th>@lang('messages.code')</th>
                                 <th>@lang('messages.points')</th>
-                                
-                                <td>@lang('messages.actions')</td>
+                                @if(!auth()->guard('teacher')->check())
+                                    <td>@lang('messages.actions')</td>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -159,16 +166,18 @@
                                             </div>
                                         </form>
                                     </td>
-                                    <td>
-                                        <form action="{{ route('course.removeStudent', $course->id) }}" method="post" id="formDelete{{ $student->student->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="student_id" value="{{ $student->student->id }}">
-                                            <button type="button" class="btn btn-danger btn-block" onclick="deleteStudent({{ $student->student->id }})">
-                                                <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
-                                            </button>
-                                        </form>
-                                    </td>
+                                    @if(!auth()->guard('teacher')->check())
+                                        <td>
+                                            <form action="{{ route('course.removeStudent', $course->id) }}" method="post" id="formDelete{{ $student->student->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="student_id" value="{{ $student->student->id }}">
+                                                <button type="button" class="btn btn-danger btn-block" onclick="deleteStudent({{ $student->student->id }})">
+                                                    <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
+                                                </button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
