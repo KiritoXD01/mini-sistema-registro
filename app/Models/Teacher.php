@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Teacher extends Model
+class Teacher extends Authenticatable
 {
     /**
      * Table name in the database (this is optional)
@@ -75,5 +75,13 @@ class Teacher extends Model
     public function getFullNameAttribute()
     {
         return "{$this->firstname} {$this->lastname}";
+    }
+
+    /*
+     * Get the courses assigned to the teacher
+     */
+    public function courses()
+    {
+        return $this->hasMany('App\Models\Course', 'teacher_id', 'id');
     }
 }

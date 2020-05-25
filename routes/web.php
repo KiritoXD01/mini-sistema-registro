@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,9 @@ Auth::routes([
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login/teacher', 'Auth\LoginController@showTeacherLoginForm')->name('teacher.showLoginForm');
+Route::post('/login/teacher', 'Auth\LoginController@teacherLogin')->name('teacher.login');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -67,6 +71,8 @@ Route::group(['prefix' => 'teacher'], function(){
     Route::get('/{teacher}/edit', 'TeacherController@edit')->middleware('auth')->name('teacher.edit');
     //GET: Show an teacher view
     Route::get('/{teacher}/show', 'TeacherController@show')->middleware('auth')->name('teacher.show');
+    //GET: Show teacher's dashboard
+    Route::get('/home', 'TeacherController@home')->middleware('teacher')->name('teacher.home');
     //POST: Create a new teacher
     Route::post('/', 'TeacherController@store')->middleware('auth')->name('teacher.store');
     //PATCH: Update an existing teacher
@@ -94,13 +100,13 @@ Route::group(['prefix' => 'student'], function(){
 
 Route::group(['prefix' => 'course'], function(){
     //GET: Get all courses
-    Route::get('/', 'CourseController@index')->middleware('auth')->name('course.index');
+    Route::get('/', 'CourseController@index')->middleware('auth:teacher,web')->name('course.index');
     //GET: Create a new course view
     Route::get('/create', 'CourseController@create')->middleware('auth')->name('course.create');
     //GET: Edit an course view
-    Route::get('/{course}/edit', 'CourseController@edit')->middleware('auth')->name('course.edit');
+    Route::get('/{course}/edit', 'CourseController@edit')->middleware('auth:teacher,web')->name('course.edit');
     //GET: Show an course view
-    Route::get('/{course}/show', 'CourseController@show')->middleware('auth')->name('course.show');
+    Route::get('/{course}/show', 'CourseController@show')->middleware('auth:teacher,web')->name('course.show');
     //POST: Create a new course
     Route::post('/', 'CourseController@store')->middleware('auth')->name('course.store');
     //POST: Add a student to a course

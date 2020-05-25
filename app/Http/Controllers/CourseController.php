@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\StudySubject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -19,16 +20,24 @@ class CourseController extends Controller
         /**
          * Sets the user permissions for this controller
          */
-        $this->middleware('permission:course-list|course-create|course-edit|course-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:course-show', ['only' => ['show']]);
-        $this->middleware('permission:course-create', ['only' => ['create','store']]);
-        $this->middleware('permission:course-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:course-delete', ['only' => ['destroy']]);
+        if (Auth::check()) {
+            $this->middleware('permission:course-list|course-create|course-edit|course-delete', ['only' => ['index','store']]);
+            $this->middleware('permission:course-show', ['only' => ['show']]);
+            $this->middleware('permission:course-create', ['only' => ['create','store']]);
+            $this->middleware('permission:course-edit', ['only' => ['edit','update']]);
+            $this->middleware('permission:course-delete', ['only' => ['destroy']]);
+        }
     }
 
     public function index()
     {
-        $courses = Course::all();
+        if (Auth::guard('teacher')->check()) {
+            $courses = Auth::guard('teacher')->user()->courses;
+        }
+        else {
+            $courses = Course::all();
+        }
+
         return view('course.index', compact('courses'));
     }
 
@@ -48,7 +57,7 @@ class CourseController extends Controller
     {
         $teachers = Teacher::where('status', true)->get();
         $studySubjects = StudySubject::where('status', true)->get();
-        $students = Student::whereNotIn('id', $course->students->pluck('id')->all())->where('status', true)->get();
+        $students = Student::whereNotIn('id', $course->students->pluck('student_id'))->where('status', true)->get();
         return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students'));
     }
 

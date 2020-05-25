@@ -30,7 +30,9 @@
                     <tr>
                         <th>@lang('messages.name')</th>
                         <th>@lang('messages.code')</th>
-                        <th>@lang('messages.teacher')</th>
+                        @if(!auth()->guard('teacher')->check())
+                            <th>@lang('messages.teacher')</th>
+                        @endif
                         <th>@lang('messages.students')</th>
                         <th>@lang('messages.status')</th>
                         <td>@lang('messages.actions')</td>
@@ -41,7 +43,9 @@
                         <tr class="text-center">
                             <td>{{ $course->name }}</td>
                             <td>{{ $course->code }}</td>
-                            <td>{{ $course->teacher->full_name }}</td>
+                            @if(!auth()->guard('teacher')->check())
+                                <td>{{ $course->teacher->full_name }}</td>
+                            @endif
                             <td>{{ $course->students->count() }}</td>
                             <td>
                                 @if($course->status)
@@ -51,35 +55,41 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="{{ route('course.destroy', $course->id) }}" method="post" id="formDelete{{ $course->id }}">
-                                    @method("DELETE")
-                                    @csrf
-                                    <div class="btn-group" role="group">
-                                        @can('course-show')
-                                            <a href="{{ route('course.show', $course->id) }}" class="btn btn-primary">
-                                                <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
-                                            </a>
-                                        @endcan
-                                        @can('course-edit')
-                                            <a href="{{ route('course.edit', $course->id) }}" class="btn btn-info">
-                                                <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
-                                            </a>
-                                        @endcan
-                                        @can('course-delete')
-                                            @if($course->status)
-                                                <input type="hidden" name="status" value="0">
-                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $course }}')">
-                                                    <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
-                                                </button>
-                                            @else
-                                                <input type="hidden" name="status" value="1">
-                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $course }}')">
-                                                    <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
-                                                </button>
-                                            @endif
-                                        @endcan
-                                    </div>
-                                </form>
+                                @if(auth()->guard('teacher')->check())
+                                    <a href="{{ route('course.show', $course->id) }}" class="btn btn-primary btn-block">
+                                        <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
+                                    </a>
+                                @else
+                                    <form action="{{ route('course.destroy', $course->id) }}" method="post" id="formDelete{{ $course->id }}">
+                                        @method("DELETE")
+                                        @csrf
+                                        <div class="btn-group" role="group">
+                                            @can('course-show')
+                                                <a href="{{ route('course.show', $course->id) }}" class="btn btn-primary">
+                                                    <i class="fa fa-eye fa-fw"></i> @lang('messages.show')
+                                                </a>
+                                            @endcan
+                                            @can('course-edit')
+                                                <a href="{{ route('course.edit', $course->id) }}" class="btn btn-info">
+                                                    <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
+                                                </a>
+                                            @endcan
+                                            @can('course-delete')
+                                                @if($course->status)
+                                                    <input type="hidden" name="status" value="0">
+                                                    <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $course }}')">
+                                                        <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
+                                                    </button>
+                                                @else
+                                                    <input type="hidden" name="status" value="1">
+                                                    <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $course }}')">
+                                                        <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
+                                                    </button>
+                                                @endif
+                                            @endcan
+                                        </div>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

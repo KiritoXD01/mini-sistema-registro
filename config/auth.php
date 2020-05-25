@@ -44,7 +44,7 @@ return [
             'driver' => 'session',
             'provider' => 'teachers',
         ],
-        'students' => [
+        'student' => [
             'driver' => 'session',
             'provider' => 'students',
         ],
@@ -109,6 +109,18 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'teachers' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'students' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ]
     ],
 
     /*

@@ -12,7 +12,13 @@
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    @if(auth()->guard('teacher')->check())
+                        {{ auth()->guard('teacher')->user()->full_name }}
+                    @else
+                        {{ auth()->user()->name }}
+                    @endif
+                </span>
                 <i class="fa fa-caret-down"></i>
             </a>
             <!-- Dropdown - User Information -->

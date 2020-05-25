@@ -90,6 +90,11 @@ class TeacherController extends Controller
         }
     }
 
+    public function home()
+    {
+        return view('teacher.home');
+    }
+
     private function generateCode($length = 20)
     {
         $characters = '1234567890abcdefghijklmnpqrstuvwxyz';
