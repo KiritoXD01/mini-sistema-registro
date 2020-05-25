@@ -78,5 +78,8 @@ return [
     'studentAdded' => "Student added successfully",
     'studentRemoved' => "Student removed successfully",
     'show' => 'Show',
-    'deleteRole' => 'Do you want to delete this role?'
+    'deleteRole' => 'Do you want to delete this role?',
+    'points' => 'Points',
+    'removeStudent' => 'Do you want to this student from this course?',
+    'pointsUpdated' => 'Points updated successfully'
 ];

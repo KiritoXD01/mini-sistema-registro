@@ -17,7 +17,7 @@ class CourseStudent extends Model
      * @var array
      */
     protected $fillable = [
-        'student_id', 'course_id', 'assigned_by'
+        'student_id', 'course_id', 'assigned_by', 'points'
     ];
 
     /**

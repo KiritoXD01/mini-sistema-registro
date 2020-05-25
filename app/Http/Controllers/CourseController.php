@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\CourseStudent;
 use App\Models\Student;
 use App\Models\StudySubject;
 use App\Models\Teacher;
@@ -33,8 +34,8 @@ class CourseController extends Controller
 
     public function create()
     {
-        $teachers = Teacher::all();
-        $studySubjects = StudySubject::all();
+        $teachers = Teacher::where('status', true)->get();
+        $studySubjects = StudySubject::where('status', true)->get();
         return view('course.create', compact('teachers', 'studySubjects'));
     }
 
@@ -45,9 +46,9 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
-        $teachers = Teacher::all();
-        $studySubjects = StudySubject::all();
-        $students = Student::whereNotIn('id', $course->students->pluck('id')->all())->get();
+        $teachers = Teacher::where('status', true)->get();
+        $studySubjects = StudySubject::where('status', true)->get();
+        $students = Student::whereNotIn('id', $course->students->pluck('id')->all())->where('status', true)->get();
         return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students'));
     }
 
@@ -102,5 +103,29 @@ class CourseController extends Controller
         ]);
 
         return redirect(route('course.edit', compact('course')))->with('success', trans('messages.studentAdded'));
+    }
+
+    public function removeStudent(Request $request, Course $course)
+    {
+        CourseStudent::where([
+            ['course_id', $course->id],
+            ['student_id', $request->student_id]
+        ])->delete();
+
+        return redirect(route('course.edit', compact('course')))->with('success', trans('messages.studentRemoved'));
+    }
+
+    public function updatePoints(Request $request, Course $course)
+    {
+        CourseStudent
+            ::where([
+                ['course_id', $course->id],
+                ['student_id', $request->student_id]
+            ])
+            ->update([
+                'points' => $request->points
+            ]);
+
+        return redirect(route('course.edit', compact('course')))->with('success', trans('messages.pointsUpdated'));
     }
 }

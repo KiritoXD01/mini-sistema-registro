@@ -78,5 +78,8 @@ return [
     'studentAdded' => "Estudiante agregado existosamente",
     'studentRemoved' => "Estudiante removido existosamente",
     'show' => 'Mostrar',
-    'deleteRole' => 'Desea eliminar este Rol?'
+    'deleteRole' => 'Desea eliminar este Rol?',
+    'points' => 'Puntos',
+    'removeStudent' => 'Desea remover este estudiante de este curso?',
+    'pointsUpdated' => 'Puntos actualizados existosamente'
 ];

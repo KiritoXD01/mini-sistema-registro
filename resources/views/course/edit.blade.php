@@ -113,18 +113,43 @@
                     <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>@lang('messages.name')</th>
+                                <th>@lang('messages.fistName')</th>
+                                <th>@lang('messages.lastName')</th>
+                                <th>@lang('messages.code')</th>
+                                <th>@lang('messages.points')</th>
                                 <td>@lang('messages.actions')</td>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($course->students as $student)
                                 <tr>
-                                    <td>{{ $student->student->full_name }}</td>
+                                    <td>{{ $student->student->firstname }}</td>
+                                    <td>{{ $student->student->lastname }}</td>
+                                    <td>{{ $student->student->code }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-danger">
-                                            <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
-                                        </button>
+                                        <form action="{{ route('course.updatePoints', $course->id) }}" method="post" id="student-course-{{ $student->student->id }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="input-group">
+                                                <input type="hidden" name="student_id" value="{{ $student->student->id }}">
+                                                <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" required>
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" onclick="updatePoints({{ $student->student->id }})">
+                                                        <i class="fa fa-fw fa-book-open"></i> @lang('messages.update') @lang('messages.points')
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('course.removeStudent', $course->id) }}" method="post" id="formDelete{{ $student->student->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="student_id" value="{{ $student->student->id }}">
+                                            <button type="button" class="btn btn-danger btn-block" onclick="deleteStudent({{ $student->student->id }})">
+                                                <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -135,19 +160,19 @@
         </div>
     </form>
 
-    <form action="{{ route('course.addStudent', $course->id) }}" method="post" autocomplete="off" id="formStudent">
-        @csrf
-        <!-- The Modal -->
-        <div class="modal fade" id="modalAddStudent">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">@lang('messages.add') @lang('messages.student')</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
+    <!-- The Modal -->
+    <div class="modal fade" id="modalAddStudent">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">@lang('messages.add') @lang('messages.student')</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="{{ route('course.addStudent', $course->id) }}" method="post" autocomplete="off" id="formStudent">
+                        @csrf
                         <div class="form-group">
                             <label for="student_id">@lang('messages.student')</label>
                             <select id="student_id" name="student_id" required class="form-control">
@@ -157,20 +182,70 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" id="btnCloseAddStudent">@lang('messages.cancel')</button>
-                        <button type="button" class="btn btn-success" id="btnSaveStudent">@lang('messages.save')</button>
-                    </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btnCloseAddStudent">@lang('messages.cancel')</button>
+                    <button type="button" class="btn btn-success" id="btnSaveStudent">@lang('messages.save')</button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 @endsection
 
 @section('javascript')
     <script>
+        function updatePoints(student_id) {
+            let student = document.getElementById(`student-points-${student_id}`);
+
+            if (student.checkValidity())
+            {
+                Swal.fire({
+                    title: "@lang('messages.pleaseWait')",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    onOpen: () => {
+                        Swal.showLoading();
+                        document.getElementById(`student-course-${student_id}`).submit();
+                    }
+                });
+            }
+            else
+            {
+                student.focus();
+            }
+        }
+
+        function deleteStudent(student_id) {
+            Swal
+                .fire({
+                    title: "@lang('messages.removeStudent')",
+                    icon: 'question',
+                    showCancelButton: true,
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    confirmButtonText: "@lang('messages.yes')",
+                    cancelButtonText: "No",
+                    reverseButtons: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        Swal.fire({
+                            title: "@lang('messages.pleaseWait')",
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            onOpen: () => {
+                                Swal.showLoading();
+                                document.getElementById(`formDelete${student_id}`).submit();
+                            }
+                        });
+                    }
+                });
+        }
+
         $(document).ready(function(){
             $("#form").submit(function(){
                 Swal.fire({

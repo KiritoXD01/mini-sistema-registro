@@ -107,8 +107,12 @@ Route::group(['prefix' => 'course'], function(){
     Route::post('/{course}/addstudent', 'CourseController@addStudent')->middleware('auth')->name('course.addStudent');
     //PATCH: Update an existing course
     Route::patch('/{course}', 'CourseController@update')->middleware('auth')->name('course.update');
+    //PATCH: Update the student points
+    Route::patch('/{course}/updatepoints', 'CourseController@updatePoints')->middleware('auth')->name('course.updatePoints');
     //DELETE: Deletes a course
     Route::delete('/{course}', 'CourseController@destroy')->middleware('auth')->name('course.destroy');
+    //DELETE: Remove a student from a course
+    Route::delete('/{course}/removestudent', 'CourseController@removeStudent')->middleware('auth')->name('course.removeStudent');
 });
 
 Route::group(['prefix' => 'studysubject'], function(){
