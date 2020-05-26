@@ -59,7 +59,7 @@ class Course extends Model
     }
 
     /**
-     * Get all teh students enrolled to this course
+     * Get all the students enrolled to this course
      */
     public function students()
     {

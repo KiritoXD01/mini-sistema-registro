@@ -33,12 +33,16 @@ class CourseController extends Controller
     {
         if (Auth::guard('teacher')->check()) {
             $courses = Auth::guard('teacher')->user()->courses;
+            return view('course.index', compact('courses'));
+        }
+        elseif(Auth::guard('student')->check()) {
+            $courses = Auth::guard('student')->user()->courses;
+            return view('student.course', compact('courses'));
         }
         else {
             $courses = Course::all();
+            return view('course.index', compact('courses'));
         }
-
-        return view('course.index', compact('courses'));
     }
 
     public function create()

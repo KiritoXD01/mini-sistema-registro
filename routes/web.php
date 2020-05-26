@@ -107,7 +107,7 @@ Route::group(['prefix' => 'student'], function(){
 
 Route::group(['prefix' => 'course'], function(){
     //GET: Get all courses
-    Route::get('/', 'CourseController@index')->middleware('auth:teacher,web')->name('course.index');
+    Route::get('/', 'CourseController@index')->middleware('auth:teacher,student,web')->name('course.index');
     //GET: Create a new course view
     Route::get('/create', 'CourseController@create')->middleware('auth')->name('course.create');
     //GET: Edit an course view

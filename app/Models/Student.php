@@ -76,4 +76,12 @@ class Student extends Authenticatable
     {
         return "{$this->firstname} {$this->lastname}";
     }
+
+    /**
+     * Get all the courses where the student is enrolled
+     */
+    public function courses()
+    {
+        return $this->hasMany('App\Models\CourseStudent', 'student_id', 'id');
+    }
 }
