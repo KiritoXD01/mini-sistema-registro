@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\StudentLogin;
 use App\Models\TeacherLogin;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -41,6 +42,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('guest:teacher')->except('logout');
+        $this->middleware('guest:student')->except('logout');
     }
 
     public function authenticated(Request $request, $user)
@@ -80,6 +82,33 @@ class LoginController extends Controller
                 'teacher_id' => Auth::guard('teacher')->user()->id
             ]);
             return redirect()->intended(route('teacher.home'));
+        }
+        return back()->withInput($request->only('email'));
+    }
+
+    public function showStudentLoginForm()
+    {
+        return view('student.login');
+    }
+
+    public function studentLogin(Request $request)
+    {
+        Validator::make($request->all(), [
+            'email'    => ['required', 'email:rfc'],
+            'password' => ['required']
+        ])->validate();
+
+        $credentials = [
+            'email'    => $request->email,
+            'password' => $request->password,
+            'status'   => true
+        ];
+
+        if (Auth::guard('student')->attempt($credentials)) {
+            StudentLogin::create([
+                'student_id' => Auth::guard('student')->user()->id
+            ]);
+            return redirect()->intended(route('student.home'));
         }
         return back()->withInput($request->only('email'));
     }

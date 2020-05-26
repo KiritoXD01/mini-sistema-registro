@@ -15,6 +15,8 @@
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                     @if(auth()->guard('teacher')->check())
                         {{ auth()->guard('teacher')->user()->full_name }}
+                    @elseif(auth()->guard('student')->check())
+                        {{ auth()->guard('student')->user()->full_name }}
                     @else
                         {{ auth()->user()->name }}
                     @endif

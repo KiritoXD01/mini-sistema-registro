@@ -23,8 +23,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//teacher Login URLs
 Route::get('/login/teacher', 'Auth\LoginController@showTeacherLoginForm')->name('teacher.showLoginForm');
 Route::post('/login/teacher', 'Auth\LoginController@teacherLogin')->name('teacher.login');
+
+//student Login URLs
+Route::get('/login/student', 'Auth\LoginController@showStudentLoginForm')->name('student.showLoginForm');
+Route::post('/login/student', 'Auth\LoginController@studentLogin')->name('student.login');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -90,6 +95,8 @@ Route::group(['prefix' => 'student'], function(){
     Route::get('/{student}/edit', 'StudentController@edit')->middleware('auth')->name('student.edit');
     //GET: Edit an student view
     Route::get('/{student}/show', 'StudentController@show')->middleware('auth')->name('student.show');
+    //GET: Shows the student dashboard
+    Route::get('/home', 'StudentController@home')->middleware('student')->name('student.home');
     //POST: Create a new student
     Route::post('/', 'StudentController@store')->middleware('auth')->name('student.store');
     //PATCH: Update an existing student

@@ -90,6 +90,16 @@ class StudentController extends Controller
         }
     }
 
+    public function home()
+    {
+        return view('student.home');
+    }
+
+    public function courses()
+    {
+        
+    }
+
     private function generateCode($length = 20)
     {
         $characters = '1234567890abcdefghijklmnpqrstuvwxyz';
