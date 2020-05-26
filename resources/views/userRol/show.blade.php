@@ -23,11 +23,13 @@
                         <i class="fa fa-fw fa-edit"></i> @lang('messages.edit') @lang('messages.userRol')
                     </a>
                 @endcan
-                @can('role-delete')
-                    <button type="button" class="btn btn-danger" onclick="deleteItem({{ $role->id }})">
-                        <i class="fa fa-trash fa-fw"></i> @lang('messages.delete')
-                    </button>
-                @endcan
+                @if($role->id > 1)
+                    @can('role-delete')
+                        <button type="button" class="btn btn-danger" onclick="deleteItem({{ $role->id }})">
+                            <i class="fa fa-trash fa-fw"></i> @lang('messages.delete')
+                        </button>
+                    @endcan
+                @endif
             </form>
         </div>
         <div class="card-body">

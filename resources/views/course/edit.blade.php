@@ -118,9 +118,11 @@
                     </div>
                     <div class="col-6">
                         @if(!auth()->guard('teacher')->check())
-                            <button type="button" class="btn btn-primary float-right" id="btnAddStudent">
-                                <i class="fa fa-fw fa-user-plus"></i> @lang('messages.add') @lang('messages.student')
-                            </button>
+                            @can('course-students')
+                                <button type="button" class="btn btn-primary float-right" id="btnAddStudent">
+                                    <i class="fa fa-fw fa-user-plus"></i> @lang('messages.add') @lang('messages.student')
+                                </button>
+                            @endcan
                         @endif
                     </div>
                 </div>
@@ -141,7 +143,9 @@
                                 <th>@lang('messages.code')</th>
                                 <th>@lang('messages.points')</th>
                                 @if(!auth()->guard('teacher')->check())
-                                    <td>@lang('messages.actions')</td>
+                                    @can('course-students')
+                                        <td>@lang('messages.actions')</td>
+                                    @endif
                                 @endif
                             </tr>
                         </thead>
@@ -157,26 +161,41 @@
                                             @method('PATCH')
                                             <div class="input-group">
                                                 <input type="hidden" name="student_id" value="{{ $student->student->id }}">
-                                                <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" required>
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-primary" onclick="updatePoints({{ $student->student->id }})">
-                                                        <i class="fa fa-fw fa-book-open"></i> @lang('messages.update') @lang('messages.points')
-                                                    </button>
-                                                </div>
+                                                @if(!auth()->guard('teacher')->check())
+                                                    @if(auth()->user()->can('course-points'))
+                                                        <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" required>
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-primary" onclick="updatePoints({{ $student->student->id }})">
+                                                                <i class="fa fa-fw fa-book-open"></i> @lang('messages.update') @lang('messages.points')
+                                                            </button>
+                                                        </div>
+                                                    @else
+                                                        <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" readonly>
+                                                    @endif
+                                                @else
+                                                    <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" required>
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-primary" onclick="updatePoints({{ $student->student->id }})">
+                                                            <i class="fa fa-fw fa-book-open"></i> @lang('messages.update') @lang('messages.points')
+                                                        </button>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </form>
                                     </td>
                                     @if(!auth()->guard('teacher')->check())
-                                        <td>
-                                            <form action="{{ route('course.removeStudent', $course->id) }}" method="post" id="formDelete{{ $student->student->id }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" name="student_id" value="{{ $student->student->id }}">
-                                                <button type="button" class="btn btn-danger btn-block" onclick="deleteStudent({{ $student->student->id }})">
-                                                    <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
-                                                </button>
-                                            </form>
-                                        </td>
+                                        @can('course-students')
+                                            <td>
+                                                <form action="{{ route('course.removeStudent', $course->id) }}" method="post" id="formDelete{{ $student->student->id }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="hidden" name="student_id" value="{{ $student->student->id }}">
+                                                    <button type="button" class="btn btn-danger btn-block" onclick="deleteStudent({{ $student->student->id }})">
+                                                        <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        @endcan
                                     @endif
                                 </tr>
                             @endforeach

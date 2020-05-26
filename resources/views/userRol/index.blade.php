@@ -53,11 +53,13 @@
                                                 <i class="fa fa-edit fa-fw"></i> @lang('messages.edit')
                                             </a>
                                         @endcan
-                                        @can('role-delete')
-                                            <button type="button" class="btn btn-danger" onclick="deleteItem({{ $role->id }})">
-                                                <i class="fa fa-trash fa-fw"></i> @lang('messages.delete')
-                                            </button>
-                                        @endcan
+                                        @if($role->id > 1)
+                                            @can('role-delete')
+                                                <button type="button" class="btn btn-danger" onclick="deleteItem({{ $role->id }})">
+                                                    <i class="fa fa-trash fa-fw"></i> @lang('messages.delete')
+                                                </button>
+                                            @endcan
+                                        @endif
                                     </div>
                                 </form>
                             </td>
@@ -103,7 +105,7 @@
 
         $(document).ready(function(){
             $("#datatable").dataTable({
-                "order": [[ 1, "desc" ]]
+                "order": [[ 0, "asc" ]]
             });
         });
     </script>

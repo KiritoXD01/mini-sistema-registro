@@ -31,13 +31,13 @@ class RoleController extends Controller
 
     public function create()
     {
-        $permissions = Permission::all();
+        $permissions = Permission::orderBy('name', 'desc')->get();
         return view('userRol.create', compact('permissions'));
     }
 
     public function show(Role $role)
     {
-        $permissions = Permission::all();
+        $permissions = Permission::orderBy('name', 'desc')->get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
@@ -46,7 +46,7 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
-        $permissions = Permission::all();
+        $permissions = Permission::orderBy('name', 'desc')->get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();

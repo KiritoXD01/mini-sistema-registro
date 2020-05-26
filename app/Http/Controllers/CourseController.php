@@ -26,6 +26,8 @@ class CourseController extends Controller
             $this->middleware('permission:course-create', ['only' => ['create','store']]);
             $this->middleware('permission:course-edit', ['only' => ['edit','update']]);
             $this->middleware('permission:course-delete', ['only' => ['destroy']]);
+            $this->middleware('permission:course-students', ['only' => ['addStudent', 'removeStudent']]);
+            $this->middleware('permission:course-points', ['only' => ['updatePoints']]);
         }
     }
 
