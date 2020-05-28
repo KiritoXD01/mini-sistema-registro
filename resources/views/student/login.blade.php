@@ -37,13 +37,10 @@
                                     <h1 class="h4 text-gray-900 mb-4">@lang('messages.welcome')</h1>
                                 </div>
                                 <form action="{{ route('student.login') }}" class="user needs-validation" autocomplete="off" method="post" id="form">
-                                    @if ($errors->any())
+                                    @if(session('error'))
                                         <div class="alert alert-danger">
-                                            <ul class="list-group">
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
+                                            <button type="button" class="close" data-dismiss="alert">×</button>
+                                            <strong>{{ session('error') }}</strong>
                                         </div>
                                     @endif
                                     @csrf

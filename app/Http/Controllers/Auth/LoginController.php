@@ -83,7 +83,10 @@ class LoginController extends Controller
             ]);
             return redirect()->intended(route('teacher.home'));
         }
-        return back()->withInput($request->only('email'));
+
+        $error = 'Estas credenciales no coinciden con nuestros registros.';
+
+        return redirect(route('teacher.showLoginForm'))->with('error', $error)->withInput($request->only('email'));
     }
 
     public function showStudentLoginForm()
@@ -110,6 +113,9 @@ class LoginController extends Controller
             ]);
             return redirect()->intended(route('student.home'));
         }
-        return back()->withInput($request->only('email'));
+
+        $error = 'Estas credenciales no coinciden con nuestros registros.';
+
+        return redirect(route('student.showLoginForm'))->with('error', $error)->withInput($request->only('email'));
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -92,7 +93,8 @@ class StudentController extends Controller
 
     public function home()
     {
-        return view('student.home');
+        $courses = Auth::guard('student')->user()->courses->count();
+        return view('student.home', compact('courses'));
     }
 
     private function generateCode($length = 20)
