@@ -81,5 +81,6 @@ return [
     'deleteRole' => 'Desea eliminar este Rol?',
     'points' => 'Puntos',
     'removeStudent' => 'Desea remover este estudiante de este curso?',
-    'pointsUpdated' => 'Puntos actualizados existosamente'
+    'pointsUpdated' => 'Puntos actualizados existosamente',
+    'printCertificate' => 'Imprimir certificado'
 ];

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class CourseController extends Controller
 {
@@ -142,5 +143,19 @@ class CourseController extends Controller
             ]);
 
         return redirect(route('course.edit', compact('course')))->with('success', trans('messages.pointsUpdated'));
+    }
+
+    public function getCertification(Request $request)
+    {
+        $course = CourseStudent::find($request->course_id);
+
+        $data = [
+        'course' => $course->course,
+        'points' => $course->points,
+            'student' => Auth::guard('student')->user()
+        ];
+        $pdf = PDF::loadView('certificates.student', $data);
+        $pdf->setPaper('letter', 'landscape');
+        return $pdf->stream();
     }
 }

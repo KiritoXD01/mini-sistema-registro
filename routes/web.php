@@ -118,6 +118,8 @@ Route::group(['prefix' => 'course'], function(){
     Route::post('/', 'CourseController@store')->middleware('auth')->name('course.store');
     //POST: Add a student to a course
     Route::post('/{course}/addstudent', 'CourseController@addStudent')->middleware('auth')->name('course.addStudent');
+    //POST: Get the student's certification
+    Route::post('/certification', 'CourseController@getCertification')->middleware('auth:student,web')->name('course.getCertification');
     //PATCH: Update an existing course
     Route::patch('/{course}', 'CourseController@update')->middleware('auth')->name('course.update');
     //PATCH: Update the student points
