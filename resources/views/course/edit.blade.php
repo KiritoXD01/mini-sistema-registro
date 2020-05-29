@@ -71,6 +71,10 @@
                                 <input type="text" id="created_by" readonly class="form-control" value="{{ $course->createdBy->name }}">
                             </div>
                             <div class="form-group">
+                                <label for="close_points">@lang('messages.lastDayToPublishPoints')</label>
+                                <input type="text" id="close_points" name="close_points" class="form-control" value="{{ old('close_points') ?? $course->close_points }}" placeholder="@lang('messages.lastDayToPublishPoints')..." required readonly style="background-color: white;">
+                            </div>
+                            <div class="form-group">
                                 <div class="custom-control custom-switch">
                                     <input type="hidden" name="status" value="0">
                                     <input type="checkbox" class="custom-control-input" id="status" name="status" @if($course->status) checked @endif value="1">
@@ -101,144 +105,150 @@
                 </div>
             </div>
         @endif
+    </form>
 
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <div class="row">
-                    <div class="col-6">
-                        @if(!auth()->guard('teacher')->check())
-                            <h1 class="h3 mb-0 text-gray-800">
-                                <i class="fas fa-fw fa-user-graduate"></i> @lang('messages.students')
-                            </h1>
-                        @else
-                            <a href="{{ route('course.index') }}" class="btn btn-warning">
-                                <i class="fa fa-fw fa-arrow-circle-left"></i> @lang('messages.cancel')
-                            </a>
-                        @endif
-                    </div>
-                    <div class="col-6">
-                        @if(!auth()->guard('teacher')->check())
-                            @can('course-students')
-                                <button type="button" class="btn btn-primary float-right" id="btnAddStudent">
-                                    <i class="fa fa-fw fa-user-plus"></i> @lang('messages.add') @lang('messages.student')
-                                </button>
-                            @endcan
-                        @endif
-                    </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <div class="col-6">
+                    @if(!auth()->guard('teacher')->check())
+                        <h1 class="h3 mb-0 text-gray-800">
+                            <i class="fas fa-fw fa-user-graduate"></i> @lang('messages.students')
+                        </h1>
+                    @else
+                        <a href="{{ route('course.index') }}" class="btn btn-warning">
+                            <i class="fa fa-fw fa-arrow-circle-left"></i> @lang('messages.cancel')
+                        </a>
+                    @endif
                 </div>
-            </div>
-            <div class="card-body">
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <strong>{{ session('success') }}</strong>
-                    </div>
-                @endif
-                <div class="table-responsive">
-                    <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>@lang('messages.fistName')</th>
-                                <th>@lang('messages.lastName')</th>
-                                <th>@lang('messages.code')</th>
-                                <th>@lang('messages.points')</th>
-                                @if(!auth()->guard('teacher')->check())
-                                    @can('course-students')
-                                        <td>@lang('messages.actions')</td>
-                                    @endif
-                                @endif
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($course->students as $student)
-                                <tr>
-                                    <td>{{ $student->student->firstname }}</td>
-                                    <td>{{ $student->student->lastname }}</td>
-                                    <td>{{ $student->student->code }}</td>
-                                    <td>
-                                        <form action="{{ route('course.updatePoints', $course->id) }}" method="post" id="student-course-{{ $student->student->id }}">
-                                            @csrf
-                                            @method('PATCH')
-                                            <div class="input-group">
-                                                <input type="hidden" name="student_id" value="{{ $student->student->id }}">
-                                                @if(!auth()->guard('teacher')->check())
-                                                    @if(auth()->user()->can('course-points'))
-                                                        <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" required>
-                                                        <div class="input-group-append">
-                                                            <button type="button" class="btn btn-primary" onclick="updatePoints({{ $student->student->id }})">
-                                                                <i class="fa fa-fw fa-book-open"></i> @lang('messages.update') @lang('messages.points')
-                                                            </button>
-                                                        </div>
-                                                    @else
-                                                        <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" readonly>
-                                                    @endif
-                                                @else
-                                                    <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" required>
-                                                    <div class="input-group-append">
-                                                        <button type="button" class="btn btn-primary" onclick="updatePoints({{ $student->student->id }})">
-                                                            <i class="fa fa-fw fa-book-open"></i> @lang('messages.update') @lang('messages.points')
-                                                        </button>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </form>
-                                    </td>
-                                    @if(!auth()->guard('teacher')->check())
-                                        @can('course-students')
-                                            <td>
-                                                <form action="{{ route('course.removeStudent', $course->id) }}" method="post" id="formDelete{{ $student->student->id }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <input type="hidden" name="student_id" value="{{ $student->student->id }}">
-                                                    <button type="button" class="btn btn-danger btn-block" onclick="deleteStudent({{ $student->student->id }})">
-                                                        <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        @endcan
-                                    @endif
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <div class="col-6">
+                    @if(!auth()->guard('teacher')->check())
+                        @can('course-students')
+                            <button type="button" class="btn btn-primary float-right" id="btnAddStudent">
+                                <i class="fa fa-fw fa-user-plus"></i> @lang('messages.add') @lang('messages.student')
+                            </button>
+                        @endcan
+                    @endif
                 </div>
             </div>
         </div>
-    </form>
-
-    @if(!auth()->guard('teacher')->check())
-    <!-- The Modal -->
-    <div class="modal fade" id="modalAddStudent">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">@lang('messages.add') @lang('messages.student')</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>{{ session('success') }}</strong>
                 </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form action="{{ route('course.addStudent', $course->id) }}" method="post" autocomplete="off" id="formStudent">
-                        @csrf
-                        <div class="form-group">
-                            <label for="student_id">@lang('messages.student')</label>
-                            <select id="student_id" name="student_id" required class="form-control">
-                                <option value="" disabled hidden selected>-- @lang('messages.student') --</option>
-                                @foreach($students as $student)
-                                    <option value="{{ $student->id }}">{{ $student->full_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </form>
+            @endif
+            @if(session('unableToPoint'))
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>{{ session('unableToPoint') }}</strong>
                 </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="btnCloseAddStudent">@lang('messages.cancel')</button>
-                    <button type="button" class="btn btn-success" id="btnSaveStudent">@lang('messages.save')</button>
-                </div>
+            @endif
+            <div class="table-responsive">
+                <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>@lang('messages.fistName')</th>
+                        <th>@lang('messages.lastName')</th>
+                        <th>@lang('messages.code')</th>
+                        <th>@lang('messages.points')</th>
+                        @if(!auth()->guard('teacher')->check())
+                            @can('course-students')
+                                <td>@lang('messages.actions')</td>
+                            @endif
+                        @endif
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($course->students as $student)
+                        <tr>
+                            <td>{{ $student->student->firstname }}</td>
+                            <td>{{ $student->student->lastname }}</td>
+                            <td>{{ $student->student->code }}</td>
+                            <td>
+                                <form action="{{ route('course.updatePoints', $course->id) }}" method="post" id="student-course-{{ $student->student->id }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <div class="input-group">
+                                        <input type="hidden" name="student_id" value="{{ $student->student->id }}">
+                                        @if(!auth()->guard('teacher')->check())
+                                            @if(auth()->user()->can('course-points'))
+                                                <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" required>
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" onclick="updatePoints({{ $student->student->id }})">
+                                                        <i class="fa fa-fw fa-book-open"></i> @lang('messages.update') @lang('messages.points')
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" readonly>
+                                            @endif
+                                        @else
+                                            <input type="number" min="0" max="100" id="student-points-{{ $student->student->id }}" name="points" class="form-control" placeholder="@lang('messages.points')..." value="{{ $student->points }}" required>
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-primary" onclick="updatePoints({{ $student->student->id }})">
+                                                    <i class="fa fa-fw fa-book-open"></i> @lang('messages.update') @lang('messages.points')
+                                                </button>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </form>
+                            </td>
+                            @if(!auth()->guard('teacher')->check())
+                                @can('course-students')
+                                    <td>
+                                        <form action="{{ route('course.removeStudent', $course->id) }}" method="post" id="formDelete{{ $student->student->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="student_id" value="{{ $student->student->id }}">
+                                            <button type="button" class="btn btn-danger btn-block" onclick="deleteStudent({{ $student->student->id }})">
+                                                <i class="fa fa-fw fa-trash"></i> @lang('messages.delete')
+                                            </button>
+                                        </form>
+                                    </td>
+                                @endcan
+                            @endif
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
+    @if(!auth()->guard('teacher')->check())
+        <!-- The Modal -->
+        <div class="modal fade" id="modalAddStudent">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">@lang('messages.add') @lang('messages.student')</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form action="{{ route('course.addStudent', $course->id) }}" method="post" autocomplete="off" id="formStudent">
+                            @csrf
+                            <div class="form-group">
+                                <label for="student_id">@lang('messages.student')</label>
+                                <select id="student_id" name="student_id" required class="form-control">
+                                    <option value="" disabled hidden selected>-- @lang('messages.student') --</option>
+                                    @foreach($students as $student)
+                                        <option value="{{ $student->id }}">{{ $student->full_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="btnCloseAddStudent">@lang('messages.cancel')</button>
+                        <button type="button" class="btn btn-success" id="btnSaveStudent">@lang('messages.save')</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
 @endsection
 
@@ -340,6 +350,23 @@
                 {
                     student_id.focus();
                 }
+            });
+
+            const today = () => {
+                const today = new Date();
+                let dd = today.getDate();
+                let mm = today.getMonth() + 1;
+                const yyyy = today.getFullYear();
+
+                dd = (dd < 10) ? `0${dd}` : dd;
+                mm = (mm < 10) ? `0${mm}` : mm;
+
+                return `${yyyy}-${mm}-${dd}`;
+            };
+
+            $("#close_points").datepicker({
+                format: "yyyy-mm-dd",
+                startDate: today()
             });
         });
     </script>

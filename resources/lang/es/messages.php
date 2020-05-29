@@ -82,5 +82,8 @@ return [
     'points' => 'Puntos',
     'removeStudent' => 'Desea remover este estudiante de este curso?',
     'pointsUpdated' => 'Puntos actualizados existosamente',
-    'printCertificate' => 'Imprimir certificado'
+    'printCertificate' => 'Imprimir certificado',
+    'lastDayToPublishPoints' => 'Ultimo dia para publicar notas',
+    'optional' => 'Opcional',
+    'unableToPoint' => 'Ha pasado el umbral de calificación, por favor comunicarse al departamento de registro'
 ];

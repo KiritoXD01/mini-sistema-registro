@@ -18,7 +18,7 @@ class Course extends Model
      */
     protected $fillable = [
         'name', 'code', 'status', 'created_by',
-        'teacher_id', 'study_subject_id'
+        'teacher_id', 'study_subject_id', 'close_points'
     ];
 
     /**

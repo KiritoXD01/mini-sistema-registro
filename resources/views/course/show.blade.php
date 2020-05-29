@@ -71,6 +71,10 @@
                         <label for="created_at">@lang('messages.createdAt')</label>
                         <input type="text" id="created_at" class="form-control" value="{{ $course->created_at }}" readonly>
                     </div>
+                    <div class="form-group">
+                        <label for="close_points">@lang('messages.lastDayToPublishPoints')</label>
+                        <input type="text" id="close_points" class="form-control" value="{{ $course->close_points }}" readonly>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,15 +89,17 @@
             <div class="table-responsive">
                 <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
                     <thead>
-                    <tr>
-                        <th>@lang('messages.name')</th>
-                        <th>@lang('messages.points')</th>
-                    </tr>
+                        <tr>
+                            <th>@lang('messages.fistName')</th>
+                            <th>@lang('messages.lastName')</th>
+                            <th>@lang('messages.points')</th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach($course->students as $student)
                         <tr>
-                            <td>{{ $student->student->full_name }}</td>
+                            <td>{{ $student->student->firstname }}</td>
+                            <td>{{ $student->student->lastname }}</td>
                             <td>{{ $student->points }}</td>
                         </tr>
                     @endforeach

@@ -34,15 +34,21 @@ class CourseController extends Controller
 
     public function index()
     {
-        if (Auth::guard('teacher')->check()) {
-            $courses = Auth::guard('teacher')->user()->courses;
+        if (Auth::guard('teacher')->check())
+        {
+            $courses = Course::where([
+                                    ['teacher_id', Auth::guard('teacher')->user()->id],
+                                    ['status', true]
+                                ])->get();
             return view('course.index', compact('courses'));
         }
-        elseif(Auth::guard('student')->check()) {
+        elseif(Auth::guard('student')->check())
+        {
             $courses = Auth::guard('student')->user()->courses;
             return view('student.course', compact('courses'));
         }
-        else {
+        else
+        {
             $courses = Course::all();
             return view('course.index', compact('courses'));
         }
@@ -71,13 +77,16 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255', 'unique:courses,name'],
-            'code' => ['required', 'string', 'max:255', 'unique:courses,code']
+            'name'             => ['required', 'string', 'max:255', 'unique:courses,name'],
+            'code'             => ['required', 'string', 'max:255', 'unique:courses,code'],
+            'teacher_id'       => ['required'],
+            'study_subject_id' => ['required'],
+            'close_points'     => ['required', 'date']
         ])->validate();
 
         $data = $request->all();
         $data['created_by'] = auth()->user()->id;
-        $data['code'] = strtoupper(Str::slug($data['code']));
+        $data['code']       = strtoupper(Str::slug($data['code']));
 
         $course = Course::create($data);
 
@@ -87,8 +96,11 @@ class CourseController extends Controller
     public function update(Request $request, Course $course)
     {
         Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255', Rule::unique('courses')->ignoreModel($course)],
-            'code' => ['required', 'string', 'max:255', Rule::unique('courses')->ignoreModel($course)]
+            'name'             => ['required', 'string', 'max:255', Rule::unique('courses')->ignoreModel($course)],
+            'code'             => ['required', 'string', 'max:255', Rule::unique('courses')->ignoreModel($course)],
+            'teacher_id'       => ['required'],
+            'study_subject_id' => ['required'],
+            'close_points'     => ['required', 'date']
         ])->validate();
 
         $data = $request->all();
@@ -133,16 +145,41 @@ class CourseController extends Controller
 
     public function updatePoints(Request $request, Course $course)
     {
-        CourseStudent
-            ::where([
-                ['course_id', $course->id],
-                ['student_id', $request->student_id]
-            ])
-            ->update([
-                'points' => $request->points
-            ]);
+        if (Auth::guard('teacher')->check())
+        {
+            $today = date('Y-m-d');
 
-        return redirect(route('course.edit', compact('course')))->with('success', trans('messages.pointsUpdated'));
+            if ($today > $course->close_points)
+            {
+                return redirect(route('course.edit', compact('course')))->with('unableToPoint', trans('messages.unableToPoint'));
+            }
+            else
+            {
+                CourseStudent
+                    ::where([
+                        ['course_id', $course->id],
+                        ['student_id', $request->student_id]
+                    ])
+                    ->update([
+                        'points' => $request->points
+                    ]);
+
+                return redirect(route('course.edit', compact('course')))->with('success', trans('messages.pointsUpdated'));
+            }
+        }
+        else
+        {
+            CourseStudent
+                ::where([
+                    ['course_id', $course->id],
+                    ['student_id', $request->student_id]
+                ])
+                ->update([
+                    'points' => $request->points
+                ]);
+
+            return redirect(route('course.edit', compact('course')))->with('success', trans('messages.pointsUpdated'));
+        }
     }
 
     public function getCertification(Request $request)
@@ -150,8 +187,8 @@ class CourseController extends Controller
         $course = CourseStudent::find($request->course_id);
 
         $data = [
-        'course' => $course->course,
-        'points' => $course->points,
+            'course'  => $course->course,
+            'points'  => $course->points,
             'student' => Auth::guard('student')->user()
         ];
         $pdf = PDF::loadView('certificates.student', $data);

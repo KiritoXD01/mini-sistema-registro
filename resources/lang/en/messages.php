@@ -82,5 +82,8 @@ return [
     'points' => 'Points',
     'removeStudent' => 'Do you want to this student from this course?',
     'pointsUpdated' => 'Points updated successfully',
-    'printCertificate' => 'Print Certificate'
+    'printCertificate' => 'Print Certificate',
+    'lastDayToPublishPoints' => 'Last day to publish points',
+    'optional' => 'Optional',
+    'unableToPoint' => 'You have passed the rating threshold, please contact the registration department'
 ];

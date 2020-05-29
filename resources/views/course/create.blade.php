@@ -53,6 +53,10 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="close_points">@lang('messages.lastDayToPublishPoints')</label>
+                            <input type="text" id="close_points" name="close_points" class="form-control" value="{{ old('close_points') }}" placeholder="@lang('messages.lastDayToPublishPoints')..." required readonly style="background-color: white;">
+                        </div>
+                        <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="hidden" name="status" value="0">
                                 <input type="checkbox" class="custom-control-input" id="status" name="status" checked value="1">
@@ -94,6 +98,23 @@
                         Swal.showLoading();
                     }
                 });
+            });
+
+            const today = () => {
+                const today = new Date();
+                let dd = today.getDate();
+                let mm = today.getMonth() + 1;
+                const yyyy = today.getFullYear();
+
+                dd = (dd < 10) ? `0${dd}` : dd;
+                mm = (mm < 10) ? `0${mm}` : mm;
+
+                return `${yyyy}-${mm}-${dd}`;
+            };
+
+            $("#close_points").datepicker({
+                format: "yyyy-mm-dd",
+                startDate: today()
             });
         });
     </script>

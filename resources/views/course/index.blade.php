@@ -125,7 +125,7 @@
                             showConfirmButton: false,
                             onOpen: () => {
                                 Swal.showLoading();
-                                document.getElementById(`formDelete${item}`).submit();
+                                document.getElementById(`formDelete${item.id}`).submit();
                             }
                         });
                     }
