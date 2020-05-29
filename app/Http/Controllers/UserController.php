@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -92,5 +95,17 @@ class UserController extends Controller
         else {
             return redirect(route('user.index'))->with('success', trans('messages.userActivated'));
         }
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new UsersImport, $request->file('excel'));
+
+        return redirect(route('user.index'))->with('success', trans('messages.usersImported'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

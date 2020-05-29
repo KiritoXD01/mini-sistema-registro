@@ -8,9 +8,21 @@
         <i class="fas fa-fw fa-users"></i> @lang('messages.users')
     </h1>
     @can('user-create')
-        <a href="{{ route('user.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
-            <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.user')
-        </a>
+        <form action="{{ route('user.import') }}" method="post" id="frmExcel" enctype="multipart/form-data">
+            @csrf
+            <input type="file" id="excel" style="display: none;" name="excel" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+        </form>
+        <div class="btn-group">
+            <a href="{{ route('user.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
+                <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.user')
+            </a>
+            <button type="button" class="d-none d-sm-inline-block btn btn-warning shadow-sm" id="btnModalImport">
+                <i class="fa fa-file-excel"></i> @lang('messages.import') @lang('messages.users')
+            </button>
+            <a href="{{ route('user.export') }}" class="d-none d-sm-inline-block btn btn-success shadow-sm" id="btnModalExport">
+                <i class="fa fa-file-excel"></i> @lang('messages.export') @lang('messages.users')
+            </a>
+        </div>
     @endcan
 </div>
 <!-- End Page Heading -->
@@ -123,7 +135,15 @@ function deleteItem(id, status) {
 
 $(document).ready(function(){
     $("#datatable").dataTable({
-        "order": [[ 3, "desc" ]]
+        "order": [[ 4, "desc" ]]
+    });
+
+    $("#btnModalImport").click(function(){
+        document.getElementById("excel").click();
+    });
+
+    $("#excel").change(function(){
+        document.getElementById("frmExcel").submit();
     });
 });
 </script>

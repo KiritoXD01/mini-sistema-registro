@@ -85,5 +85,8 @@ return [
     'printCertificate' => 'Imprimir certificado',
     'lastDayToPublishPoints' => 'Ultimo dia para publicar notas',
     'optional' => 'Opcional',
-    'unableToPoint' => 'Ha pasado el umbral de calificación, por favor comunicarse al departamento de registro'
+    'unableToPoint' => 'Ha pasado el umbral de calificación, por favor comunicarse al departamento de registro',
+    'import' => 'Importar',
+    'usersImported' => 'Usuarios importados existosamente',
+    'export' => 'Exportar'
 ];

@@ -85,5 +85,8 @@ return [
     'printCertificate' => 'Print Certificate',
     'lastDayToPublishPoints' => 'Last day to publish points',
     'optional' => 'Optional',
-    'unableToPoint' => 'You have passed the rating threshold, please contact the registration department'
+    'unableToPoint' => 'You have passed the rating threshold, please contact the registration department',
+    'import' => 'Import',
+    'usersImported' => 'Users imported successfully',
+    'export' => 'Export'
 ];

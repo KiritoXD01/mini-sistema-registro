@@ -42,8 +42,12 @@ Route::group(['prefix' => 'user'], function(){
     Route::get('/{user}/edit', 'UserController@edit')->middleware('auth')->name('user.edit');
     //GET: Show an user view
     Route::get('/{user}/show', 'UserController@show')->middleware('auth')->name('user.show');
+    //GET: Import users to Excel
+    Route::get('/export', 'UserController@export')->middleware('auth')->name('user.export');
     //POST: Create a new user
     Route::post('/', 'UserController@store')->middleware('auth')->name('user.store');
+    //POST: Import users from CSV/Excel
+    Route::post('/import', 'UserController@import')->middleware('auth')->name('user.import');
     //PATCH: Update an existing user
     Route::patch('/{user}', 'UserController@update')->middleware('auth')->name('user.update');
     //DELETE: Deletes and user
