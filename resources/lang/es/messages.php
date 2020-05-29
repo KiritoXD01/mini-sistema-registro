@@ -88,5 +88,6 @@ return [
     'unableToPoint' => 'Ha pasado el umbral de calificación, por favor comunicarse al departamento de registro',
     'import' => 'Importar',
     'usersImported' => 'Usuarios importados existosamente',
-    'export' => 'Exportar'
+    'export' => 'Exportar',
+    'teachersImported' => 'Profesores importados existosamente',
 ];

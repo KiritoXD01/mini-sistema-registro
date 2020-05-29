@@ -82,8 +82,12 @@ Route::group(['prefix' => 'teacher'], function(){
     Route::get('/{teacher}/show', 'TeacherController@show')->middleware('auth')->name('teacher.show');
     //GET: Show teacher's dashboard
     Route::get('/home', 'TeacherController@home')->middleware('teacher')->name('teacher.home');
+    //GET: Export teachers to Excel
+    Route::get('/export', 'TeacherController@export')->middleware('auth')->name('teacher.export');
     //POST: Create a new teacher
     Route::post('/', 'TeacherController@store')->middleware('auth')->name('teacher.store');
+    //POST: Import teachers from CSV/Excel
+    Route::post('/import', 'TeacherController@import')->middleware('auth')->name('teacher.import');
     //PATCH: Update an existing teacher
     Route::patch('/{teacher}', 'TeacherController@update')->middleware('auth')->name('teacher.update');
     //DELETE: Deletes and teacher

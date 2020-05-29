@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TeacherExport;
+use App\Imports\TeacherImport;
 use App\Models\CourseStudent;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TeacherController extends Controller
 {
@@ -96,6 +99,18 @@ class TeacherController extends Controller
         $students = CourseStudent::whereIn('course_id', auth()->guard('teacher')->user()->courses->pluck("id"))->count();
         $courses = auth()->guard('teacher')->user()->courses->count();
         return view('teacher.home', compact('students', 'courses'));
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new TeacherImport, $request->file('excel'));
+
+        return redirect(route('teacher.index'))->with('success', trans('messages.teachersImported'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new TeacherExport, 'teachers.xlsx');
     }
 
     private function generateCode($length = 20)
