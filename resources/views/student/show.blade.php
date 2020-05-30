@@ -77,7 +77,34 @@
             </div>
         </div>
     </div>
-    <div class="card shadow md-4">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4>@lang('messages.courses')</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="tableCourses" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>@lang('messages.course')</th>
+                            <th>@lang('messages.studySubject')</th>
+                            <th>@lang('messages.points')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($student->courses as $course)
+                        <tr>
+                            <td>{{ $course->course->name }}</td>
+                            <td>{{ $course->course->studySubject->name }}</td>
+                            <td>{{ $course->points }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h4>Logins</h4>
         </div>
@@ -135,9 +162,9 @@
         }
 
         $(document).ready(function(){
-            $("#tableLogins").dataTable({
-                "order": [[ 0, "desc" ]]
-            });
+            $("#tableCourses").dataTable();
+
+            $("#tableLogins").dataTable();
         });
     </script>
 @endsection

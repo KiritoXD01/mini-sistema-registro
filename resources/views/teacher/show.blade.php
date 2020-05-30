@@ -77,7 +77,44 @@
             </div>
         </div>
     </div>
-    <div class="card shadow md-4">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4>@lang('messages.courses')</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="tableCourses" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>@lang('messages.course')</th>
+                            <th>@lang('messages.studySubject')</th>
+                            <th>@lang('messages.students')</th>
+                            @can('course-show')
+                                <th>@lang('messages.actions')</th>
+                            @endcan
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($teacher->courses as $course)
+                        <tr class="text-center">
+                            <td>{{ $course->name }}</td>
+                            <td>{{ $course->studySubject->name }}</td>
+                            <td>{{ $course->students->count() }}</td>
+                            @can('course-show')
+                                <td>
+                                    <a href="{{ route('course.show', $course->id) }}" class="btn btn-primary">
+                                        <i class="fa fa-eye fa-fw"></i> @lang('messages.show') @lang('messages.course')
+                                    </a>
+                                </td>
+                            @endcan
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h4>Logins</h4>
         </div>
@@ -135,9 +172,9 @@
         }
 
         $(document).ready(function(){
-            $("#tableLogins").dataTable({
-                "order": [[ 0, "desc" ]]
-            });
+            $("#tableLogins").dataTable();
+
+            $("#tableCourses").dataTable();
         });
     </script>
 @endsection

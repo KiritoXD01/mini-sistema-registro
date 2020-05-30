@@ -93,29 +93,6 @@
                 </div>
             </div>
         </div>
-        <div class="card shadow md-4">
-            <div class="card-header py-3">
-                <h4>Logins</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover" id="tableLogins" width="100%" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>Login</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($teacher->teacherLogins as $login)
-                            <tr>
-                                <td>{{ $login->created_at }}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </form>
 @endsection
 
@@ -124,10 +101,6 @@
         $(document).ready(function(){
             $("#password").keyup(function(){
                 document.getElementById("password_confirmation").required = this.value.trim().length > 0;
-            });
-
-            $("#tableLogins").dataTable({
-                "order": [[ 0, "desc" ]]
             });
 
             $("#form").submit(function() {

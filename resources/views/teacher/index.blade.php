@@ -136,9 +136,7 @@
         }
 
         $(document).ready(function(){
-            $("#datatable").dataTable({
-                "order": [[ 4, "desc" ]]
-            });
+            $("#datatable").dataTable();
 
             $("#btnModalImport").click(function(){
                 document.getElementById("excel").click();
