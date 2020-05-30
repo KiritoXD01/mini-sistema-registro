@@ -90,4 +90,5 @@ return [
     'usersImported' => 'Users imported successfully',
     'export' => 'Export',
     'teachersImported' => 'Teachers imported successfully',
+    'studentsImported' => 'Students imported successfully',
 ];

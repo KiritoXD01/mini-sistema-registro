@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StudentExport;
+use App\Imports\StudentImport;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -95,6 +98,18 @@ class StudentController extends Controller
     {
         $courses = Auth::guard('student')->user()->courses->count();
         return view('student.home', compact('courses'));
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new StudentImport, $request->file('excel'));
+
+        return redirect(route('user.index'))->with('success', trans('messages.studentsImported'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new StudentExport, 'students.xlsx');
     }
 
     private function generateCode($length = 20)

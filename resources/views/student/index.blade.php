@@ -8,9 +8,21 @@
             <i class="fas fa-fw fa-user-graduate"></i> @lang('messages.students')
         </h1>
         @can('student-create')
-            <a href="{{ route('student.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
-                <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.student')
-            </a>
+            <form action="{{ route('student.import') }}" method="post" id="frmExcel" enctype="multipart/form-data">
+                @csrf
+                <input type="file" id="excel" style="display: none;" name="excel" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+            </form>
+            <div class="btn-group">
+                <a href="{{ route('student.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
+                    <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.student')
+                </a>
+                <button type="button" class="d-none d-sm-inline-block btn btn-warning shadow-sm" id="btnModalImport">
+                    <i class="fa fa-file-excel"></i> @lang('messages.import') @lang('messages.students')
+                </button>
+                <a href="{{ route('student.export') }}" class="d-none d-sm-inline-block btn btn-success shadow-sm" id="btnModalExport">
+                    <i class="fa fa-file-excel"></i> @lang('messages.export') @lang('messages.students')
+                </a>
+            </div>
         @endcan
     </div>
     <!-- End Page Heading -->
@@ -28,18 +40,19 @@
                 <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>@lang('messages.name')</th>
+                        <th>@lang('messages.fistName')</th>
+                        <th>@lang('messages.lastName')</th>
                         <th>Email</th>
                         <th>@lang('messages.code')</th>
                         <th>@lang('messages.status')</th>
-                        <th>@lang('messages.createdAt')</th>
                         <td>@lang('messages.actions')</td>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($students as $student)
                         <tr class="text-center">
-                            <td>{{ $student->full_name }}</td>
+                            <td>{{ $student->firstname }}</td>
+                            <td>{{ $student->lastname }}</td>
                             <td>{{ $student->email }}</td>
                             <td>{{ $student->code }}</td>
                             <td>
@@ -49,7 +62,6 @@
                                     <span class="badge badge-danger">@lang('messages.disabled')</span>
                                 @endif
                             </td>
-                            <td>{{ $student->created_at }}</td>
                             <td>
                                 <form action="{{ route('student.destroy', $student->id) }}" method="post" id="formDelete{{ $student->id }}">
                                     @method("DELETE")
@@ -122,8 +134,14 @@
         }
 
         $(document).ready(function(){
-            $("#datatable").dataTable({
-                "order": [[ 4, "desc" ]]
+            $("#datatable").dataTable();
+
+            $("#btnModalImport").click(function(){
+                document.getElementById("excel").click();
+            });
+
+            $("#excel").change(function(){
+                document.getElementById("frmExcel").submit();
             });
         });
     </script>
