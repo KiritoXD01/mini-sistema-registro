@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Student;
+use App\Models\StudySubject;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,6 +33,8 @@ class HomeController extends Controller
         $userRoles = Role::count();
         $teachers = Teacher::count();
         $students = Student::count();
-        return view('admin.home', compact('users', 'userRoles', 'teachers', 'students'));
+        $courses = Course::count();
+        $studySubjects = StudySubject::count();
+        return view('admin.home', compact('users', 'userRoles', 'teachers', 'students', 'courses', 'studySubjects'));
     }
 }
