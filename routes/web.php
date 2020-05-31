@@ -14,14 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes([
-    'register' => false,
-    'reset' => false
-]);
-
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Admin Login URLs
+Route::get('/login', 'Auth\LoginController@showAdminLoginForm')->name('loginForm');
+Route::post('/login', 'Auth\LoginController@adminLogin')->name('login');
 
 //teacher Login URLs
 Route::get('/login/teacher', 'Auth\LoginController@showTeacherLoginForm')->name('teacher.showLoginForm');

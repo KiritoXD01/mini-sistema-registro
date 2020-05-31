@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\StudentLogin;
 use App\Models\TeacherLogin;
+use App\Models\UserLogin;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -45,18 +46,49 @@ class LoginController extends Controller
         $this->middleware('guest:student')->except('logout');
     }
 
-    public function authenticated(Request $request, $user)
+    /**
+     * Determine if the user has too many failed login attempts.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public function hasTooManyLoginAttempts(Request $request)
     {
-        $user->userLogins()->create();
+        $attempts = 5;
+        $lockoutMinites = 5;
+        return $this->limiter()->tooManyAttempts(
+            $this->throttleKey($request), $attempts, $lockoutMinites
+        );
     }
 
-    public function credentials(Request $request)
+    public function showAdminLoginForm()
     {
-        return [
-            'email' => $request->email,
+        return view('auth.login');
+    }
+
+    public function adminLogin(Request $request)
+    {
+        Validator::make($request->all(), [
+            'email'    => ['required', 'email:rfc'],
+            'password' => ['required']
+        ])->validate();
+
+        $credentials = [
+            'email'    => $request->email,
             'password' => $request->password,
-            'status' => 1
+            'status'   => true
         ];
+
+        if (Auth::attempt($credentials)) {
+            UserLogin::create([
+                "user_id" => Auth::user()->id
+            ]);
+            return redirect()->intended(route('home'));
+        }
+
+        $error = 'Estas credenciales no coinciden con nuestros registros.';
+
+        return redirect(route('loginForm'))->with('error', $error)->withInput($request->only('email'));
     }
 
     public function showTeacherLoginForm()
