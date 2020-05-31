@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginPostValidation;
 use App\Models\StudentLogin;
 use App\Models\TeacherLogin;
 use App\Models\UserLogin;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -25,14 +23,30 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use ThrottlesLogins;
 
     /**
-     * Where to redirect users after login.
+     * The maximum number of attempts to allow.
      *
-     * @var string
+     * @return int
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $maxAttempts = 10;
+
+    /**
+     * The number of minutes to throttle for.
+     *
+     * @return int
+     */
+    protected $decayMinutes = 5;
+
+    /**
+     * Username used in ThrottlesLogins trait
+     *
+     * @return string
+     */
+    public function username(){
+        return 'email';
+    }
 
     /**
      * Create a new controller instance.
@@ -46,32 +60,28 @@ class LoginController extends Controller
         $this->middleware('guest:student')->except('logout');
     }
 
-    /**
-     * Determine if the user has too many failed login attempts.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    public function hasTooManyLoginAttempts(Request $request)
-    {
-        $attempts = 5;
-        $lockoutMinites = 5;
-        return $this->limiter()->tooManyAttempts(
-            $this->throttleKey($request), $attempts, $lockoutMinites
-        );
-    }
-
     public function showAdminLoginForm()
     {
         return view('auth.login');
     }
 
-    public function adminLogin(Request $request)
+    public function adminLogin(LoginPostValidation $request)
     {
-        Validator::make($request->all(), [
-            'email'    => ['required', 'email:rfc'],
-            'password' => ['required']
-        ])->validate();
+        if ($this->hasTooManyLoginAttempts($request))
+        {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
 
         $credentials = [
             'email'    => $request->email,
@@ -85,10 +95,14 @@ class LoginController extends Controller
             ]);
             return redirect()->intended(route('home'));
         }
+        else
+        {
+            $this->incrementLoginAttempts($request);
 
-        $error = 'Estas credenciales no coinciden con nuestros registros.';
+            $error = 'Estas credenciales no coinciden con nuestros registros.';
 
-        return redirect(route('loginForm'))->with('error', $error)->withInput($request->only('email'));
+            return redirect(route('loginForm'))->with('error', $error)->withInput($request->only('email'));
+        }
     }
 
     public function showTeacherLoginForm()
@@ -96,12 +110,23 @@ class LoginController extends Controller
         return view('teacher.login');
     }
 
-    public function teacherLogin(Request $request)
+    public function teacherLogin(LoginPostValidation $request)
     {
-        Validator::make($request->all(), [
-            'email'    => ['required', 'email:rfc'],
-            'password' => ['required']
-        ])->validate();
+        if ($this->hasTooManyLoginAttempts($request))
+        {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
 
         $credentials = [
             'email'    => $request->email,
@@ -115,10 +140,14 @@ class LoginController extends Controller
             ]);
             return redirect()->intended(route('teacher.home'));
         }
+        else
+        {
+            $this->incrementLoginAttempts($request);
 
-        $error = 'Estas credenciales no coinciden con nuestros registros.';
+            $error = 'Estas credenciales no coinciden con nuestros registros.';
 
-        return redirect(route('teacher.showLoginForm'))->with('error', $error)->withInput($request->only('email'));
+            return redirect(route('teacher.showLoginForm'))->with('error', $error)->withInput($request->only('email'));
+        }
     }
 
     public function showStudentLoginForm()
@@ -126,12 +155,23 @@ class LoginController extends Controller
         return view('student.login');
     }
 
-    public function studentLogin(Request $request)
+    public function studentLogin(LoginPostValidation $request)
     {
-        Validator::make($request->all(), [
-            'email'    => ['required', 'email:rfc'],
-            'password' => ['required']
-        ])->validate();
+        if ($this->hasTooManyLoginAttempts($request))
+        {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
 
         $credentials = [
             'email'    => $request->email,
@@ -145,9 +185,13 @@ class LoginController extends Controller
             ]);
             return redirect()->intended(route('student.home'));
         }
+        else
+        {
+            $this->incrementLoginAttempts($request);
 
-        $error = 'Estas credenciales no coinciden con nuestros registros.';
+            $error = 'Estas credenciales no coinciden con nuestros registros.';
 
-        return redirect(route('student.showLoginForm'))->with('error', $error)->withInput($request->only('email'));
+            return redirect(route('student.showLoginForm'))->with('error', $error)->withInput($request->only('email'));
+        }
     }
 }
