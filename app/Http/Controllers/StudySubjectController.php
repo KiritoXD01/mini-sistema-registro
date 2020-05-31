@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StudySubjectExport;
+use App\Imports\StudySubjectImport;
 use App\Models\StudySubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudySubjectController extends Controller
 {
@@ -15,9 +18,9 @@ class StudySubjectController extends Controller
         /**
          * Sets the user permissions for this controller
          */
-        $this->middleware('permission:study-subject-list|study-subject-create|study-subject-edit|study-subject-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:study-subject-list|study-subject-create|study-subject-edit|study-subject-delete', ['only' => ['index','store', 'export']]);
         $this->middleware('permission:user-show', ['only' => ['show']]);
-        $this->middleware('permission:study-subject-create', ['only' => ['create','store']]);
+        $this->middleware('permission:study-subject-create', ['only' => ['create','store', 'import']]);
         $this->middleware('permission:study-subject-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:study-subject-delete', ['only' => ['destroy']]);
     }
@@ -84,5 +87,17 @@ class StudySubjectController extends Controller
         else {
             return redirect(route('studySubject.index'))->with('success', trans('messages.studySubjectActivated'));
         }
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new StudySubjectImport, $request->file('excel'));
+
+        return redirect(route('studySubject.index'))->with('success', trans('messages.studySubjectImported'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new StudySubjectExport, 'materias.xlsx');
     }
 }

@@ -18,9 +18,9 @@ class TeacherController extends Controller
         /**
          * Sets the user permissions for this controller
          */
-        $this->middleware('permission:teacher-list|teacher-create|teacher-edit|teacher-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:teacher-list|teacher-create|teacher-edit|teacher-delete', ['only' => ['index','store', 'export']]);
         $this->middleware('permission:teacher-show', ['only' => ['show']]);
-        $this->middleware('permission:teacher-create', ['only' => ['create','store']]);
+        $this->middleware('permission:teacher-create', ['only' => ['create','store', 'import']]);
         $this->middleware('permission:teacher-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:teacher-delete', ['only' => ['destroy']]);
     }

@@ -151,8 +151,12 @@ Route::group(['prefix' => 'studysubject'], function(){
     Route::get('/{studySubject}/edit', 'StudySubjectController@edit')->middleware('auth')->name('studySubject.edit');
     //GET: Show an study subject view
     Route::get('/{studySubject}/show', 'StudySubjectController@show')->middleware('auth')->name('studySubject.show');
+    //GET: Export students to Excel
+    Route::get('/export', 'StudySubjectController@export')->middleware('auth')->name('studySubject.export');
     //POST: Create a new study subject
     Route::post('/', 'StudySubjectController@store')->middleware('auth')->name('studySubject.store');
+    //POST: Import study subjects from CSV/Excel
+    Route::post('/import', 'StudySubjectController@import')->middleware('auth')->name('studySubject.import');
     //PATCH: Update an existing study subject
     Route::patch('/{studySubject}', 'StudySubjectController@update')->middleware('auth')->name('studySubject.update');
     //DELETE: Deletes a study subject

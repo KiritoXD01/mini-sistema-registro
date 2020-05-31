@@ -18,9 +18,9 @@ class StudentController extends Controller
         /**
          * Sets the user permissions for this controller
          */
-        $this->middleware('permission:student-list|student-create|student-edit|student-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:student-list|student-create|student-edit|student-delete', ['only' => ['index','store', 'export']]);
         $this->middleware('permission:student-show', ['only' => ['show']]);
-        $this->middleware('permission:student-create', ['only' => ['create','store']]);
+        $this->middleware('permission:student-create', ['only' => ['create','store', 'import']]);
         $this->middleware('permission:student-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:student-delete', ['only' => ['destroy']]);
     }

@@ -91,4 +91,5 @@ return [
     'export' => 'Export',
     'teachersImported' => 'Teachers imported successfully',
     'studentsImported' => 'Students imported successfully',
+    'studySubjectImported' => 'Study Subjects imported successfully',
 ];

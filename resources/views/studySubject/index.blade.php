@@ -8,9 +8,21 @@
             <i class="fas fa-fw fa-book"></i> @lang('messages.studySubjects')
         </h1>
         @can('course-create')
-            <a href="{{ route('studySubject.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
-                <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.studySubject')
-            </a>
+            <form action="{{ route('studySubject.import') }}" method="post" id="frmExcel" enctype="multipart/form-data">
+                @csrf
+                <input type="file" id="excel" style="display: none;" name="excel" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+            </form>
+            <div class="btn-group">
+                <a href="{{ route('studySubject.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
+                    <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.studySubject')
+                </a>
+                <button type="button" class="d-none d-sm-inline-block btn btn-warning shadow-sm" id="btnModalImport">
+                    <i class="fa fa-file-excel"></i> @lang('messages.import') @lang('messages.studySubject')
+                </button>
+                <a href="{{ route('studySubject.export') }}" class="d-none d-sm-inline-block btn btn-success shadow-sm" id="btnModalExport">
+                    <i class="fa fa-file-excel"></i> @lang('messages.export') @lang('messages.studySubject')
+                </a>
+            </div>
         @endcan
     </div>
     <!-- End Page Heading -->
@@ -122,8 +134,14 @@
         }
 
         $(document).ready(function(){
-            $("#datatable").dataTable({
-                "order": [[ 0, "asc" ]]
+            $("#datatable").dataTable();
+
+            $("#btnModalImport").click(function(){
+                document.getElementById("excel").click();
+            });
+
+            $("#excel").change(function(){
+                document.getElementById("frmExcel").submit();
             });
         });
     </script>
