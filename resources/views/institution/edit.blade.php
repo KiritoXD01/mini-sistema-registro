@@ -69,14 +69,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="image">Logo</label>
-                            <input type="hidden" id="logo" name="logo" value="">
-                            <input type="file" id="image" accept="image/*" style="display: none;">
+                            <input type="file" id="image" name="image" accept="image/*" style="display: none;">
                             <button type="button" class="btn btn-primary btn-block" id="btnImage">
                                 <i class="fa fa-plus fa-fw"></i> Logo
                             </button>
                             <br>
                             <div class="text-center">
-                                <img src="{{ asset('img/addimage.png') }}" alt="" id="preview" class="img-thumbnail" style="width: 50%;">
+                                <img src="{{ asset($institution->logo) ?? asset('img/addimage.png') }}" alt="" id="preview" class="img-thumbnail" style="width: 50%;">
                             </div>
                         </div>
                     </div>

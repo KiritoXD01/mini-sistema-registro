@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-
+                    <img src="{{ asset($institution->image) }}" alt="" class="img-thumbnail img-responsive" />
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class InstitutionController extends Controller
@@ -32,26 +33,41 @@ class InstitutionController extends Controller
             'name'    => ['required', 'string', 'max:255'],
             'phone'   => ['required', 'string', 'max:255'],
             'email'   => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255']
+            'address' => ['required', 'string', 'max:255'],
+            'file'    => ['sometimes', 'image']
         ])->validate();
+
+        $image = Institution::where('code', $request->code)->exists() ?
+            Institution::where('code', $request->code)->first()->image :
+            "";
+
+        if ($request->hasFile('image'))
+        {
+            $file = $request->file('image');
+            $imageName = 'logo.'.$file->getClientOriginalExtension();
+            $request->image->move(public_path('images/institutions'), $imageName);
+            $image = 'images/institutions/'.$imageName;
+        }
 
         if (Institution::where('code', $request->code)->exists())
         {
-            $institution = Institution::where('code', $request->code)->update([
+            Institution::where('code', $request->code)->update([
                 'name'    => $request->name,
                 'phone'   => $request->phone,
                 'email'   => strtolower($request->email),
-                'address' => $request->address
+                'address' => $request->address,
+                'image'   => $image
             ]);
         }
         else
         {
-            $institution = Institution::create([
+            Institution::create([
                 'name'    => $request->name,
                 'phone'   => $request->phone,
                 'email'   => strtolower($request->email),
                 'code'    => $this->generateCode(6),
-                'address' => $request->address
+                'address' => $request->address,
+                'image'   => $image
             ]);
         }
 

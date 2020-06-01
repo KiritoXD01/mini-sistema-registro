@@ -16,4 +16,13 @@ class Institution extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
+    protected $appends = [
+        'logo'
+    ];
+
+    public function getLogoAttribute()
+    {
+        return env('APP_URL').'/'.$this->image;
+    }
 }
