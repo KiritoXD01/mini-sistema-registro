@@ -38,15 +38,25 @@
     @endif
 
     @if(auth()->check())
-        @can('user-list')
+        @can('institution-show')
             <!-- Nav Item - Users -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.index') }}">
-                        <i class="fas fa-fw fa-users"></i>
-                        <span>@lang('messages.users')</span>
+                    <a class="nav-link" href="{{ route('institution.show') }}">
+                        <i class="fas fa-fw fa-school"></i>
+                        <span>@lang('messages.institution')</span>
                     </a>
                 </li>
-        @endif
+        @endcan
+
+        @can('user-list')
+            <!-- Nav Item - Users -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('user.index') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>@lang('messages.users')</span>
+                </a>
+            </li>
+        @endcan
 
         @can('role-list')
             <!-- Nav Item - Users -->

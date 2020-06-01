@@ -57,7 +57,11 @@ class PermissionSeeder extends Seeder
             "study-subject-create",
             "study-subject-show",
             "study-subject-edit",
-            "study-subject-delete"
+            "study-subject-delete",
+
+            //institution pages
+            'institution-show',
+            'institution-edit'
         ];
 
         /**

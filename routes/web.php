@@ -18,20 +18,21 @@ Route::get('/', function () {
 });
 
 Route::post('logout', 'Auth\LoginController@logout')->middleware('auth:teacher,web,student')->name('logout');
-
-//Admin Login URLs
-Route::get('/login', 'Auth\LoginController@showAdminLoginForm')->name('loginForm');
-Route::post('/login', 'Auth\LoginController@adminLogin')->name('login');
-
-//teacher Login URLs
-Route::get('/login/teacher', 'Auth\LoginController@showTeacherLoginForm')->name('teacher.showLoginForm');
-Route::post('/login/teacher', 'Auth\LoginController@teacherLogin')->name('teacher.login');
-
-//student Login URLs
-Route::get('/login/student', 'Auth\LoginController@showStudentLoginForm')->name('student.showLoginForm');
-Route::post('/login/student', 'Auth\LoginController@studentLogin')->name('student.login');
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'login'], function (){
+    //Admin Login URLs
+    Route::get('/', 'Auth\LoginController@showAdminLoginForm')->name('loginForm');
+    Route::post('/', 'Auth\LoginController@adminLogin')->name('login');
+
+    //teacher Login URLs
+    Route::get('/teacher', 'Auth\LoginController@showTeacherLoginForm')->name('teacher.showLoginForm');
+    Route::post('/teacher', 'Auth\LoginController@teacherLogin')->name('teacher.login');
+
+    //student Login URLs
+    Route::get('/student', 'Auth\LoginController@showStudentLoginForm')->name('student.showLoginForm');
+    Route::post('/student', 'Auth\LoginController@studentLogin')->name('student.login');
+});
 
 Route::group(['prefix' => 'user'], function(){
     //GET: Get all users
@@ -161,4 +162,13 @@ Route::group(['prefix' => 'studysubject'], function(){
     Route::patch('/{studySubject}', 'StudySubjectController@update')->middleware('auth')->name('studySubject.update');
     //DELETE: Deletes a study subject
     Route::delete('/{studySubject}', 'StudySubjectController@destroy')->middleware('auth')->name('studySubject.destroy');
+});
+
+Route::group(['prefix' => 'institution'], function(){
+    //GET: Show the institution info
+    Route::get('/show', 'InstitutionController@show')->middleware('auth')->name('institution.show');
+    //GET: Edit the institution info
+    Route::get('/edit', 'InstitutionController@edit')->middleware('auth')->name('institution.edit');
+    //POST: Update institution
+    Route::post('/', 'InstitutionController@update')->middleware('auth')->name('institution.update');
 });

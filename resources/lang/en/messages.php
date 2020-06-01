@@ -94,5 +94,9 @@ return [
     'studySubjectImported' => 'Study Subjects imported successfully',
     'forgotPassword' => 'Forgot Password?',
     'close' => 'Close',
-    'send' => 'Send'
+    'send' => 'Send',
+    'institution' => 'Institution',
+    'phone' => 'Phone',
+    'address' => 'Address',
+    'institutionUpdated' => 'Institution updated successfully'
 ];

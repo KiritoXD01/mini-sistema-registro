@@ -94,5 +94,9 @@ return [
     'studySubjectImported' => 'Materias importadas existosamente',
     'forgotPassword' => '¿Se te olvidó tu contraseña?',
     'close' => 'Cerrar',
-    'send' => 'Enviar'
+    'send' => 'Enviar',
+    'institution' => 'Institucion',
+    'phone' => 'Telefono',
+    'address' => 'Direccion',
+    'institutionUpdated' => 'Institucion actualizada existosamente',
 ];
