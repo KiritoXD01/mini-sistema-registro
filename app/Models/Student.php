@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Notifications\StudentResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class Student extends Authenticatable
 {
+    use Notifiable;
     /**
      * Table name in the database (this is optional)
      */
@@ -74,5 +77,10 @@ class Student extends Authenticatable
     public function courses()
     {
         return $this->hasMany('App\Models\CourseStudent', 'student_id', 'id');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new StudentResetPasswordNotification($token));
     }
 }

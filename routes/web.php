@@ -118,10 +118,16 @@ Route::group(['prefix' => 'student'], function(){
     Route::get('/home', 'StudentController@home')->middleware('student')->name('student.home');
     //GET: Export students to Excel
     Route::get('/export', 'StudentController@export')->middleware('auth')->name('student.export');
+    //GET: show reset form
+    Route::get('/password/reset/{token}', 'AuthStudent\ResetPasswordController@showResetForm')->name('student.password.reset');
     //POST: Create a new student
     Route::post('/', 'StudentController@store')->middleware('auth')->name('student.store');
     //POST: Import teachers from CSV/Excel
     Route::post('/import', 'StudentController@import')->middleware('auth')->name('student.import');
+    //POST: send reset password email
+    Route::post('/password/email', 'AuthStudent\ForgotPasswordController@sendResetLinkEmail')->name('student.password.email');
+    //POST: reset password for teachers
+    Route::post('/password/reset', 'AuthStudent\ResetPasswordController@reset');
     //PATCH: Update an existing student
     Route::patch('/{student}', 'StudentController@update')->middleware('auth')->name('student.update');
     //DELETE: Deletes a student

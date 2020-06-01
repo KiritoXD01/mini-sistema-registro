@@ -65,12 +65,42 @@
                                         <i class="fa fa-sign-in-alt fa-fw"></i> @lang('messages.login')
                                     </button>
                                 </form>
+                                <hr>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-link" id="btnForgotPassword">
+                                        <i class="fa fa-fw fa-unlock-alt"></i>@lang('messages.forgotPassword')
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal fade" id="modalForgotPassword">
+        <form action="{{ route('student.password.email') }}" method="POST" autocomplete="off">
+            @csrf
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">@lang('messages.forgotPassword')</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="emailToSend">Email</label>
+                            <input type="email" id="emailToSend" name="email" class="form-control" required value="" placeholder="Email...">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">@lang('messages.close')</button>
+                        <button type="submit" class="btn btn-success">@lang('messages.send') Email</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -97,6 +127,12 @@
                 onOpen: () => {
                     Swal.showLoading();
                 }
+            });
+        });
+
+        $("#btnForgotPassword").click(function() {
+            $("#modalForgotPassword").modal({
+                backdrop: 'static'
             });
         });
     });
