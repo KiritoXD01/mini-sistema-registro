@@ -92,4 +92,7 @@ return [
     'teachersImported' => 'Teachers imported successfully',
     'studentsImported' => 'Students imported successfully',
     'studySubjectImported' => 'Study Subjects imported successfully',
+    'forgotPassword' => 'Forgot Password?',
+    'close' => 'Close',
+    'send' => 'Send'
 ];

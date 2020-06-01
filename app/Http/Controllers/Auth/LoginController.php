@@ -9,7 +9,6 @@ use App\Models\TeacherLogin;
 use App\Models\UserLogin;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Support\Facades\Auth;
-
 class LoginController extends Controller
 {
     /*
@@ -40,15 +39,6 @@ class LoginController extends Controller
     protected $decayMinutes = 5;
 
     /**
-     * Username used in ThrottlesLogins trait
-     *
-     * @return string
-     */
-    public function username(){
-        return 'email';
-    }
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -58,6 +48,15 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('guest:teacher')->except('logout');
         $this->middleware('guest:student')->except('logout');
+    }
+
+    /**
+     * Username used in ThrottlesLogins trait
+     *
+     * @return string
+     */
+    public function username(){
+        return 'email';
     }
 
     public function showAdminLoginForm()
@@ -192,6 +191,22 @@ class LoginController extends Controller
             $error = 'Estas credenciales no coinciden con nuestros registros.';
 
             return redirect(route('student.showLoginForm'))->with('error', $error)->withInput($request->only('email'));
+        }
+    }
+
+    public function logout()
+    {
+        if(Auth::guard('teacher')->check()) {
+            Auth::logout();
+            return redirect(route('teacher.showLoginForm'));
+        }
+        elseif(Auth::guard('student')->check()) {
+            Auth::logout();
+            return redirect(route('student.showLoginForm'));
+        }
+        else {
+            Auth::logout();
+            return redirect(route('loginForm'));
         }
     }
 }

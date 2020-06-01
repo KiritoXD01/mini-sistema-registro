@@ -92,4 +92,7 @@ return [
     'teachersImported' => 'Profesores importados existosamente',
     'studentsImported' => 'Estudiantes importados existosamente',
     'studySubjectImported' => 'Materias importadas existosamente',
+    'forgotPassword' => '¿Se te olvidó tu contraseña?',
+    'close' => 'Cerrar',
+    'send' => 'Enviar'
 ];
