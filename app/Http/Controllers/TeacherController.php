@@ -59,6 +59,7 @@ class TeacherController extends Controller
         $data['email']      = strtolower($data['email']);
         $data['created_by'] = auth()->user()->id;
         $data['code']       = $this->generateCode(6);
+        $data['password']   = bcrypt($data['password']);
 
         $teacher = Teacher::create($data);
 
@@ -75,7 +76,8 @@ class TeacherController extends Controller
         ])->validate();
 
         $data = $request->all();
-        $data['email'] = strtolower($data['email']);
+        $data['email']    = strtolower($data['email']);
+        $data['password'] = bcrypt($data['password']);
 
         $teacher->update($data);
 

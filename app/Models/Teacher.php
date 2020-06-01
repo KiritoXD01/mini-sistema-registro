@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Notifications\TeacherResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class Teacher extends Authenticatable
 {
+    use Notifiable;
     /**
      * Table name in the database (this is optional)
      */
@@ -53,15 +56,6 @@ class Teacher extends Authenticatable
     }
 
     /**
-     * Encrypts the incoming password
-     * @param $value = the incoming password
-     */
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = bcrypt($value);
-    }
-
-    /**
      * Gets all the times that the user logged in to the system
      */
     public function teacherLogins()
@@ -83,5 +77,10 @@ class Teacher extends Authenticatable
     public function courses()
     {
         return $this->hasMany('App\Models\Course', 'teacher_id', 'id');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new TeacherResetPasswordNotification($token));
     }
 }

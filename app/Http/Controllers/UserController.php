@@ -54,6 +54,7 @@ class UserController extends Controller
         $data = $request->all();
         $data['email']      = strtolower($data['email']);
         $data['created_by'] = auth()->user()->id;
+        $data['password']   = bcrypt($data['password']);
 
         $user = User::create($data);
         $user->assignRole($data['role']);
@@ -76,8 +77,9 @@ class UserController extends Controller
             'password' => ['nullable', 'string', 'min:8']
         ])->validate();
 
-        $data = $request->all();
-        $data['email'] = strtolower($data['email']);
+        $data             = $request->all();
+        $data['email']    = strtolower($data['email']);
+        $data['password'] = bcrypt($data['password']);
 
         $user->update($data);
         $user->syncRoles($data['role']);

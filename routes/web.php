@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes([
+    'register' => false
+]);
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -85,10 +89,16 @@ Route::group(['prefix' => 'teacher'], function(){
     Route::get('/home', 'TeacherController@home')->middleware('teacher')->name('teacher.home');
     //GET: Export teachers to Excel
     Route::get('/export', 'TeacherController@export')->middleware('auth')->name('teacher.export');
+    //GET: show reset form
+    Route::get('/password/reset/{token}', 'AuthTeacher\ResetPasswordController@showResetForm')->name('teacher.password.reset');
     //POST: Create a new teacher
     Route::post('/', 'TeacherController@store')->middleware('auth')->name('teacher.store');
     //POST: Import teachers from CSV/Excel
     Route::post('/import', 'TeacherController@import')->middleware('auth')->name('teacher.import');
+    //POST: send reset password email
+    Route::post('/password/email', 'AuthTeacher\ForgotPasswordController@sendResetLinkEmail')->name('teacher.password.email');
+    //POST: reset password for teachers
+    Route::post('/password/reset', 'AuthTeacher\ResetPasswordController@reset');
     //PATCH: Update an existing teacher
     Route::patch('/{teacher}', 'TeacherController@update')->middleware('auth')->name('teacher.update');
     //DELETE: Deletes and teacher

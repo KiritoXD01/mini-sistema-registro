@@ -59,15 +59,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Encrypts the incoming password
-     * @param $value = the incoming password
-     */
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = bcrypt($value);
-    }
-
-    /**
      * Gets all the times that the user logged in to the system
      */
     public function userLogins()
