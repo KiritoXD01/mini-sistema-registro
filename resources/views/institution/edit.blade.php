@@ -75,7 +75,11 @@
                             </button>
                             <br>
                             <div class="text-center">
+                                @if(isset($institution))
                                 <img src="{{ asset($institution->logo) ?? asset('img/addimage.png') }}" alt="" id="preview" class="img-thumbnail" style="width: 50%;">
+                                @else
+                                <img src="{{ asset('img/addimage.png') }}" alt="" id="preview" class="img-thumbnail" style="width: 50%;">
+                                @endif
                             </div>
                         </div>
                     </div>
