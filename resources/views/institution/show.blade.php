@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-md-6">
                     @if(isset($institution))
-                        <img src="{{ asset($institution->image) }}" alt="" class="img-thumbnail img-responsive" />
+                        <img src="{{ asset($institution->image) }}" alt="" class="img-thumbnail img-responsive mx-auto" />
                     @endif
                 </div>
             </div>
