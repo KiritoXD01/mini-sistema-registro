@@ -182,15 +182,14 @@ class CourseController extends Controller
         }
     }
 
-    public function getCertification(Request $request)
+    public function getCertification(CourseStudent $courseStudent)
     {
-        $course = CourseStudent::find($request->course_id);
-
         $data = [
-            'course'  => $course->course,
-            'points'  => $course->points,
-            'student' => Auth::guard('student')->user()
+            'course'  => $courseStudent->course,
+            'points'  => $courseStudent->points,
+            'student' => $courseStudent->student
         ];
+
         $pdf = PDF::loadView('certificates.student', $data);
         $pdf->setPaper('letter', 'landscape');
         return $pdf->stream();

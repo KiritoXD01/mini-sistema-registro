@@ -93,14 +93,37 @@
                             <th>@lang('messages.fistName')</th>
                             <th>@lang('messages.lastName')</th>
                             <th>@lang('messages.points')</th>
+                            <th>@lang('messages.actions')</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($course->students as $student)
-                        <tr>
+                        <tr class="text-center">
                             <td>{{ $student->student->firstname }}</td>
                             <td>{{ $student->student->lastname }}</td>
-                            <td>{{ $student->points }}</td>
+                            <td>
+                                @if($student->points >= 0 && $student->points <= 39)
+                                    <span class="badge badge-danger">
+                                        {{ $student->points }}
+                                    </span>
+                                @elseif($student->points >= 40 && $student->points <= 69)
+                                    <span class="badge badge-warning">
+                                        {{ $student->points }}
+                                    </span>
+                                @else
+                                    <span class="badge badge-success">
+                                        {{ $student->points }}
+                                    </span>
+                                @endif
+                            </td>
+                            <td>
+                                <form target="_blank" action="{{ route('course.getCertification', $student->id) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary" @if($student->points < 40) disabled @endif>
+                                        <i class="fa fa-file-pdf fa-fw"></i> @lang('messages.printCertificate')
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

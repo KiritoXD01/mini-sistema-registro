@@ -12,6 +12,10 @@
 
     <title>@yield('title', env('APP_NAME'))</title>
 
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 
