@@ -9,8 +9,8 @@
     <title>@yield('title', env('APP_NAME'))</title>
 </head>
 <body>
-<div style="width:100%; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
-    <div style="width:100%; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
+<div style="width:100%; height:580px; padding:20px; text-align:center; border: 10px solid #787878">
+    <div style="width:100%; height:580px; padding:20px; text-align:center; border: 5px solid #787878">
         <span style="font-size:50px; font-weight:bold">{{ $institution->name }}</span>
         <br><br>
         <span style="font-size:35px">
@@ -29,9 +29,8 @@
         @endif
         <span style="font-size:30px">{{ $course->studySubject->name }}</span> <br/><br/>
         <span style="font-size:20px">con puntaje de<b> {{ $points }}%</b></span> <br/><br/><br/><br/>
-        <span style="font-size:25px"><i>Fechada</i></span><br>
         <span style="font-size:30px">
-            
+            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate($student->code)) !!}" class="mx-auto" alt="" />
         </span>
     </div>
 </div>
