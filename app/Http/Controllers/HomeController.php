@@ -37,4 +37,14 @@ class HomeController extends Controller
         $studySubjects = StudySubject::count();
         return view('admin.home', compact('users', 'userRoles', 'teachers', 'students', 'courses', 'studySubjects'));
     }
+
+    /**
+     * Change the application language
+     * @param $language
+     */
+    public function changeLanguage($language)
+    {
+        session(['locale' => $language]);
+        return redirect()->back();
+    }
 }

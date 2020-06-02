@@ -9,7 +9,7 @@
     <title>@yield('title', env('APP_NAME'))</title>
 </head>
 <body>
-<div style="width:100%; height:580px; padding:20px; text-align:center; border: 10px solid #787878">
+<div style="width:100%; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
     <div style="width:100%; height:580px; padding:20px; text-align:center; border: 5px solid #787878">
         <span style="font-size:50px; font-weight:bold">{{ $institution->name }}</span>
         <br><br>

@@ -21,6 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/changeLanguage/{language}', 'HomeController@changeLanguage')->name('changeLanguage');
 Route::post('logout', 'Auth\LoginController@logout')->middleware('auth:teacher,web,student')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');
 

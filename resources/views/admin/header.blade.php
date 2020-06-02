@@ -25,6 +25,16 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                @if(config('app.locale') == 'es')
+                    <a class="dropdown-item" href="{{ route('changeLanguage', 'en') }}">
+                        <i class="fas fa-globe fa-sm fa-fw mr-2 text-gray-400"></i> Ingles
+                    </a>
+                @else
+                    <a class="dropdown-item" href="{{ route('changeLanguage', 'es') }}">
+                        <i class="fas fa-globe fa-sm fa-fw mr-2 text-gray-400"></i> Spanish
+                    </a>
+                @endif
+                <div class="dropdown-divider"></div>
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button type="submit" class="dropdown-item">
