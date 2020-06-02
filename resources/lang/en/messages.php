@@ -98,5 +98,6 @@ return [
     'institution' => 'Institution',
     'phone' => 'Phone',
     'address' => 'Address',
-    'institutionUpdated' => 'Institution updated successfully'
+    'institutionUpdated' => 'Institution updated successfully',
+    'accountDisabled' => "Your account is not activated. Please activate it first."
 ];

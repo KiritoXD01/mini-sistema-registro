@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AuthStudent;
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -44,6 +45,11 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         $this->validateEmail($request);
+        $student = Student::where('email', $request->email)->first();
+
+        if (!$student->status) {
+            return redirect()->back()->with('error', trans('messages.accountDisabled'));
+        }
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we

@@ -99,4 +99,5 @@ return [
     'phone' => 'Telefono',
     'address' => 'Direccion',
     'institutionUpdated' => 'Institucion actualizada existosamente',
+    "accountDisabled" => "Su cuenta no está activada. Por favor actívelo primero."
 ];

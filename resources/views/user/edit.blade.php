@@ -68,13 +68,15 @@
                             </select>
                         </div>
                         @if(auth()->user()->id != $user->id)
-                            <div class="form-group">
-                                <div class="custom-control custom-switch">
-                                    <input type="hidden" name="status" value="0">
-                                    <input type="checkbox" class="custom-control-input" id="status" name="status" @if($user->status) checked @endif value="1">
-                                    <label class="custom-control-label" for="status">@lang('messages.status')</label>
+                            @can('user-delete')
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="hidden" name="status" value="0">
+                                        <input type="checkbox" class="custom-control-input" id="status" name="status" @if($user->status) checked @endif value="1">
+                                        <label class="custom-control-label" for="status">@lang('messages.status')</label>
+                                    </div>
                                 </div>
-                            </div>
+                            @endcan
                         @endif
                     </div>
                     <div class="col-md-6">

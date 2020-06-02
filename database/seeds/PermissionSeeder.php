@@ -51,6 +51,7 @@ class PermissionSeeder extends Seeder
             "course-delete",
             "course-students",
             "course-points",
+            "course-certification",
 
             //study subject pages
             "study-subject-list",

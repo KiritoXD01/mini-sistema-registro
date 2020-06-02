@@ -117,12 +117,14 @@
                                 @endif
                             </td>
                             <td>
-                                <form target="_blank" action="{{ route('course.getCertification', $student->id) }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary" @if($student->points < 40) disabled @endif>
-                                        <i class="fa fa-file-pdf fa-fw"></i> @lang('messages.printCertificate')
-                                    </button>
-                                </form>
+                                @can('course-certification')
+                                    <form target="_blank" action="{{ route('course.getCertification', $student->id) }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary" @if($student->points < 40) disabled @endif>
+                                            <i class="fa fa-file-pdf fa-fw"></i> @lang('messages.printCertificate')
+                                        </button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

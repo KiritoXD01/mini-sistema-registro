@@ -74,13 +74,15 @@
                                 <label for="close_points">@lang('messages.lastDayToPublishPoints')</label>
                                 <input type="text" id="close_points" name="close_points" class="form-control" value="{{ old('close_points') ?? $course->close_points }}" placeholder="@lang('messages.lastDayToPublishPoints')..." required readonly style="background-color: white;">
                             </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-switch">
-                                    <input type="hidden" name="status" value="0">
-                                    <input type="checkbox" class="custom-control-input" id="status" name="status" @if($course->status) checked @endif value="1">
-                                    <label class="custom-control-label" for="status">@lang('messages.status')</label>
+                            @can('course-delete')
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="hidden" name="status" value="0">
+                                        <input type="checkbox" class="custom-control-input" id="status" name="status" @if($course->status) checked @endif value="1">
+                                        <label class="custom-control-label" for="status">@lang('messages.status')</label>
+                                    </div>
                                 </div>
-                            </div>
+                            @endcan
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">

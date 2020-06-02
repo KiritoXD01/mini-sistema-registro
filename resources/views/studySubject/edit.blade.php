@@ -54,13 +54,15 @@
                             <label for="created_by">@lang('messages.createdBy')</label>
                             <input type="text" id="created_by" readonly class="form-control" value="{{ $studySubject->createdBy->name }}">
                         </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-switch">
-                                <input type="hidden" name="status" value="0">
-                                <input type="checkbox" class="custom-control-input" id="status" name="status" @if($studySubject->status) checked @endif value="1">
-                                <label class="custom-control-label" for="status">@lang('messages.status')</label>
+                        @can('study-subject-delete')
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input type="hidden" name="status" value="0">
+                                    <input type="checkbox" class="custom-control-input" id="status" name="status" @if($studySubject->status) checked @endif value="1">
+                                    <label class="custom-control-label" for="status">@lang('messages.status')</label>
+                                </div>
                             </div>
-                        </div>
+                        @endcan
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
