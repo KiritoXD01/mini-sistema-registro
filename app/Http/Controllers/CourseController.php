@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseStudent;
+use App\Models\Institution;
 use App\Models\Student;
 use App\Models\StudySubject;
 use App\Models\Teacher;
@@ -185,9 +186,10 @@ class CourseController extends Controller
     public function getCertification(CourseStudent $courseStudent)
     {
         $data = [
-            'course'  => $courseStudent->course,
-            'points'  => $courseStudent->points,
-            'student' => $courseStudent->student
+            'course'      => $courseStudent->course,
+            'points'      => $courseStudent->points,
+            'student'     => $courseStudent->student,
+            'institution' => Institution::first()
         ];
 
         $pdf = PDF::loadView('certificates.student', $data);

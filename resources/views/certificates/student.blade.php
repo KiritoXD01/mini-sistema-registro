@@ -11,7 +11,11 @@
 <body>
 <div style="width:100%; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
     <div style="width:100%; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
-        <span style="font-size:50px; font-weight:bold">Certificado de finalización</span>
+        <span style="font-size:50px; font-weight:bold">{{ $institution->name }}</span>
+        <br><br>
+        <span style="font-size:35px">
+            <i>Certificado de finalización</i>
+        </span>
         <br><br>
         <span style="font-size:25px">
             <i>Esto es para certificar que</i>
@@ -26,7 +30,9 @@
         <span style="font-size:30px">{{ $course->studySubject->name }}</span> <br/><br/>
         <span style="font-size:20px">con puntaje de<b> {{ $points }}%</b></span> <br/><br/><br/><br/>
         <span style="font-size:25px"><i>Fechada</i></span><br>
-        <span style="font-size:30px">{{ \Carbon\Carbon::now()->format('d/m/yy') }}</span>
+        <span style="font-size:30px">
+            
+        </span>
     </div>
 </div>
 </body>

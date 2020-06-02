@@ -59,9 +59,8 @@
                                 @endif
                             </td>
                             <td>
-                                <form target="_blank" action="{{ route('course.getCertification') }}" method="post">
+                                <form target="_blank" action="{{ route('course.getCertification', $course->id) }}" method="post">
                                     @csrf
-                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
                                     <button type="submit" class="btn btn-primary" @if($course->points < 40) disabled @endif>
                                         <i class="fa fa-file-pdf fa-fw"></i> @lang('messages.printCertificate')
                                     </button>
