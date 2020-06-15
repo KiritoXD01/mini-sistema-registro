@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CourseModality;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
@@ -18,7 +19,8 @@ class Course extends Model
      */
     protected $fillable = [
         'name', 'code', 'status', 'created_by',
-        'teacher_id', 'study_subject_id', 'close_points'
+        'teacher_id', 'study_subject_id', 'close_points',
+        'hour_count', 'course_type_id', 'course_modality_id'
     ];
 
     /**
@@ -29,6 +31,13 @@ class Course extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
+    ];
+
+    /**
+     * Appends custom attributes
+     */
+    protected $appends = [
+        'course_modality'
     ];
 
     /**
@@ -64,5 +73,23 @@ class Course extends Model
     public function students()
     {
         return $this->hasMany('App\Models\CourseStudent', 'course_id', 'id');
+    }
+
+    /**
+     * Relation between course types and courses
+     */
+    public function courseType()
+    {
+        return $this->belongsTo('App\Models\CourseType', 'course_type_id', 'id');
+    }
+
+    /**
+     * Get the course modality
+     * @param $value
+     * @return mixed|string
+     */
+    public function getCourseModalityAttribute()
+    {
+        return CourseModality::getItem($this->course_modality_id);
     }
 }

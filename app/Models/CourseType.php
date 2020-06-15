@@ -29,4 +29,12 @@ class CourseType extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
+    /**
+     * Relation between course types and courses
+     */
+    public function courses()
+    {
+        return $this->hasMany('App\Models\Course', 'course_type_id', 'id');
+    }
 }

@@ -57,6 +57,15 @@
                             <input type="text" id="close_points" name="close_points" class="form-control" value="{{ old('close_points') }}" placeholder="@lang('messages.lastDayToPublishPoints')..." required readonly style="background-color: white;">
                         </div>
                         <div class="form-group">
+                            <label for="course_type_id">@lang('messages.courseType')</label>
+                            <select id="course_type_id" name="course_type_id" class="form-control" required>
+                                <option value="" disabled selected hidden>-- @lang('messages.courseType') --</option>
+                                @foreach($courseTypes as $courseType)
+                                    <option value="{{ $courseType->id }}" @if($courseType->id == old('course_type_id')) selected @endif>{{ $courseType->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="hidden" name="status" value="0">
                                 <input type="checkbox" class="custom-control-input" id="status" name="status" checked value="1">
@@ -75,6 +84,19 @@
                                 <option value="" disabled selected hidden>-- @lang('messages.studySubject') --</option>
                                 @foreach($studySubjects as $studySubject)
                                     <option value="{{ $studySubject->id }}" @if(old('study_subject_id') == $studySubject->id) selected @endif>{{ $studySubject->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hour_count">@lang('messages.hoursCount')</label>
+                            <input type="number" id="hour_count" name="hour_count" min="1" value="{{ old('hour_count') }}" class="form-control" required placeholder="@lang('messages.hoursCount')...">
+                        </div>
+                        <div class="form-group">
+                            <label for="course_modality_id">@lang('messages.courseModality')</label>
+                            <select id="course_modality_id" name="course_modality_id" class="form-control" required>
+                                <option value="" hidden selected disabled>-- @lang('messages.courseModality') --</option>
+                                @foreach($courseModalities as $courseModality)
+                                    <option value="{{ $courseModality['id'] }}" @if($courseModality['id'] == old('course_modality_id')) selected @endif>{{ $courseModality['value'] }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -57,6 +57,14 @@
                         <label for="status">@lang('messages.status')</label>
                         <input type="text" id="status" class="form-control" value="@if($course->status) @lang('messages.enabled') @else @lang('messages.disabled') @endif" readonly>
                     </div>
+                    <div class="form-group">
+                        <label for="course_type_id">@lang('messages.courseType')</label>
+                        <input type="text" id="course_type_id" class="form-control" value="{{ $course->courseType->name }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="course_modality_id">@lang('messages.courseModality')</label>
+                        <input type="text" id="course_modality_id" class="form-control" value="{{ $course->course_modality['value'] }}" readonly>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -74,6 +82,10 @@
                     <div class="form-group">
                         <label for="close_points">@lang('messages.lastDayToPublishPoints')</label>
                         <input type="text" id="close_points" class="form-control" value="{{ $course->close_points }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="hour_count">@lang('messages.hoursCount')</label>
+                        <input type="text" id="hour_count" value="{{ $course->hour_count }}" class="form-control" readonly>
                     </div>
                 </div>
             </div>

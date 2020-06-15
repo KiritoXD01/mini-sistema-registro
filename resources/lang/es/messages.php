@@ -110,4 +110,6 @@ return [
     'courseTypeUpdated' => 'Tipo de Curso actualizado existosamente',
     'courseTypeActivated' => 'Tipo de Curso activado existosamente',
     'courseTypeDeactivated' => 'Tipo de Curso desactivado existosamente',
+    'hoursCount' => 'Cantidad de Horas',
+    'courseModality' => 'Modalidad de Curso'
 ];

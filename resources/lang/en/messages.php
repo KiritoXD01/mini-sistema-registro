@@ -106,6 +106,8 @@ return [
     'confirmCourseTypeActivation' => "Do you want to deactivate this course type?",
     'courseTypeCreated' => 'Course Type created successfully',
     'courseTypeUpdated' => 'Course Type updated successfully',
-    'courseTypeActivated' => 'Tipo de Curso activado existosamente',
-    'courseTypeDeactivated' => 'Tipo de Curso desactivado existosamente',
+    'courseTypeActivated' => 'Course Type activated successfully',
+    'courseTypeDeactivated' => 'Course Type deactivated successfully',
+    'hoursCount' => 'Hour Count',
+    'courseModality' => 'Course Modality'
 ];

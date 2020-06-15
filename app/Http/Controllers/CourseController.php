@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CourseModality;
 use App\Models\Course;
 use App\Models\CourseStudent;
+use App\Models\CourseType;
 use App\Models\Institution;
 use App\Models\Student;
 use App\Models\StudySubject;
@@ -60,7 +62,9 @@ class CourseController extends Controller
     {
         $teachers = Teacher::where('status', true)->get();
         $studySubjects = StudySubject::where('status', true)->get();
-        return view('course.create', compact('teachers', 'studySubjects'));
+        $courseTypes = CourseType::where('status', true)->get();
+        $courseModalities = CourseModality::getItems();
+        return view('course.create', compact('teachers', 'studySubjects', 'courseTypes', 'courseModalities'));
     }
 
     public function show(Course $course)
@@ -73,17 +77,22 @@ class CourseController extends Controller
         $teachers = Teacher::where('status', true)->get();
         $studySubjects = StudySubject::where('status', true)->get();
         $students = Student::whereNotIn('id', $course->students->pluck('student_id'))->where('status', true)->get();
-        return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students'));
+        $courseTypes = CourseType::where('status', true)->get();
+        $courseModalities = CourseModality::getItems();
+        return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students', 'courseTypes', 'courseModalities'));
     }
 
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'name'             => ['required', 'string', 'max:255', 'unique:courses,name'],
-            'code'             => ['required', 'string', 'max:255', 'unique:courses,code'],
-            'teacher_id'       => ['required'],
-            'study_subject_id' => ['required'],
-            'close_points'     => ['required', 'date']
+            'name'               => ['required', 'string', 'max:255', 'unique:courses,name'],
+            'code'               => ['required', 'string', 'max:255', 'unique:courses,code'],
+            'teacher_id'         => ['required'],
+            'study_subject_id'   => ['required'],
+            'close_points'       => ['required', 'date'],
+            'hour_count'         => ['required', 'numeric', 'min:1'],
+            'course_type_id'     => ['required'],
+            'course_modality_id' => ['required']
         ])->validate();
 
         $data = $request->all();
@@ -98,11 +107,14 @@ class CourseController extends Controller
     public function update(Request $request, Course $course)
     {
         Validator::make($request->all(), [
-            'name'             => ['required', 'string', 'max:255', Rule::unique('courses')->ignoreModel($course)],
-            'code'             => ['required', 'string', 'max:255', Rule::unique('courses')->ignoreModel($course)],
-            'teacher_id'       => ['required'],
-            'study_subject_id' => ['required'],
-            'close_points'     => ['required', 'date']
+            'name'               => ['required', 'string', 'max:255', Rule::unique('courses')->ignoreModel($course)],
+            'code'               => ['required', 'string', 'max:255', Rule::unique('courses')->ignoreModel($course)],
+            'teacher_id'         => ['required'],
+            'study_subject_id'   => ['required'],
+            'close_points'       => ['required', 'date'],
+            'hour_count'         => ['required', 'numeric', 'min:1'],
+            'course_type_id'     => ['required'],
+            'course_modality_id' => ['required']
         ])->validate();
 
         $data = $request->all();
