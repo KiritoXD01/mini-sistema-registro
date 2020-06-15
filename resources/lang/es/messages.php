@@ -99,5 +99,7 @@ return [
     'phone' => 'Telefono',
     'address' => 'Direccion',
     'institutionUpdated' => 'Institucion actualizada existosamente',
-    "accountDisabled" => "Su cuenta no está activada. Por favor actívelo primero."
+    "accountDisabled" => "Su cuenta no está activada. Por favor actívelo primero.",
+    "digitalSignature" => "Firma Digital",
+    "directorSignature" => "Firma del Director"
 ];

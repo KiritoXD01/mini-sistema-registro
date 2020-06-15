@@ -53,6 +53,10 @@
         .certification-points {
             font-size: 20px;
         }
+
+        .director-signature {
+
+        }
     </style>
 </head>
 <body>
@@ -73,6 +77,9 @@
         @endif
         <p class="course-name">{{ $course->studySubject->name }}</p>
         <p class="certification-points">con puntaje de<b> {{ $points }}%</b></p>
+        <table class="director-signature">
+
+        </table>
     </div>
 </div>
 </body>

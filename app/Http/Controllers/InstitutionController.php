@@ -30,11 +30,12 @@ class InstitutionController extends Controller
     public function update(Request $request)
     {
         Validator::make($request->all(), [
-            'name'    => ['required', 'string', 'max:255'],
-            'phone'   => ['required', 'string', 'max:255'],
-            'email'   => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'file'    => ['sometimes', 'image']
+            'name'               => ['required', 'string', 'max:255'],
+            'phone'              => ['required', 'string', 'max:255'],
+            'email'              => ['required', 'string', 'max:255'],
+            'address'            => ['required', 'string', 'max:255'],
+            'logo'               => ['sometimes', 'image'],
+            'director_signature' => ['sometimes', 'image']
         ])->validate();
 
         $image = Institution::where('code', $request->code)->exists() ?

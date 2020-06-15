@@ -9,20 +9,11 @@ class Institution extends Model
     protected $table = "institutions";
     protected $fillable = [
         'name', 'phone', 'email', 'code',
-        'address', 'image'
+        'address', 'logo', 'director_signature'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
-
-    protected $appends = [
-        'logo'
-    ];
-
-    public function getLogoAttribute()
-    {
-        return env('APP_URL').'/'.$this->image;
-    }
 }

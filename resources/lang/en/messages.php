@@ -99,5 +99,7 @@ return [
     'phone' => 'Phone',
     'address' => 'Address',
     'institutionUpdated' => 'Institution updated successfully',
-    'accountDisabled' => "Your account is not activated. Please activate it first."
+    'accountDisabled' => "Your account is not activated. Please activate it first.",
+    "digitalSignature" => "Digital Signature",
+    "directorSignature" => "Director Signature"
 ];

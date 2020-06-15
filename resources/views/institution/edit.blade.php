@@ -69,16 +69,50 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="image">Logo</label>
-                            <input type="file" id="image" name="image" accept="image/*" style="display: none;">
-                            <button type="button" class="btn btn-primary btn-block" id="btnImage">
-                                <i class="fa fa-plus fa-fw"></i> Logo
+                            <input type="file" id="logo" name="logo" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-primary btn-block" id="btnLogo">
+                                <i class="fa fa-picture-o fa-fw"></i> Logo
                             </button>
                             <br>
                             <div class="text-center">
                                 @if(isset($institution))
-                                <img src="{{ asset($institution->logo) ?? asset('img/addimage.png') }}" alt="" id="preview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                    @if(!empty($institution->logo))
+                                        <img src="{{ asset($institution->logo) }}" alt="" id="LogoPreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                    @else
+                                        <img src="{{ asset('img/addimage.png') }}" alt="" id="LogoPreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                    @endif
                                 @else
-                                <img src="{{ asset('img/addimage.png') }}" alt="" id="preview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                    <img src="{{ asset('img/addimage.png') }}" alt="" id="LogoPreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb=4">
+            <div class="card-header py-3">
+                <h4>@lang('messages.digitalSignature')</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="director_signature">@lang('messages.directorSignature')</label>
+                            <input type="file" id="director_signature" name="director_signature" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-primary btn-block" id="btnDirectorSignature">
+                                <i class="fa fa-signature fa-fw"></i> @lang('messages.directorSignature')
+                            </button>
+                            <br>
+                            <div class="text-center">
+                                @if(isset($institution))
+                                    @if(!empty($institution->director_signature))
+                                        <img src="{{ asset($institution->director_signature) }}" alt="" id="DirectorSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                    @else
+                                        <img src="{{ asset('img/addimage.png') }}" alt="" id="DirectorSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                    @endif
+                                @else
+                                    <img src="{{ asset('img/addimage.png') }}" alt="" id="DirectorSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
                                 @endif
                             </div>
                         </div>
@@ -104,13 +138,30 @@
                 });
             });
 
-            $("#btnImage").click(function(){
-                document.getElementById("image").click();
+            $("#btnLogo").click(function(){
+                document.getElementById("logo").click();
             });
 
-            $("#image").change(function() {
-                let file    = document.getElementById('image').files[0];
-                let preview = document.getElementById('preview');
+            $("#btnDirectorSignature").click(function(){
+                document.getElementById("director_signature").click();
+            });
+
+            $("#logo").change(function() {
+                let file    = document.getElementById('logo').files[0];
+                let preview = document.getElementById('LogoPreview');
+                let reader  = new FileReader();
+
+                reader.onloadend = function() {
+                    preview.src = reader.result;
+                };
+
+                if (file)
+                    reader.readAsDataURL(file);
+            });
+
+            $("#director_signature").change(function(){
+                let file    = document.getElementById('director_signature').files[0];
+                let preview = document.getElementById('DirectorSignaturePreview');
                 let reader  = new FileReader();
 
                 reader.onloadend = function() {

@@ -43,9 +43,13 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    @if(isset($institution))
-                        <img src="{{ asset($institution->image) }}" alt="" class="img-thumbnail img-responsive mx-auto" />
-                    @endif
+                    <div class="form-group">
+                        <label>Logo</label>
+                        <br>
+                        @if(isset($institution))
+                            <img src="{{ asset($institution->logo) }}" alt="" class="img-thumbnail img-responsive" />
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
