@@ -21,7 +21,13 @@
     <!-- Icons -->
     <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
     <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
-
+    <style>
+        .backgroundImg {
+            background-image: url("{{ asset('img/logo.png') }}");
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -34,7 +40,8 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6 d-none d-lg-block backgroundImg"></div>
+                        <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">@lang('messages.welcome') @lang('messages.user')</h1>
