@@ -101,5 +101,13 @@ return [
     'institutionUpdated' => 'Institucion actualizada existosamente',
     "accountDisabled" => "Su cuenta no está activada. Por favor actívelo primero.",
     "digitalSignature" => "Firma Digital",
-    "directorSignature" => "Firma del Director"
+    "directorSignature" => "Firma del Director",
+    'courseType' => "Tipo de Curso",
+    'courseTypes' => "Tipos de Cursos",
+    'confirmCourseTypeDeactivation' => "Desea desactivar este tipo de curso?",
+    'confirmCourseTypeActivation' => "Desea reactivar este tipo de curso?",
+    'courseTypeCreated' => 'Tipo de Curso creado existosamente',
+    'courseTypeUpdated' => 'Tipo de Curso actualizado existosamente',
+    'courseTypeActivated' => 'Tipo de Curso activado existosamente',
+    'courseTypeDeactivated' => 'Tipo de Curso desactivado existosamente',
 ];

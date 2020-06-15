@@ -83,14 +83,24 @@
                 </li>
         @endcan
 
+        @can('course-type-list')
+            <!-- Nav Item - Teachers -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('courseType.index') }}">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>@lang('messages.courseTypes')</span>
+                </a>
+            </li>
+        @endcan
+
         @can('course-list')
             <!-- Nav Item - Teachers -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('course.index') }}">
-                        <i class="fas fa-fw fa-university"></i>
-                        <span>@lang('messages.courses')</span>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('course.index') }}">
+                    <i class="fas fa-fw fa-university"></i>
+                    <span>@lang('messages.courses')</span>
+                </a>
+            </li>
         @endcan
 
         @can('study-subject-list')

@@ -189,3 +189,20 @@ Route::group(['prefix' => 'institution'], function(){
     //POST: Update institution
     Route::post('/', 'InstitutionController@update')->middleware('auth')->name('institution.update');
 });
+
+Route::group(['prefix' => 'courseType'], function (){
+    //GET: Get all course types
+    Route::get('/', 'CourseTypeController@index')->middleware('auth')->name('courseType.index');
+    //GET: Create a new course type view
+    Route::get('/create', 'CourseTypeController@create')->middleware('auth')->name('courseType.create');
+    //GET: Edit a course type view
+    Route::get('/{courseType}/edit', 'CourseTypeController@edit')->middleware('auth')->name('courseType.edit');
+    //GET: Show a course type view
+    Route::get('/{courseType}/show', 'CourseTypeController@show')->middleware('auth')->name('courseType.show');
+    //POST: Create a new course type
+    Route::post('/', 'CourseTypeController@store')->middleware('auth')->name('courseType.store');
+    //PATCH: Update an existing course type
+    Route::patch('/{courseType}', 'CourseTypeController@update')->middleware('auth')->name('courseType.update');
+    //DELETE: Deletes and course type
+    Route::delete('/{courseType}', 'CourseTypeController@destroy')->middleware('auth')->name('courseType.destroy');
+});

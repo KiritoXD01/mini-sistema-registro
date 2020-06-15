@@ -62,7 +62,14 @@ class PermissionSeeder extends Seeder
 
             //institution pages
             'institution-show',
-            'institution-edit'
+            'institution-edit',
+
+            //course types
+            "course-type-list",
+            "course-type-create",
+            "course-type-show",
+            "course-type-edit",
+            "course-type-delete",
         ];
 
         /**

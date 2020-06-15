@@ -101,5 +101,11 @@ return [
     'institutionUpdated' => 'Institution updated successfully',
     'accountDisabled' => "Your account is not activated. Please activate it first.",
     "digitalSignature" => "Digital Signature",
-    "directorSignature" => "Director Signature"
+    "directorSignature" => "Director Signature",
+    'confirmCourseTypeDeactivation' => "Do you want to deactivate this course type?",
+    'confirmCourseTypeActivation' => "Do you want to deactivate this course type?",
+    'courseTypeCreated' => 'Course Type created successfully',
+    'courseTypeUpdated' => 'Course Type updated successfully',
+    'courseTypeActivated' => 'Tipo de Curso activado existosamente',
+    'courseTypeDeactivated' => 'Tipo de Curso desactivado existosamente',
 ];
