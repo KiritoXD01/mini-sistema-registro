@@ -32,6 +32,8 @@
                         <th>@lang('messages.code')</th>
                         @if(!auth()->guard('teacher')->check())
                             <th>@lang('messages.teacher')</th>
+                            <th>@lang('messages.courseModality')</th>
+                            <th>@lang('messages.courseType')</th>
                         @endif
                         <th>@lang('messages.students')</th>
                         <th>@lang('messages.status')</th>
@@ -45,6 +47,8 @@
                             <td>{{ $course->code }}</td>
                             @if(!auth()->guard('teacher')->check())
                                 <td>{{ $course->teacher->full_name }}</td>
+                                <td>{{ $course->course_modality['value'] }}</td>
+                                <td>{{ $course->courseType->name }}</td>
                             @endif
                             <td>{{ $course->students->count() }}</td>
                             <td>

@@ -20,7 +20,8 @@ class Course extends Model
     protected $fillable = [
         'name', 'code', 'status', 'created_by',
         'teacher_id', 'study_subject_id', 'close_points',
-        'hour_count', 'course_type_id', 'course_modality_id'
+        'hour_count', 'course_type_id', 'course_modality_id',
+        'country_id'
     ];
 
     /**
@@ -85,11 +86,17 @@ class Course extends Model
 
     /**
      * Get the course modality
-     * @param $value
-     * @return mixed|string
      */
     public function getCourseModalityAttribute()
     {
         return CourseModality::getItem($this->course_modality_id);
+    }
+
+    /**
+     * Get the relation between the country and the course
+     */
+    public function country()
+    {
+        return $this->belongsTo('App\Models\Country', 'country_id', 'id');
     }
 }

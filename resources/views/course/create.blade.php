@@ -66,6 +66,15 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="country_id">@lang('messages.country')</label>
+                            <select id="country_id" name="country_id" class="form-control" required>
+                                <option value="" selected hidden disabled>-- @lang('messages.country') --</option>
+                                @foreach($countries as $country)
+                                    <option value="{{ $country->id }}" @if($country->id == old('country_id')) selected @endif>{{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="hidden" name="status" value="0">
                                 <input type="checkbox" class="custom-control-input" id="status" name="status" checked value="1">

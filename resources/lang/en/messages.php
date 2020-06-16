@@ -109,5 +109,9 @@ return [
     'courseTypeActivated' => 'Course Type activated successfully',
     'courseTypeDeactivated' => 'Course Type deactivated successfully',
     'hoursCount' => 'Hour Count',
-    'courseModality' => 'Course Modality'
+    'courseModality' => 'Course Modality',
+    'country' => 'Country',
+    'assisted' => 'Assisted',
+    'approved' => 'Approved',
+    'studying' => 'Studying'
 ];

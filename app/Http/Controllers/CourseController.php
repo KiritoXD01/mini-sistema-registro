@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\CourseModality;
+use App\Models\Country;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\CourseType;
@@ -64,7 +65,8 @@ class CourseController extends Controller
         $studySubjects = StudySubject::where('status', true)->get();
         $courseTypes = CourseType::where('status', true)->get();
         $courseModalities = CourseModality::getItems();
-        return view('course.create', compact('teachers', 'studySubjects', 'courseTypes', 'courseModalities'));
+        $countries = Country::where('status', true)->orderBy('name', 'asc')->get();
+        return view('course.create', compact('teachers', 'studySubjects', 'courseTypes', 'courseModalities', 'countries'));
     }
 
     public function show(Course $course)
@@ -79,7 +81,8 @@ class CourseController extends Controller
         $students = Student::whereNotIn('id', $course->students->pluck('student_id'))->where('status', true)->get();
         $courseTypes = CourseType::where('status', true)->get();
         $courseModalities = CourseModality::getItems();
-        return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students', 'courseTypes', 'courseModalities'));
+        $countries = Country::where('status', true)->orderBy('name', 'asc')->get();
+        return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students', 'courseTypes', 'courseModalities', 'countries'));
     }
 
     public function store(Request $request)
@@ -92,7 +95,8 @@ class CourseController extends Controller
             'close_points'       => ['required', 'date'],
             'hour_count'         => ['required', 'numeric', 'min:1'],
             'course_type_id'     => ['required'],
-            'course_modality_id' => ['required']
+            'course_modality_id' => ['required'],
+            'country_id'         => ['required']
         ])->validate();
 
         $data = $request->all();
@@ -114,7 +118,8 @@ class CourseController extends Controller
             'close_points'       => ['required', 'date'],
             'hour_count'         => ['required', 'numeric', 'min:1'],
             'course_type_id'     => ['required'],
-            'course_modality_id' => ['required']
+            'course_modality_id' => ['required'],
+            'country_id'         => ['required']
         ])->validate();
 
         $data = $request->all();

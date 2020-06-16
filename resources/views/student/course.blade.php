@@ -28,18 +28,17 @@
                 <table class="table table-hover" id="datatable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>@lang('messages.course')</th>
                         <th>@lang('messages.studySubject')</th>
                         <th>@lang('messages.code')</th>
                         <th>@lang('messages.teacher')</th>
                         <th>@lang('messages.points')</th>
+                        <th>@lang('messages.status')</th>
                         <td>@lang('messages.actions')</td>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($courses as $course)
                         <tr class="text-center">
-                            <td>{{ $course->course->name }}</td>
                             <td>{{ $course->course->studySubject->name }}</td>
                             <td>{{ $course->course->code }}</td>
                             <td>{{ $course->course->teacher->full_name }}</td>
@@ -56,6 +55,15 @@
                                     <span class="badge badge-success">
                                         {{ $course->points }}
                                     </span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($course->points >= 0 && $course->points <= 39)
+                                    <span class="badge badge-danger">@lang('messages.studying')</span>
+                                @elseif($course->points >= 40 && $course->points <= 69)
+                                    <span class="badge badge-warning">@lang('messages.assisted')</span>
+                                @else
+                                    <span class="badge badge-success">@lang('messages.approved')</span>
                                 @endif
                             </td>
                             <td>

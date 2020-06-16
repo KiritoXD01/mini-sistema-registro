@@ -87,6 +87,10 @@
                         <label for="hour_count">@lang('messages.hoursCount')</label>
                         <input type="text" id="hour_count" value="{{ $course->hour_count }}" class="form-control" readonly>
                     </div>
+                    <div class="form-group">
+                        <label for="country_id">@lang('messages.country')</label>
+                        <input type="text" id="country_id" value="{{ $course->country->name }}" class="form-control" readonly>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,6 +109,7 @@
                             <th>@lang('messages.fistName')</th>
                             <th>@lang('messages.lastName')</th>
                             <th>@lang('messages.points')</th>
+                            <td>@lang('messages.status')</td>
                             <th>@lang('messages.actions')</th>
                         </tr>
                     </thead>
@@ -126,6 +131,15 @@
                                     <span class="badge badge-success">
                                         {{ $student->points }}
                                     </span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($student->points >= 0 && $student->points <= 39)
+                                    <span class="badge badge-danger">@lang('messages.studying')</span>
+                                @elseif($student->points >= 40 && $student->points <= 69)
+                                    <span class="badge badge-warning">@lang('messages.assisted')</span>
+                                @else
+                                    <span class="badge badge-success">@lang('messages.approved')</span>
                                 @endif
                             </td>
                             <td>

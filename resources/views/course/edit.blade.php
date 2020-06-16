@@ -124,6 +124,15 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="country_id">@lang('messages.country')</label>
+                                <select id="country_id" name="country_id" class="form-control" required>
+                                    <option value="" selected hidden disabled>-- @lang('messages.country') --</option>
+                                    @foreach($countries as $country)
+                                        <option value="{{ $country->id }}" @if($country->id == old('country_id') || $country->id == $course->country_id) selected @endif>{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -182,11 +191,12 @@
                                 <td>@lang('messages.actions')</td>
                             @endif
                         @endif
+                        <th>@lang('messages.status')</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($course->students as $student)
-                        <tr>
+                        <tr class="text-center">
                             <td>{{ $student->student->firstname }}</td>
                             <td>{{ $student->student->lastname }}</td>
                             <td>{{ $student->student->code }}</td>
@@ -217,6 +227,15 @@
                                         @endif
                                     </div>
                                 </form>
+                            </td>
+                            <td>
+                                @if($student->points >= 0 && $student->points <= 39)
+                                    <span class="badge badge-danger">@lang('messages.studying')</span>
+                                @elseif($student->points >= 40 && $student->points <= 69)
+                                    <span class="badge badge-warning">@lang('messages.assisted')</span>
+                                @else
+                                    <span class="badge badge-success">@lang('messages.approved')</span>
+                                @endif
                             </td>
                             @if(!auth()->guard('teacher')->check())
                                 @can('course-students')
