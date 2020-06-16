@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                         <label for="role">@lang('messages.userRol')</label>
-                        <select id="role" name="role" class="form-control" required>
+                        <select id="role" name="role" class="form-control" required style="width: 100%;">
                             <option value="" selected hidden disabled>-- @lang('messages.userRol') --</option>
                             @foreach($roles as $role)
                                 <option value="{{ $role }}">{{ $role }}</option>
@@ -93,6 +93,10 @@ $(document).ready(function(){
                 Swal.showLoading();
             }
         });
+    });
+
+    $("#role").select2({
+        theme: 'bootstrap4'
     });
 });
 </script>

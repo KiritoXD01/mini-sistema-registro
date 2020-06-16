@@ -113,5 +113,6 @@ return [
     'country' => 'Country',
     'assisted' => 'Assisted',
     'approved' => 'Approved',
-    'studying' => 'Studying'
+    'studying' => 'Studying',
+    'city' => 'City'
 ];

@@ -99,4 +99,15 @@ class Course extends Model
     {
         return $this->belongsTo('App\Models\Country', 'country_id', 'id');
     }
+
+    /**
+     * Get the relation between the city and the course
+     */
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City', 'city_id', 'id')->withDefault([
+            'id' => 0,
+            'name' => 'Undefined'
+        ]);
+    }
 }

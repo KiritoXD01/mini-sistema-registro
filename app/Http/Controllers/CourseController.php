@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\CourseModality;
+use App\Models\City;
 use App\Models\Country;
 use App\Models\Course;
 use App\Models\CourseStudent;
@@ -66,7 +67,8 @@ class CourseController extends Controller
         $courseTypes = CourseType::where('status', true)->get();
         $courseModalities = CourseModality::getItems();
         $countries = Country::where('status', true)->orderBy('name', 'asc')->get();
-        return view('course.create', compact('teachers', 'studySubjects', 'courseTypes', 'courseModalities', 'countries'));
+        $cities = City::where('status', true)->orderBy('name', 'asc')->get();
+        return view('course.create', compact('teachers', 'studySubjects', 'courseTypes', 'courseModalities', 'countries', 'cities'));
     }
 
     public function show(Course $course)
@@ -82,7 +84,8 @@ class CourseController extends Controller
         $courseTypes = CourseType::where('status', true)->get();
         $courseModalities = CourseModality::getItems();
         $countries = Country::where('status', true)->orderBy('name', 'asc')->get();
-        return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students', 'courseTypes', 'courseModalities', 'countries'));
+        $cities = City::where('status', true)->orderBy('name', 'asc')->get();
+        return view('course.edit', compact('course', 'teachers', 'studySubjects', 'students', 'courseTypes', 'courseModalities', 'countries', 'cities'));
     }
 
     public function store(Request $request)

@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="teacher_id">@lang('messages.teacher')</label>
-                                <select id="teacher_id" name="teacher_id" class="form-control" required>
+                                <select id="teacher_id" name="teacher_id" class="form-control" required style="width: 100%;">
                                     <option value="" disabled selected hidden>-- @lang('messages.teacher') --</option>
                                     @foreach($teachers as $teacher)
                                         <option value="{{ $teacher->id }}" @if(old('teacher_id') == $teacher->id || $course->teacher_id == $teacher->id) selected @endif>{{ $teacher->full_name }}</option>
@@ -76,10 +76,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="course_type_id">@lang('messages.courseType')</label>
-                                <select id="course_type_id" name="course_type_id" class="form-control" required>
+                                <select id="course_type_id" name="course_type_id" class="form-control" required style="width: 100%;">
                                     <option value="" disabled selected hidden>-- @lang('messages.courseType') --</option>
                                     @foreach($courseTypes as $courseType)
                                         <option value="{{ $courseType->id }}" @if($courseType->id == old('course_type_id') || $courseType->id == $course->course_type_id) selected @endif>{{ $courseType->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="country_id">@lang('messages.country')</label>
+                                <select id="country_id" name="country_id" class="form-control" required style="width: 100%;">
+                                    <option value="" selected hidden disabled>-- @lang('messages.country') --</option>
+                                    @foreach($countries as $country)
+                                        <option value="{{ $country->id }}" @if($country->id == old('country_id') || $country->id == $course->country_id) selected @endif>{{ $country->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -100,7 +109,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="study_subject_id">@lang('messages.studySubject')</label>
-                                <select id="study_subject_id" name="study_subject_id" class="form-control" required>
+                                <select id="study_subject_id" name="study_subject_id" class="form-control" required style="width: 100%;">
                                     <option value="" disabled selected hidden>-- @lang('messages.studySubject') --</option>
                                     @foreach($studySubjects as $studySubject)
                                         <option value="{{ $studySubject->id }}" @if(old('study_subject_id') == $studySubject->id || $course->study_subject_id == $studySubject->id) selected @endif>{{ $studySubject->name }}</option>
@@ -117,7 +126,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="course_modality_id">@lang('messages.courseModality')</label>
-                                <select id="course_modality_id" name="course_modality_id" class="form-control" required>
+                                <select id="course_modality_id" name="course_modality_id" class="form-control" required style="width: 100%;">
                                     <option value="" hidden selected disabled>-- @lang('messages.courseModality') --</option>
                                     @foreach($courseModalities as $courseModality)
                                         <option value="{{ $courseModality['id'] }}" @if($courseModality['id'] == old('course_modality_id') || $courseModality['id'] == $course->course_modality_id) selected @endif>{{ $courseModality['value'] }}</option>
@@ -125,11 +134,12 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="country_id">@lang('messages.country')</label>
-                                <select id="country_id" name="country_id" class="form-control" required>
-                                    <option value="" selected hidden disabled>-- @lang('messages.country') --</option>
-                                    @foreach($countries as $country)
-                                        <option value="{{ $country->id }}" @if($country->id == old('country_id') || $country->id == $course->country_id) selected @endif>{{ $country->name }}</option>
+                                <label for="city_id">@lang('messages.city')</label>
+                                <input type="hidden" name="city_id" value="0">
+                                <select id="city_id" name="city_id" class="form-control" style="width: 100%;">
+                                    <option value="" selected hidden disabled>-- @lang('messages.city') --</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city->id }}" @if($city->id == old('city_id') || $city->id == $course->city_id) selected @endif>{{ $city->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -410,6 +420,46 @@
             $("#close_points").datepicker({
                 format: "yyyy-mm-dd",
                 startDate: today()
+            });
+
+            $("#teacher_id").select2({
+                theme: 'bootstrap4'
+            });
+
+            $("#study_subject_id").select2({
+                theme: 'bootstrap4'
+            });
+
+            $("#course_type_id").select2({
+                theme: 'bootstrap4'
+            });
+
+            $("#course_modality_id").select2({
+                theme: 'bootstrap4'
+            });
+
+            $("#country_id").select2({
+                theme: 'bootstrap4'
+            });
+
+            $("#city_id").select2({
+                theme: 'bootstrap4'
+            });
+
+            $("#country_id").change(function (){
+                let cities = document.getElementById("city_id");
+
+                if (this.value == 65)
+                {
+                    cities.disabled = false;
+                    cities.required = true;
+                }
+                else
+                {
+                    cities.disabled = true;
+                    cities.required = false;
+                    cities.value = "";
+                }
             });
         });
     </script>

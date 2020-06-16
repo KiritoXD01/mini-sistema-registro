@@ -27,6 +27,10 @@
 
     <!-- DatePicker -->
     <link rel="stylesheet" href="{{ asset('vendor/datepicker/css/bootstrap-datepicker3.min.css') }}">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('vendor/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/select2/select2-bootstrap4.min.css') }}">
 </head>
 <body id="page-top">
 
@@ -78,6 +82,9 @@
 
 <!-- datepicker -->
 <script src="{{ asset('vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
+<!-- Select2 -->
+<script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
 
 @yield('javascript')
 </body>
