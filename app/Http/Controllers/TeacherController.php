@@ -49,17 +49,27 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'firstname' => ['required', 'string', 'max:255'],
-            'lastname'  => ['required', 'string', 'max:255'],
-            'email'     => ['required', 'email:rfc', 'max:255', 'unique:teachers,email,{email}'],
-            'password'  => ['required', 'string', 'min:8', 'confirmed']
+            'firstname'         => ['required', 'string', 'max:255'],
+            'lastname'          => ['required', 'string', 'max:255'],
+            'email'             => ['required', 'email:rfc', 'max:255', 'unique:teachers,email,{email}'],
+            'password'          => ['required', 'string', 'min:8', 'confirmed'],
+            'digital_signature' => ['nullable', 'image']
         ])->validate();
 
         $data = $request->all();
-        $data['email']      = strtolower($data['email']);
-        $data['created_by'] = auth()->user()->id;
-        $data['code']       = $this->generateCode(6);
-        $data['password']   = bcrypt($data['password']);
+        $data['email']             = strtolower($data['email']);
+        $data['created_by']        = auth()->user()->id;
+        $data['code']              = $this->generateCode(6);
+        $data['password']          = bcrypt($data['password']);
+        $data['digital_signature'] = "";
+
+        if ($request->hasFile('digital_signature'))
+        {
+            $file = $request->file('digital_signature');
+            $fileName = 'firma_'.$data['code'].'.'.$file->getClientOriginalExtension();
+            $request->digital_signature->move(public_path('images/teachers'), $fileName);
+            $data['digital_signature'] = 'images/teachers/'.$fileName;
+        }
 
         $teacher = Teacher::create($data);
 

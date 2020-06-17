@@ -10,7 +10,7 @@
     </div>
     <!-- End Page Heading -->
 
-    <form action="{{ route('teacher.update', $teacher->id) }}" method="post" id="form" autocomplete="off">
+    <form action="{{ route('teacher.update', $teacher->id) }}" method="post" id="form" autocomplete="off" enctype="multipart/form-data">
         @csrf
         @method("PATCH")
         <div class="card shadow mb-4">
@@ -61,6 +61,18 @@
                             <input type="email" id="email" name="email" required class="form-control" value="{{ old('email') ?? $teacher->email }}" placeholder="Email...">
                         </div>
                         <div class="form-group">
+                            <label for="password">@lang('messages.change') @lang('messages.password')</label>
+                            <input type="password" id="password" name="password" class="form-control" value="" placeholder="@lang('messages.password')...">
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirmation">@lang('messages.confirmPassword')</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" value="" placeholder="@lang('messages.confirmPassword')...">
+                        </div>
+                        <div class="form-group">
+                            <label for="created_at">@lang('messages.createdAt')</label>
+                            <input type="text" id="created_at" class="form-control" readonly value="{{ $teacher->created_at }}">
+                        </div>
+                        <div class="form-group">
                             <label for="code">@lang('messages.code')</label>
                             <input type="text" id="code" name="code" readonly class="form-control" value="{{ $teacher->code }}" placeholder="@lang('messages.code')...">
                         </div>
@@ -80,16 +92,19 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="password">@lang('messages.change') @lang('messages.password')</label>
-                            <input type="password" id="password" name="password" class="form-control" value="" placeholder="@lang('messages.password')...">
-                        </div>
-                        <div class="form-group">
-                            <label for="password_confirmation">@lang('messages.confirmPassword')</label>
-                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" value="" placeholder="@lang('messages.confirmPassword')...">
-                        </div>
-                        <div class="form-group">
-                            <label for="created_at">@lang('messages.createdAt')</label>
-                            <input type="text" id="created_at" class="form-control" readonly value="{{ $teacher->created_at }}">
+                            <label for="digital_signature">@lang('messages.digitalSignature')</label>
+                            <input type="file" id="digital_signature" name="digital_signature" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-primary btn-block" id="btnDigitalSignature">
+                                <i class="fa fa-signature fa-fw"></i> @lang('messages.edit') @lang('messages.digitalSignature')
+                            </button>
+                            <br>
+                            <div class="text-center">
+                                @if(!empty($teacher->digital_signature))
+                                    <img src="{{ asset($teacher->digital_signature) }}" alt="" id="digitalSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                @else
+                                    <img src="{{ asset('img/addimage.png') }}" alt="" id="digitalSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,7 +131,23 @@
                     }
                 });
             });
-        });
 
+            $("#btnDigitalSignature").click(function(){
+                document.getElementById("digital_signature").click();
+            });
+
+            $("#digital_signature").change(function(){
+                let file    = document.getElementById("digital_signature").files[0];
+                let preview = document.getElementById("digitalSignaturePreview");
+                let reader  = new FileReader();
+
+                reader.onload = function() {
+                    preview.src = reader.result;
+                };
+
+                if (file)
+                    reader.readAsDataURL(file);
+            });
+        });
     </script>
 @endsection

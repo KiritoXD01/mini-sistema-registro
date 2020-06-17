@@ -10,7 +10,7 @@
     </div>
     <!-- End Page Heading -->
 
-    <form action="{{ route('teacher.store') }}" method="post" autocomplete="off" id="form">
+    <form action="{{ route('teacher.store') }}" method="post" autocomplete="off" id="form" enctype="multipart/form-data">
         @csrf
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -54,6 +54,14 @@
                             <input type="email" id="email" name="email" required class="form-control" value="{{ old('email') }}" placeholder="Email...">
                         </div>
                         <div class="form-group">
+                            <label for="password">@lang('messages.password')</label>
+                            <input type="password" id="password" name="password" class="form-control" required value="" placeholder="@lang('messages.password')...">
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirmation">@lang('messages.confirmPassword')</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required value="" placeholder="@lang('messages.confirmPassword')...">
+                        </div>
+                        <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="hidden" name="status" value="0">
                                 <input type="checkbox" class="custom-control-input" id="status" name="status" checked value="1">
@@ -63,12 +71,15 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="password">@lang('messages.password')</label>
-                            <input type="password" id="password" name="password" class="form-control" required value="" placeholder="@lang('messages.password')...">
-                        </div>
-                        <div class="form-group">
-                            <label for="password_confirmation">@lang('messages.confirmPassword')</label>
-                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required value="" placeholder="@lang('messages.confirmPassword')...">
+                            <label for="digital_signature">@lang('messages.digitalSignature')</label>
+                            <input type="file" id="digital_signature" name="digital_signature" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-primary btn-block" id="btnDigitalSignature">
+                                <i class="fa fa-signature fa-fw"></i> @lang('messages.add') @lang('messages.digitalSignature')
+                            </button>
+                            <br>
+                            <div class="text-center">
+                                <img src="{{ asset('img/addimage.png') }}" alt="" id="digitalSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,6 +101,23 @@
                         Swal.showLoading();
                     }
                 });
+            });
+
+            $("#btnDigitalSignature").click(function(){
+                document.getElementById("digital_signature").click();
+            });
+
+            $("#digital_signature").change(function(){
+                let file    = document.getElementById("digital_signature").files[0];
+                let preview = document.getElementById("digitalSignaturePreview");
+                let reader  = new FileReader();
+
+                reader.onload = function() {
+                    preview.src = reader.result;
+                };
+
+                if (file)
+                    reader.readAsDataURL(file);
             });
         });
     </script>
