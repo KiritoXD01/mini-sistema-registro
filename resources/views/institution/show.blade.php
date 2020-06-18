@@ -46,9 +46,35 @@
                     <div class="form-group">
                         <label>Logo</label>
                         <br>
-                        @if(isset($institution))
-                            <img src="{{ asset($institution->logo) }}" alt="" class="img-thumbnail img-responsive" />
-                        @endif
+                        <div class="text-center">
+                            @if(isset($institution))
+                                <img src="{{ asset($institution->logo) }}" alt="" class="img-thumbnail mx-auto" style="width: 50%;" />
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@lang('messages.directorSignature')</label>
+                        <br>
+                        <div class="text-center">
+                            @if(isset($institution))
+                                <img src="{{ asset($institution->director_signature) }}" alt="" class="img-thumbnail mx-auto" style="width: 50%;" />
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>@lang('messages.rectorSignature')</label>
+                        <br>
+                        <div class="text-center">
+                            @if(isset($institution))
+                                <img src="{{ asset($institution->rector_signature) }}" alt="" class="img-thumbnail mx-auto" style="width: 50%;" />
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
