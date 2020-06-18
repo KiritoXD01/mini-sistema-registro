@@ -80,12 +80,12 @@
                                         @can('student-delete')
                                             @if($student->status)
                                                 <input type="hidden" name="status" value="0">
-                                                <button type="button" class="btn btn-danger" onclick="deleteItem('{{ $student->id }}')">
+                                                <button type="button" class="btn btn-danger" onclick="deleteItem({{ $student->id }}, {{ $student->status }})">
                                                     <i class="fa fa-square fa-fw"></i> @lang('messages.disable')
                                                 </button>
                                             @else
                                                 <input type="hidden" name="status" value="1">
-                                                <button type="button" class="btn btn-primary" onclick="deleteItem('{{ $student->id }}')">
+                                                <button type="button" class="btn btn-primary" onclick="deleteItem({{ $student->id }}, {{ $student->status }})">
                                                     <i class="fa fa-check-square fa-fw"></i> @lang('messages.enable')
                                                 </button>
                                             @endif
@@ -105,10 +105,10 @@
 
 @section('javascript')
     <script>
-        function deleteItem(item) {
+        function deleteItem(id, status) {
             Swal
                 .fire({
-                    title: (item.status) ? "@lang('messages.confirmStudentActivation')" : "@lang('messages.confirmStudentReactivation')",
+                    title: (status) ? "@lang('messages.confirmStudentDeactivation')" : "@lang('messages.confirmStudentActivation')",
                     icon: 'question',
                     showCancelButton: true,
                     allowEscapeKey: false,
@@ -126,7 +126,7 @@
                             showConfirmButton: false,
                             onOpen: () => {
                                 Swal.showLoading();
-                                document.getElementById(`formDelete${item}`).submit();
+                                document.getElementById(`formDelete${id}`).submit();
                             }
                         });
                     }
