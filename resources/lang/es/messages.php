@@ -116,5 +116,6 @@ return [
     'assisted' => 'Asistido',
     'approved' => 'Aprobado',
     'studying' => 'Cursando',
-    'city' => 'Ciudad'
+    'city' => 'Ciudad',
+    'rectorSignature' => 'Firma del Rector'
 ];

@@ -90,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="card shadow mb=4">
+        <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h4>@lang('messages.digitalSignature')</h4>
             </div>
@@ -113,6 +113,27 @@
                                     @endif
                                 @else
                                     <img src="{{ asset('img/addimage.png') }}" alt="" id="DirectorSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="rector_signature">@lang('messages.rectorSignature')</label>
+                            <input type="file" id="rector_signature" name="rector_signature" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-primary btn-block" id="btnRectorSignature">
+                                <i class="fa fa-signature fa-fw"></i> @lang('messages.rectorSignature')
+                            </button>
+                            <br>
+                            <div class="text-center">
+                                @if(isset($institution))
+                                    @if(!empty($institution->rector_signature))
+                                        <img src="{{ asset($institution->rector_signature) }}" alt="" id="RectorSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                    @else
+                                        <img src="{{ asset('img/addimage.png') }}" alt="" id="RectorSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
+                                    @endif
+                                @else
+                                    <img src="{{ asset('img/addimage.png') }}" alt="" id="RectorSignaturePreview" class="img-thumbnail mx-auto" style="width: 50%;">
                                 @endif
                             </div>
                         </div>
@@ -146,6 +167,10 @@
                 document.getElementById("director_signature").click();
             });
 
+            $("#btnRectorSignature").click(function(){
+                document.getElementById("rector_signature").click();
+            });
+
             $("#logo").change(function() {
                 let file    = document.getElementById('logo').files[0];
                 let preview = document.getElementById('LogoPreview');
@@ -162,6 +187,19 @@
             $("#director_signature").change(function(){
                 let file    = document.getElementById('director_signature').files[0];
                 let preview = document.getElementById('DirectorSignaturePreview');
+                let reader  = new FileReader();
+
+                reader.onloadend = function() {
+                    preview.src = reader.result;
+                };
+
+                if (file)
+                    reader.readAsDataURL(file);
+            });
+
+            $("#rector_signature").change(function(){
+                let file    = document.getElementById('rector_signature').files[0];
+                let preview = document.getElementById('RectorSignaturePreview');
                 let reader  = new FileReader();
 
                 reader.onloadend = function() {

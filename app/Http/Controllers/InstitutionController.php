@@ -35,40 +35,69 @@ class InstitutionController extends Controller
             'email'              => ['required', 'string', 'max:255'],
             'address'            => ['required', 'string', 'max:255'],
             'logo'               => ['sometimes', 'image'],
-            'director_signature' => ['sometimes', 'image']
+            'director_signature' => ['sometimes', 'image'],
+            'rector_signature'   => ['sometimes', 'image']
         ])->validate();
 
-        $image = Institution::where('code', $request->code)->exists() ?
-            Institution::where('code', $request->code)->first()->image :
+        $logo = Institution::where('code', $request->code)->exists() ?
+            Institution::where('code', $request->code)->first()->logo :
             "";
 
-        if ($request->hasFile('image'))
+        $directorSignature = Institution::where('code', $request->code)->exists() ?
+            Institution::where('code', $request->code)->first()->director_signature :
+            "";
+
+        $rectorSignature = Institution::where('code', $request->code)->exists() ?
+            Institution::where('code', $request->code)->first()->rector_signature :
+            "";
+
+        if ($request->hasFile('logo'))
         {
-            $file = $request->file('image');
+            $file = $request->file('logo');
             $imageName = 'logo.'.$file->getClientOriginalExtension();
-            $request->image->move(public_path('images/institutions'), $imageName);
-            $image = 'images/institutions/'.$imageName;
+            $request->logo->move(public_path('images/institutions'), $imageName);
+            $logo = 'images/institutions/'.$imageName;
+        }
+
+        if ($request->hasFile('director_signature'))
+        {
+            $file = $request->file('director_signature');
+            $imageName = 'director.'.$file->getClientOriginalExtension();
+            $request->director_signature->move(public_path('images/institutions'), $imageName);
+            $directorSignature = 'images/institutions/'.$imageName;
+        }
+
+        if ($request->hasFile('rector_signature'))
+        {
+            $file = $request->file('rector_signature');
+            $imageName = 'rector.'.$file->getClientOriginalExtension();
+            $request->rector_signature->move(public_path('images/institutions'), $imageName);
+            $rectorSignature = 'images/institutions/'.$imageName;
         }
 
         if (Institution::where('code', $request->code)->exists())
         {
             Institution::where('code', $request->code)->update([
-                'name'    => $request->name,
-                'phone'   => $request->phone,
-                'email'   => strtolower($request->email),
-                'address' => $request->address,
-                'image'   => $image
+                'name'               => $request->name,
+                'phone'              => $request->phone,
+                'email'              => strtolower($request->email),
+                'address'            => $request->address,
+                'logo'               => $logo,
+                'director_signature' => $directorSignature,
+                'rector_signature'   => $rectorSignature
             ]);
         }
         else
         {
             Institution::create([
-                'name'    => $request->name,
-                'phone'   => $request->phone,
-                'email'   => strtolower($request->email),
-                'code'    => $this->generateCode(6),
-                'address' => $request->address,
-                'image'   => $image
+                'name'               => $request->name,
+                'phone'              => $request->phone,
+                'email'              => strtolower($request->email),
+                'code'               => $this->generateCode(6),
+                'address'            => $request->address,
+                'logo'               => $logo,
+                'director_signature' => $directorSignature,
+                'rector_signature'   => $rectorSignature
             ]);
         }
 
