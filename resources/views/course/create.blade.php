@@ -44,6 +44,13 @@
                             <input type="text" id="name" name="name" required autofocus class="form-control" value="{{ old('name') }}" placeholder="@lang('messages.name')...">
                         </div>
                         <div class="form-group">
+                            <label for="start_date">@lang('messages.startDate') - @lang('messages.endDate')</label>
+                            <div class="input-group input-daterange">
+                                <input type="text" id="start_date" name="start_date" class="form-control" value="{{ old('start_date') }}" placeholder="@lang('messages.startDate')" required readonly style="background-color: white;">
+                                <input type="text" id="end_date" name="end_date" class="form-control" value="{{ old('end_date') }}" placeholder="@lang('messages.endDate')" required readonly style="background-color: white;">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="teacher_id">@lang('messages.teacher')</label>
                             <select id="teacher_id" name="teacher_id" class="form-control" required style="width: 100%;">
                                 <option value="" disabled selected hidden>-- @lang('messages.teacher') --</option>
@@ -152,6 +159,11 @@
 
                 return `${yyyy}-${mm}-${dd}`;
             };
+
+            $('.input-daterange').datepicker({
+                format: "yyyy-mm-dd",
+                startDate: today()
+            });
 
             $("#close_points").datepicker({
                 format: "yyyy-mm-dd",

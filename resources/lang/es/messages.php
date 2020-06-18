@@ -117,5 +117,7 @@ return [
     'approved' => 'Aprobado',
     'studying' => 'Cursando',
     'city' => 'Ciudad',
-    'rectorSignature' => 'Firma del Rector'
+    'rectorSignature' => 'Firma del Rector',
+    'startDate' => "Fecha de Creación",
+    'endDate' => "Fecha de Finalización"
 ];

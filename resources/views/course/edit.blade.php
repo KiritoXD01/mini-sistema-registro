@@ -58,6 +58,13 @@
                                 <input type="text" id="name" name="name" required autofocus class="form-control" value="{{ old('name') ?? $course->name }}" placeholder="@lang('messages.name')...">
                             </div>
                             <div class="form-group">
+                                <label for="start_date">@lang('messages.startDate') - @lang('messages.endDate')</label>
+                                <div class="input-group input-daterange">
+                                    <input type="text" id="start_date" name="start_date" class="form-control" value="{{ old('start_date') ?? $course->start_date }}" placeholder="@lang('messages.startDate')" required readonly style="background-color: white;">
+                                    <input type="text" id="end_date" name="end_date" class="form-control" value="{{ old('end_date') ?? $course->end_date }}" placeholder="@lang('messages.endDate')" required readonly style="background-color: white;">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="teacher_id">@lang('messages.teacher')</label>
                                 <select id="teacher_id" name="teacher_id" class="form-control" required style="width: 100%;">
                                     <option value="" disabled selected hidden>-- @lang('messages.teacher') --</option>
@@ -136,7 +143,7 @@
                             <div class="form-group">
                                 <label for="city_id">@lang('messages.city')</label>
                                 <input type="hidden" name="city_id" value="0">
-                                <select id="city_id" name="city_id" class="form-control" style="width: 100%;">
+                                <select id="city_id" name="city_id" class="form-control" style="width: 100%;" @if($course->country_id != 65) disabled @else required @endif>
                                     <option value="" selected hidden disabled>-- @lang('messages.city') --</option>
                                     @foreach($cities as $city)
                                         <option value="{{ $city->id }}" @if($city->id == old('city_id') || $city->id == $course->city_id) selected @endif>{{ $city->name }}</option>
@@ -416,6 +423,11 @@
 
                 return `${yyyy}-${mm}-${dd}`;
             };
+
+            $('.input-daterange').datepicker({
+                format: "yyyy-mm-dd",
+                startDate: today()
+            });
 
             $("#close_points").datepicker({
                 format: "yyyy-mm-dd",

@@ -1,86 +1,122 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Mini Sistema Registro">
-    <meta name="author" content="Javier Mercedes">
-    <!-- Icons -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificado</title>
     <style>
-        .outer-border {
-            width: 100%;
-            height: 645px;
+        table {
+            border: 5px solid black;
             padding: 20px;
-            text-align: center;
-            border: 10px solid #787878;
+            width: 100%;
         }
 
-        .inner-border {
-            width: 100%;
-            height: 595px;
-            padding: 20px;
-            text-align: center;
-            border: 5px solid #787878;
+        .logo {
+            width: 150px;
+            height: 150px;
+        }
+
+        .qrcode {
+            width: 170px;
+            height: 170px;
+            float: right;
         }
 
         .institution-name {
-            font-size: 50px;
-            font-weight: bold;
+            text-align: center;
+            font-size: 40px;
+            overflow-wrap: break-word;
         }
 
-        .certification-header {
-            font-size: 30px;
+        .diploma {
+            text-align: center;
+            font-size: 35px;
+            padding: 20px;
         }
 
-        .certifies-that {
-            font-size: 20px;
+        .nombre {
+            text-align: center;
+            font-size: 40px;
+            padding: 20px;
         }
 
-        .certification-name {
-            font-size: 25px;
+        .texto {
+            text-align: justify;
+            font-size: 18px;
+            padding: 25px;
         }
 
-        .certification-text {
-            font-size: 20px;
-        }
-
-        .course-name {
-            font-size: 25px;
-        }
-
-        .certification-points {
-            font-size: 20px;
-        }
-
-        .director-signature {
-
+        .firmas {
+            width: 128px;
+            height: 128px;
+            padding: 0;
         }
     </style>
 </head>
 <body>
-<div class="outer-border">
-    <div class="inner-border">
-        <p class="institution-name">{{ $institution->name }}</p>
-        <p class="certification-header">Certificado de Finalización</p>
-        <p class="certifies-that">Esto es para certificar que</p>
-        <p class="certification-name">{{ $student->fullname }}</p>
-        @if($points >= 40 && $points <= 69)
-            <p class="certification-text">
-                ha aprobado el curso
-            </p>
-        @else
-            <p class="certification-text">
-                ha completado el curso
-            </p>
-        @endif
-        <p class="course-name">{{ $course->studySubject->name }}</p>
-        <p class="certification-points">con puntaje de<b> {{ $points }}%</b></p>
-        <table class="director-signature">
-
-        </table>
-    </div>
-</div>
+<table>
+    <tbody>
+    <tr>
+        <td>
+            <img class="logo" src="{{ asset($institution->logo) }}">
+        </td>
+        <td class="institution-name">
+            {{ $institution->name }}
+        </td>
+        <td>
+            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(512)->generate($student->code)) !!}" class="qrcode" alt="" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" class="diploma">
+            <b>DIPLOMA</b>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" class="nombre">
+            <b>{{ $student->full_name }}</b>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" class="texto">
+            Por haber
+            <b>
+                @if($student->points >= 40 && $student->points <= 69)
+                    asistido
+                @else
+                    aprobado
+                @endif
+            </b>
+            satisfactoriamente <b>{{ $course->studySubject->name }}</b> en <b>{{ $institution->name }}</b>.
+            Esta formación contó con una carga académica de <b>{{ $course->hour_count }}</b> horas interactivas,
+            impartida en la modalidad <b>{{ $course->course_modality['value'] }}</b>. Dado en
+            <b>
+                @if ($course->city_id > 0 && !empty($course->city_id))
+                    {{ $course->city->name }}, {{ $course->country->name }}
+                @else
+                    {{ $course->country->name }}
+                @endif
+            </b>, el día <b>{{ $course->end_date_formatted->format("l j F Y") }}</b>.
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center; padding: 15px;">
+            <img class="firmas" src="{{ asset($institution->rector_signature) }}">
+            <hr>
+            <b>Rector</b>
+        </td>
+        <td style="text-align: center; padding: 15px;">
+            <img class="firmas" src="{{ $teacher->digital_signature }}">
+            <hr>
+            <b>Profesor</b>
+        </td>
+        <td style="text-align: center; padding: 15px;">
+            <img class="firmas" src="{{ $institution->director_signature }}">
+            <hr>
+            <b>Director Academico</b>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

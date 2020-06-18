@@ -115,5 +115,7 @@ return [
     'approved' => 'Approved',
     'studying' => 'Studying',
     'city' => 'City',
-    'rectorSignature' => 'Rector Signature'
+    'rectorSignature' => 'Rector Signature',
+    'startDate' => "Start Date",
+    'endDate' => "End Date"
 ];

@@ -46,6 +46,13 @@
                         <input type="text" id="name" name="name" class="form-control" value="{{ $course->name }}" readonly>
                     </div>
                     <div class="form-group">
+                        <label for="start_date">@lang('messages.startDate') - @lang('messages.endDate')</label>
+                        <div class="input-group input-daterange">
+                            <input type="text" id="start_date" class="form-control" value="{{ $course->start_date }}" placeholder="@lang('messages.startDate')" readonly>
+                            <input type="text" id="end_date" class="form-control" value="{{ $course->end_date }}" placeholder="@lang('messages.endDate')" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="teacher_id">@lang('messages.teacher')</label>
                         <input type="text" id="teacher_id" class="form-control" value="{{ $course->teacher->full_name }}" readonly>
                     </div>

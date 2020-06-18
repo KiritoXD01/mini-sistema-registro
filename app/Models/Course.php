@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CourseModality;
 use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Date\Date;
 
 class Course extends Model
 {
@@ -21,7 +22,7 @@ class Course extends Model
         'name', 'code', 'status', 'created_by',
         'teacher_id', 'study_subject_id', 'close_points',
         'hour_count', 'course_type_id', 'course_modality_id',
-        'country_id'
+        'country_id', 'city_id', "start_date", 'end_date'
     ];
 
     /**
@@ -30,15 +31,20 @@ class Course extends Model
      * @var array
      */
     protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'created_at'   => 'datetime',
+        'updated_at'   => 'datetime',
+        "close_points" => 'date',
+        'start_date'   => 'date',
+        'end_date'     => "date",
     ];
 
     /**
      * Appends custom attributes
      */
     protected $appends = [
-        'course_modality'
+        'course_modality',
+        'start_date_formatted',
+        'end_date_formatted'
     ];
 
     /**
@@ -109,5 +115,21 @@ class Course extends Model
             'id' => 0,
             'name' => 'Undefined'
         ]);
+    }
+
+    /**
+     * Ancestor for start_date for translation
+     */
+    public function getStartDateFormattedAttribute()
+    {
+        return new Date($this->start_date);
+    }
+
+    /**
+     * Ancestor for start_date for translation
+     */
+    public function getEndDateFormattedAttribute()
+    {
+        return new Date($this->end_date);
     }
 }

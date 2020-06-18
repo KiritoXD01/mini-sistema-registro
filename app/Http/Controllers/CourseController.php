@@ -12,6 +12,7 @@ use App\Models\Institution;
 use App\Models\Student;
 use App\Models\StudySubject;
 use App\Models\Teacher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -99,7 +100,8 @@ class CourseController extends Controller
             'hour_count'         => ['required', 'numeric', 'min:1'],
             'course_type_id'     => ['required'],
             'course_modality_id' => ['required'],
-            'country_id'         => ['required']
+            'start_date'         => ['required'],
+            'end_date'           => ['required']
         ])->validate();
 
         $data = $request->all();
@@ -122,7 +124,8 @@ class CourseController extends Controller
             'hour_count'         => ['required', 'numeric', 'min:1'],
             'course_type_id'     => ['required'],
             'course_modality_id' => ['required'],
-            'country_id'         => ['required']
+            'start_date'         => ['required'],
+            'end_date'           => ['required']
         ])->validate();
 
         $data = $request->all();
@@ -210,7 +213,8 @@ class CourseController extends Controller
             'course'      => $courseStudent->course,
             'points'      => $courseStudent->points,
             'student'     => $courseStudent->student,
-            'institution' => Institution::first()
+            'institution' => Institution::first(),
+            'teacher'     => $courseStudent->course->teacher
         ];
 
         $pdf = PDF::loadView('certificates.student', $data);
