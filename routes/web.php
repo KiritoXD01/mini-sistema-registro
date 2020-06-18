@@ -144,6 +144,8 @@ Route::group(['prefix' => 'course'], function(){
     Route::get('/{course}/edit', 'CourseController@edit')->middleware('auth:teacher,web')->name('course.edit');
     //GET: Show an course view
     Route::get('/{course}/show', 'CourseController@show')->middleware('auth:teacher,web')->name('course.show');
+    //GET: Verify certification
+    Route::get('/checkCertification/{course}/{student}', 'CourseController@checkCertification')->name('course.checkCertification');
     //POST: Create a new course
     Route::post('/', 'CourseController@store')->middleware('auth')->name('course.store');
     //POST: Add a student to a course

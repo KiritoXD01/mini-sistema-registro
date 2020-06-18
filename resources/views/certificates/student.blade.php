@@ -64,7 +64,7 @@
             {{ $institution->name }}
         </td>
         <td>
-            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(512)->generate($student->code)) !!}" class="qrcode" alt="" />
+            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(512)->generate(route('course.checkCertification', [$course->id, $student->code]))) !!}" class="qrcode" alt="" />
         </td>
     </tr>
     <tr>

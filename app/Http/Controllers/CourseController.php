@@ -221,4 +221,36 @@ class CourseController extends Controller
         $pdf->setPaper('letter', 'landscape');
         return $pdf->stream();
     }
+
+    public function checkCertification(Request $request, Course $course, Student $student)
+    {
+        $isValid = CourseStudent::where([
+            ["course_id", $course->id],
+            ["student_id", $student->id]
+        ])->exists();
+
+        if ($isValid)
+        {
+            $courseStudent = CourseStudent::where([
+                ["course_id", $course->id],
+                ["student_id", $student->id]
+            ])->first();
+
+            $data = [
+                'course'      => $courseStudent->course,
+                'points'      => $courseStudent->points,
+                'student'     => $courseStudent->student,
+                'institution' => Institution::first(),
+                'teacher'     => $courseStudent->course->teacher
+            ];
+
+            $pdf = PDF::loadView('certificates.student', $data);
+            $pdf->setPaper('letter', 'landscape');
+            return $pdf->stream();
+        }
+        else
+        {
+            return abort(404);
+        }
+    }
 }
