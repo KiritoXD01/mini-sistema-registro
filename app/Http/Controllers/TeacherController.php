@@ -86,8 +86,17 @@ class TeacherController extends Controller
         ])->validate();
 
         $data = $request->all();
-        $data['email']    = strtolower($data['email']);
-        $data['password'] = bcrypt($data['password']);
+        $data['email']             = strtolower($data['email']);
+        $data['password']          = bcrypt($data['password']);
+        $data['digital_signature'] = $teacher->digital_signature;
+
+        if ($request->hasFile('digital_signature'))
+        {
+            $file = $request->file("digital_signature");
+            $fileName = 'firma_'.$data['code'].'.'.$file->getClientOriginalExtension();
+            $request->digital_signature->move(public_path('images/teachers'), $fileName);
+            $data['digital_signature'] = 'images/teachers/'.$fileName;
+        }
 
         $teacher->update($data);
 

@@ -59,8 +59,6 @@
                         <label for="code">@lang('messages.code')</label>
                         <input type="text" id="code" class="form-control" value="{{ $teacher->code }}" readonly>
                     </div>
-                </div>
-                <div class="col-md-6">
                     <div class="form-group">
                         <label for="created_by">@lang('messages.createdBy')</label>
                         <input type="text" id="created_by" readonly class="form-control" value="{{ $teacher->createdBy->name }}">
@@ -72,6 +70,15 @@
                     <div class="form-group">
                         <label for="status">@lang('messages.status')</label>
                         <input type="text" id="status" class="form-control" value="@if($teacher->status) @lang('messages.enabled') @else @lang('messages.disabled') @endif" readonly>
+                    </div>s
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="digital_signature">@lang('messages.digitalSignature')</label>
+                        <br>
+                        <div class="text-center">
+                            <img src="{{ asset($teacher->digital_signature) }}" alt="" class="img-thumbnail" style="width: 50%" />
+                        </div>
                     </div>
                 </div>
             </div>
