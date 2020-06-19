@@ -48,18 +48,18 @@
 
         .firmas {
             text-align: center;
-            padding: 5px;
+            padding: 11px;
+            margin-top: 10px;
         }
 
         .firmas > img {
             text-align: center;
             width: 128px;
             height: 128px;
-            padding-top: 15px;
         }
 
         .firmas > span {
-            padding-top: -10px;
+            padding-top: -15px;
         }
     </style>
 </head>
@@ -99,7 +99,7 @@
             </b>
             satisfactoriamente <b>{{ $course->studySubject->name }}</b> en <b>{{ $institution->name }}</b>.
             Esta formación contó con una carga académica de <b>{{ $course->hour_count }}</b> horas interactivas,
-            impartida en la modalidad <b>{{ $course->course_modality['value'] }}</b>. Dado en
+            impartida en la modalidad <b>{{ $course->course_modality }}</b>. Dado en
             <b>
                 @if ($course->city_id > 0 && !empty($course->city_id))
                     {{ $course->city->name }}, {{ $course->country->name }}

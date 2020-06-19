@@ -47,7 +47,7 @@
                             <td>{{ $course->code }}</td>
                             @if(!auth()->guard('teacher')->check())
                                 <td>{{ $course->teacher->full_name }}</td>
-                                <td>{{ $course->course_modality['value'] }}</td>
+                                <td>{{ $course->course_modality }}</td>
                                 <td>{{ $course->courseType->name }}</td>
                             @endif
                             <td>{{ $course->students->count() }}</td>

@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use ReflectionClass;
+
 class CourseModality
 {
     const PRESENCIAL     = 1;
@@ -10,7 +12,7 @@ class CourseModality
 
     public static function getItems()
     {
-        $class = new \ReflectionClass(__CLASS__);
+        $class = new ReflectionClass(__CLASS__);
         $items = [];
         foreach (array_flip($class->getConstants()) as $key => $value)
         {
@@ -24,7 +26,8 @@ class CourseModality
 
     public static function getItem($item)
     {
-        $items = self::getItems();
+        $class = new ReflectionClass(__CLASS__);
+        $items = array_flip($class->getConstants());
         return (isset($items[$item])) ? $items[$item] : "Undefined";
     }
 }

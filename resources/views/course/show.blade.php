@@ -70,7 +70,7 @@
                     </div>
                     <div class="form-group">
                         <label for="course_modality_id">@lang('messages.courseModality')</label>
-                        <input type="text" id="course_modality_id" class="form-control" value="{{ $course->course_modality['value'] }}" readonly>
+                        <input type="text" id="course_modality_id" class="form-control" value="{{ $course->course_modality }}" readonly>
                     </div>
                 </div>
                 <div class="col-md-6">
