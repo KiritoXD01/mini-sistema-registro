@@ -10,7 +10,7 @@ class Institution extends Model
     protected $fillable = [
         'name', 'phone', 'email', 'code',
         'address', 'logo', 'director_signature',
-        'rector_signature'
+        'rector_signature', 'rector_name', 'director_name'
     ];
 
     protected $casts = [

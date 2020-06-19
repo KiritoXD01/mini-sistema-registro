@@ -47,9 +47,19 @@
         }
 
         .firmas {
+            text-align: center;
+            padding: 5px;
+        }
+
+        .firmas > img {
+            text-align: center;
             width: 128px;
             height: 128px;
-            padding: 0;
+            padding-top: 15px;
+        }
+
+        .firmas > span {
+            padding-top: -10px;
         }
     </style>
 </head>
@@ -58,7 +68,7 @@
     <tbody>
     <tr>
         <td>
-            <img class="logo" src="{{ asset($institution->logo) }}">
+            <img class="logo" src="{{ asset($institution->logo) }}?dummy={{ time() }}">
         </td>
         <td class="institution-name">
             {{ $institution->name }}
@@ -100,18 +110,24 @@
         </td>
     </tr>
     <tr>
-        <td style="text-align: center; padding: 15px;">
-            <img class="firmas" src="{{ asset($institution->rector_signature) }}">
+        <td class="firmas">
+            <img src="{{ asset($institution->rector_signature) }}?dummy={{ time() }}">
+            <br>
+            <span>{{ $institution->rector_name }}</span>
             <hr>
             <b>Rector</b>
         </td>
-        <td style="text-align: center; padding: 15px;">
-            <img class="firmas" src="{{ $teacher->digital_signature }}">
+        <td class="firmas">
+            <img src="{{ $teacher->digital_signature }}?dummy={{ time() }}">
+            <br>
+            <span>{{ $teacher->full_name }}</span>
             <hr>
             <b>Profesor</b>
         </td>
-        <td style="text-align: center; padding: 15px;">
-            <img class="firmas" src="{{ $institution->director_signature }}">
+        <td class="firmas">
+            <img src="{{ $institution->director_signature }}?dummy={{ time() }}">
+            <br>
+            <span>{{ $institution->director_name }}</span>
             <hr>
             <b>Director Academico</b>
         </td>

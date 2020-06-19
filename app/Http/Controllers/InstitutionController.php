@@ -84,7 +84,9 @@ class InstitutionController extends Controller
                 'address'            => $request->address,
                 'logo'               => $logo,
                 'director_signature' => $directorSignature,
-                'rector_signature'   => $rectorSignature
+                'rector_signature'   => $rectorSignature,
+                'director_name'      => $request->director_name,
+                'rector_name'        => $request->rector_name
             ]);
         }
         else
@@ -97,7 +99,9 @@ class InstitutionController extends Controller
                 'address'            => $request->address,
                 'logo'               => $logo,
                 'director_signature' => $directorSignature,
-                'rector_signature'   => $rectorSignature
+                'rector_signature'   => $rectorSignature,
+                'director_name'      => $request->director_name,
+                'rector_name'        => $request->rector_name
             ]);
         }
 

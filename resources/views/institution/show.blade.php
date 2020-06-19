@@ -61,7 +61,7 @@
                         <br>
                         <div class="text-center">
                             @if(isset($institution))
-                                <img src="{{ asset($institution->director_signature) }}" alt="" class="img-thumbnail mx-auto" style="width: 50%;" />
+                                <img src="{{ asset($institution->director_signature) }}?dummy={{ time() }}" alt="" class="img-thumbnail mx-auto" style="width: 50%;" />
                             @endif
                         </div>
                     </div>
@@ -72,10 +72,18 @@
                         <br>
                         <div class="text-center">
                             @if(isset($institution))
-                                <img src="{{ asset($institution->rector_signature) }}" alt="" class="img-thumbnail mx-auto" style="width: 50%;" />
+                                <img src="{{ asset($institution->rector_signature) }}?dummy={{ time() }}" alt="" class="img-thumbnail mx-auto" style="width: 50%;" />
                             @endif
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" id="director_name" class="form-control" value="{{ $institution->director_name }}" placeholder="Director..." readonly />
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="rector_name" class="form-control" value="{{ $institution->rector_name}}" placeholder="Rector..." readonly />
                 </div>
             </div>
         </div>
