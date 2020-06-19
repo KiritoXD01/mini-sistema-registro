@@ -50,6 +50,8 @@ Route::group(['prefix' => 'user'], function(){
     Route::get('/{user}/show', 'UserController@show')->middleware('auth')->name('user.show');
     //GET: Import users to Excel
     Route::get('/export', 'UserController@export')->middleware('auth')->name('user.export');
+    //GET: Check if emails exists
+    Route::get('/checkEmail', 'UserController@checkEmail')->middleware('auth')->name('user.checkEmail');
     //POST: Create a new user
     Route::post('/', 'UserController@store')->middleware('auth')->name('user.store');
     //POST: Import users from CSV/Excel

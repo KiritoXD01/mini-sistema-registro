@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UsersExport;
-use App\Imports\UsersImport;
 use App\Models\User;
-use App\Repositories\Contracts\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -29,7 +27,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('user.index', compact('users'));
+        $roles = Role::pluck('name')->all();
+        return view('user.index', compact('users', 'roles'));
     }
 
     public function create()
@@ -101,9 +100,25 @@ class UserController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new UsersImport, $request->file('excel'));
+        for ($i = 0; $i < count($request->email); $i++)
+        {
+            $user = User::create([
+                'name'       => $request->name[$i],
+                'email'      => strtolower($request->email[$i]),
+                'created_by' => auth()->user()->id,
+                'password'   => bcrypt($request->password[$i])
+            ]);
+            $user->assignRole($request->role[$i]);
+        }
 
         return redirect(route('user.index'))->with('success', trans('messages.usersImported'));
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $emailExists = User::where('email', strtolower($request->email))->exists();
+
+        return response()->json(['email' => $emailExists]);
     }
 
     public function export()

@@ -99,7 +99,7 @@
     <!-- End Table -->
 
     <!-- The Modal -->
-    <form action="{{ route('student.import') }}" autocomplete="off" method="post" id="FormImportStudent">
+    <form action="{{ route('student.import') }}" autocomplete="off" method="post" id="FormImport">
         @csrf
         <div class="modal fade" id="ModalImport">
             <div class="modal-dialog modal-xl">
@@ -122,7 +122,7 @@
                                         <th>@lang('messages.delete')</th>
                                     </tr>
                                 </thead>
-                                <tbody id="listStudentsToAdd">
+                                <tbody id="listItemsToAdd">
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -209,7 +209,7 @@
             }            
         }
 
-        function addStudent()
+        function addItem()
         {
             const id = Date.now();
 
@@ -238,20 +238,20 @@
                         </div>                        
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger btn-block" onclick="removeStudent(${id})">
+                        <button type="button" class="btn btn-danger btn-block" onclick="removeItem(${id})">
                             <i class="fa fa-trash fa-fw"></i>
                         </button>
                     </td>
                 </tr>
                 `;
-            $("#listStudentsToAdd").append(html);
+            $("#listItemsToAdd").append(html);
         }
 
-        function removeStudent(id)
+        function removeItem(id)
         {
-            const students = $("#listStudentsToAdd tr").length;
+            const items = $("#listItemsToAdd tr").length;
 
-            if (students > 1)
+            if (items > 1)
             {
                 $(`#student-${id}`).remove();
             }
@@ -264,7 +264,7 @@
 
         function closeModal()
         {
-            $("#listStudentsToAdd").html("");
+            $("#listItemsToAdd").html("");
             $("#ModalImport").modal("hide");
         }
 
@@ -272,14 +272,26 @@
             $("#datatable").dataTable();
 
             $("#btnModalImport").click(function(){
-                addStudent();
+                addItem();
                 $("#ModalImport").modal({
                     backdrop: 'static'
                 });
             });
 
+            $("#FormImport").submit(function(){
+                Swal.fire({
+                    title: "@lang('messages.pleaseWait')",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    onOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            });
+
             $("#BtnAddStudent").click(function(){
-                addStudent();
+                addItem();
             });
         });
     </script>
