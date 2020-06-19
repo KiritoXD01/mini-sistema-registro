@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\TeacherExport;
-use App\Imports\TeacherImport;
 use App\Models\CourseStudent;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
@@ -124,9 +123,26 @@ class TeacherController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new TeacherImport, $request->file('excel'));
+        for ($i = 0; $i < count($request->email); $i++)
+        {
+            Teacher::create([
+                'firstname' => $request->firstname[$i],
+                'lastname'  => $request->lastname[$i],
+                'email'      => strtolower($request->email[$i]),
+                'code'       => $this->generateCode(6),
+                'created_by' => auth()->user()->id,
+                'password'   => bcrypt($request->password[$i])
+            ]);
+        }
 
         return redirect(route('teacher.index'))->with('success', trans('messages.teachersImported'));
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $emailExists = Teacher::where('email', strtolower($request->email))->exists();
+
+        return response()->json(['email' => $emailExists]);
     }
 
     public function export()

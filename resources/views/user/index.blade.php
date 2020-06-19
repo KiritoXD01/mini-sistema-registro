@@ -140,12 +140,12 @@
                 <div class="modal-footer">
                     <table class="table table-borderless table-sm">
                         <tr>
-                            <td>
+                            <td style="width: 50%;">
                                 <button type="button" class="btn btn-warning btn-block" onclick="closeModal()">
                                     <i class="fa fa-undo fa-fw"></i> @lang('messages.close')
                                 </button>
                             </td>
-                            <td>
+                            <td style="width: 50%;">
                                 <button type="submit" class="btn btn-success btn-block">
                                     <i class="fa fa-save fa-fw"></i> @lang('messages.create') @lang('messages.users')
                                 </button>

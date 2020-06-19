@@ -50,7 +50,7 @@ Route::group(['prefix' => 'user'], function(){
     Route::get('/{user}/show', 'UserController@show')->middleware('auth')->name('user.show');
     //GET: Import users to Excel
     Route::get('/export', 'UserController@export')->middleware('auth')->name('user.export');
-    //GET: Check if emails exists
+    //GET: Check if email exists
     Route::get('/checkEmail', 'UserController@checkEmail')->middleware('auth')->name('user.checkEmail');
     //POST: Create a new user
     Route::post('/', 'UserController@store')->middleware('auth')->name('user.store');
@@ -94,6 +94,8 @@ Route::group(['prefix' => 'teacher'], function(){
     Route::get('/export', 'TeacherController@export')->middleware('auth')->name('teacher.export');
     //GET: show reset form
     Route::get('/password/reset/{token}', 'AuthTeacher\ResetPasswordController@showResetForm')->name('teacher.password.reset');
+    //GET: Check if email exists
+    Route::get('/checkEmail', 'TeacherController@checkEmail')->middleware('auth')->name('teacher.checkEmail');
     //POST: Create a new teacher
     Route::post('/', 'TeacherController@store')->middleware('auth')->name('teacher.store');
     //POST: Import teachers from CSV/Excel
@@ -124,7 +126,7 @@ Route::group(['prefix' => 'student'], function(){
     //GET: show reset form
     Route::get('/password/reset/{token}', 'AuthStudent\ResetPasswordController@showResetForm')->name('student.password.reset');
     //GET: check if email exists
-    Route::get('/checkEmail', 'StudentController@checkEmail')->name('student.checkEmail');
+    Route::get('/checkEmail', 'StudentController@checkEmail')->middleware('auth')->name('student.checkEmail');
     //POST: Create a new student
     Route::post('/', 'StudentController@store')->middleware('auth')->name('student.store');
     //POST: Import teachers from CSV/Excel
