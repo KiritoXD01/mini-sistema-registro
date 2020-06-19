@@ -12,6 +12,7 @@
 
     <form action="{{ route('institution.update') }}" method="POST" enctype="multipart/form-data" autocomplete="off" id="form">
         @csrf
+        <input type="hidden" id="code" name="code" value="{{ $institution->code ?? old('name') }}">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <div class="row">
