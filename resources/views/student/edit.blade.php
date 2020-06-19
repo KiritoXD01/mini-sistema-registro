@@ -60,14 +60,6 @@
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" required class="form-control" value="{{ old('email') ?? $student->email }}" placeholder="Email...">
                         </div>
-                        <div class="form-group">
-                            <label for="code">@lang('messages.code')</label>
-                            <input type="text" id="code" name="code" readonly class="form-control" value="{{ $student->code }}" placeholder="@lang('messages.code')...">
-                        </div>
-                        <div class="form-group">
-                            <label for="created_by">@lang('messages.createdBy')</label>
-                            <input type="text" id="created_by" readonly class="form-control" value="{{ $student->createdBy->name }}">
-                        </div>
                         @can('student-delete')
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
@@ -86,10 +78,6 @@
                         <div class="form-group">
                             <label for="password_confirmation">@lang('messages.confirmPassword')</label>
                             <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" value="" placeholder="@lang('messages.confirmPassword')...">
-                        </div>
-                        <div class="form-group">
-                            <label for="created_at">@lang('messages.createdAt')</label>
-                            <input type="text" id="created_at" class="form-control" readonly value="{{ $student->created_at }}">
                         </div>
                     </div>
                 </div>

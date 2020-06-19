@@ -50,10 +50,6 @@
                             <label for="name">@lang('messages.name')</label>
                             <input type="text" id="name" name="name" required autofocus class="form-control" value="{{ old('name') ?? $studySubject->name }}" placeholder="@lang('messages.name')...">
                         </div>
-                        <div class="form-group">
-                            <label for="created_by">@lang('messages.createdBy')</label>
-                            <input type="text" id="created_by" readonly class="form-control" value="{{ $studySubject->createdBy->name }}">
-                        </div>
                         @can('study-subject-delete')
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
@@ -68,10 +64,6 @@
                         <div class="form-group">
                             <label for="code">@lang('messages.code')</label>
                             <input type="text" id="code" name="code" required class="form-control" value="{{ old('code') ?? $studySubject->code }}" placeholder="@lang('messages.code')...">
-                        </div>
-                        <div class="form-group">
-                            <label for="created_at">@lang('messages.createdAt')</label>
-                            <input type="text" id="created_at" class="form-control" readonly value="{{ $studySubject->created_at }}">
                         </div>
                     </div>
                 </div>

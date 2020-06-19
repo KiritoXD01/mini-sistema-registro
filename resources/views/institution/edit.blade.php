@@ -58,10 +58,6 @@
                             <input type="email" id="email" name="email" class="form-control" value="{{ $institution->email ?? old('email') }}" required placeholder="Email...">
                         </div>
                         <div class="form-group">
-                            <label for="code">@lang('messages.code')</label>
-                            <input type="text" id="code" name="code" class="form-control" value="{{ $institution->code ?? old('code') }}" readonly placeholder="@lang('messages.code')...">
-                        </div>
-                        <div class="form-group">
                             <label for="address">@lang('messages.address')</label>
                             <input type="text" id="address" name="address" class="form-control" value="{{ $institution->address ?? old('address') }}" required placeholder="@lang('messages.address')...">
                         </div>

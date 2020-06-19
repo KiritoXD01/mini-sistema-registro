@@ -74,10 +74,6 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="created_by">@lang('messages.createdBy')</label>
-                                <input type="text" id="created_by" readonly class="form-control" value="{{ $course->createdBy->name }}">
-                            </div>
-                            <div class="form-group">
                                 <label for="close_points">@lang('messages.lastDayToPublishPoints')</label>
                                 <input type="text" id="close_points" name="close_points" class="form-control" value="{{ old('close_points') ?? $course->close_points }}" placeholder="@lang('messages.lastDayToPublishPoints')..." required readonly style="background-color: white;">
                             </div>
@@ -122,10 +118,6 @@
                                         <option value="{{ $studySubject->id }}" @if(old('study_subject_id') == $studySubject->id || $course->study_subject_id == $studySubject->id) selected @endif>{{ $studySubject->name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="created_at">@lang('messages.createdAt')</label>
-                                <input type="text" id="created_at" class="form-control" readonly value="{{ $course->created_at }}">
                             </div>
                             <div class="form-group">
                                 <label for="hour_count">@lang('messages.hoursCount')</label>
