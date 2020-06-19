@@ -121,4 +121,6 @@ return [
     'startDate' => "Fecha de Inicio",
     'endDate' => "Fecha de Finalización",
     "emailExists" => "Este correo ya existe.",
+    "nameExists" => "Este nombre ya existe",
+    "codeExists" => "Este codigo ya existe"
 ];

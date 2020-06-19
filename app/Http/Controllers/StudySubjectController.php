@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\StudySubjectExport;
-use App\Imports\StudySubjectImport;
 use App\Models\StudySubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +18,7 @@ class StudySubjectController extends Controller
          * Sets the user permissions for this controller
          */
         $this->middleware('permission:study-subject-list|study-subject-create|study-subject-edit|study-subject-delete', ['only' => ['index','store', 'export']]);
-        $this->middleware('permission:user-show', ['only' => ['show']]);
+        $this->middleware('permission:study-subject-show', ['only' => ['show']]);
         $this->middleware('permission:study-subject-create', ['only' => ['create','store', 'import']]);
         $this->middleware('permission:study-subject-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:study-subject-delete', ['only' => ['destroy']]);
@@ -91,9 +90,30 @@ class StudySubjectController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new StudySubjectImport, $request->file('excel'));
+        for ($i = 0; $i < count($request->code); $i++)
+        {
+            StudySubject::create([
+                'name'       => $request->name[$i],
+                'created_by' => auth()->user()->id,
+                'code'       => $request->code[$i]
+            ]);
+        }
 
         return redirect(route('studySubject.index'))->with('success', trans('messages.studySubjectImported'));
+    }
+
+    public function checkName(Request $request)
+    {
+        $nameExists = StudySubject::where('name', $request->name)->exists();
+
+        return response()->json(['name' => $nameExists]);
+    }
+
+    public function checkCode(Request $request)
+    {
+        $codeExists = StudySubject::where('code', Str::slug($request->code))->exists();
+
+        return response()->json(['code' => $codeExists]);
     }
 
     public function export()

@@ -8,10 +8,6 @@
             <i class="fas fa-fw fa-book"></i> @lang('messages.studySubjects')
         </h1>
         @can('course-create')
-            <form action="{{ route('studySubject.import') }}" method="post" id="frmExcel" enctype="multipart/form-data">
-                @csrf
-                <input type="file" id="excel" style="display: none;" name="excel" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-            </form>
             <div class="btn-group">
                 <a href="{{ route('studySubject.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
                     <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.studySubject')
@@ -99,6 +95,65 @@
         </div>
     </div>
     <!-- End Table -->
+
+    <!-- The Modal -->
+    <form action="{{ route('studySubject.import') }}" autocomplete="off" method="post" id="FormImport">
+        @csrf
+        <div class="modal fade" id="ModalImport">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">@lang('messages.import') @lang('messages.studySubjects')</h4>
+                        <button type="button" class="close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@lang('messages.name')</th>
+                                        <th>@lang('messages.code')</th>
+                                        <th>@lang('messages.delete')</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listItemsToAdd">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3">
+                                            <button type="button" class="btn btn-primary btn-block" id="BtnAddStudySubject">
+                                                <i class="fa fa-plus fa-fw"></i> @lang('messages.add') @lang('messages.studySubject')
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <table class="table table-borderless table-sm">
+                            <tr>
+                                <td style="width: 50%;">
+                                    <button type="button" class="btn btn-warning btn-block" onclick="closeModal()">
+                                        <i class="fa fa-undo fa-fw"></i> @lang('messages.close')
+                                    </button>
+                                </td>
+                                <td style="width: 50%;">
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        <i class="fa fa-save fa-fw"></i> @lang('messages.create') @lang('messages.studySubjects')
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- End Modal -->
 @endsection
 
 @section('javascript')
@@ -133,15 +188,118 @@
                 });
         }
 
+        function checkName(element)
+        {
+            if (element.checkValidity())
+            {
+                $.get("{{ route('studySubject.checkName') }}", {
+                    name: element.value
+                },
+                function(result)
+                {
+                    if (result.name) {
+                        element.classList.add("is-invalid");
+                    }
+                    else {
+                        element.classList.remove("is-invalid");
+                    }
+                });
+            }            
+        }
+
+        function checkCode(element)
+        {
+            if (element.checkValidity())
+            {
+                $.get("{{ route('studySubject.checkCode') }}", {
+                    code: element.value
+                },
+                function(result)
+                {
+                    if (result.code) {
+                        element.classList.add("is-invalid");
+                    }
+                    else {
+                        element.classList.remove("is-invalid");
+                    }
+                });
+            }            
+        }
+
+        function addItem()
+        {
+            const id = Date.now();
+
+            let html =
+                `
+                <tr id="studySubject-${id}">
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="name[]" value="" maxlength="255" class="form-control" placeholder="@lang('messages.name')..." required onfocusout="checkName(this);" />
+                            <div class="invalid-feedback">@lang("messages.nameExists")</div>
+                        </div>                        
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="code[]" value="" maxlength="255" class="form-control" placeholder="@lang('messages.code')..." required onfocusout="checkCode(this);" />
+                            <div class="invalid-feedback">@lang("messages.codeExists")</div>
+                        </div>                        
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-block" onclick="removeItem(${id})">
+                            <i class="fa fa-trash fa-fw"></i>
+                        </button>
+                    </td>
+                </tr>
+                `;
+            $("#listItemsToAdd").append(html);
+        }
+
+        function removeItem(id)
+        {
+            const items = $("#listItemsToAdd tr").length;
+
+            if (items > 1)
+            {
+                $(`#studySubject-${id}`).remove();
+            }
+            else
+            {
+                $(`#studySubject-${id} input`).val("");
+                $(`#studySubject-${id} input`).removeClass("is-invalid");
+            }
+        }
+
+        function closeModal()
+        {
+            $("#listItemsToAdd").html("");
+            $("#ModalImport").modal("hide");
+        }
+
         $(document).ready(function(){
             $("#datatable").dataTable();
 
             $("#btnModalImport").click(function(){
-                document.getElementById("excel").click();
+                addItem();
+                $("#ModalImport").modal({
+                    backdrop: 'static'
+                });
             });
 
-            $("#excel").change(function(){
-                document.getElementById("frmExcel").submit();
+            $("#FormImport").submit(function(){
+                Swal.fire({
+                    title: "@lang('messages.pleaseWait')",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    onOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            });
+
+            $("#BtnAddStudySubject").click(function(){
+                addItem();
             });
         });
     </script>

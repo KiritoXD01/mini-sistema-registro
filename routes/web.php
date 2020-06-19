@@ -179,6 +179,10 @@ Route::group(['prefix' => 'studysubject'], function(){
     Route::get('/{studySubject}/show', 'StudySubjectController@show')->middleware('auth')->name('studySubject.show');
     //GET: Export students to Excel
     Route::get('/export', 'StudySubjectController@export')->middleware('auth')->name('studySubject.export');
+    //GET: check if name exists
+    Route::get('/checkName', 'StudySubjectController@checkName')->middleware('auth')->name('studySubject.checkName');
+    //GET: check if code exists
+    Route::get('/checkCode', 'StudySubjectController@checkCode')->middleware('auth')->name('studySubject.checkCode');
     //POST: Create a new study subject
     Route::post('/', 'StudySubjectController@store')->middleware('auth')->name('studySubject.store');
     //POST: Import study subjects from CSV/Excel

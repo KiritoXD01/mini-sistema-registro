@@ -119,4 +119,6 @@ return [
     'startDate' => "Start Date",
     'endDate' => "End Date",
     "emailExists" => "This email already exists.",
+    "nameExists" => "This name already exists",
+    "codeExists" => "This code already exists"
 ];
