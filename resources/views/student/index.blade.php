@@ -8,10 +8,6 @@
             <i class="fas fa-fw fa-user-graduate"></i> @lang('messages.students')
         </h1>
         @can('student-create')
-            <form action="{{ route('student.import') }}" method="post" id="frmExcel" enctype="multipart/form-data">
-                @csrf
-                <input type="file" id="excel" style="display: none;" name="excel" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-            </form>
             <div class="btn-group">
                 <a href="{{ route('student.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
                     <i class="fas fa-plus-circle fa-sm fa-fw text-white-50"></i> @lang('messages.create') @lang('messages.student')
@@ -101,6 +97,67 @@
         </div>
     </div>
     <!-- End Table -->
+
+    <!-- The Modal -->
+    <form action="{{ route('student.import') }}" autocomplete="off" method="post" id="FormImportStudent">
+        @csrf
+        <div class="modal fade" id="ModalImport">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">@lang('messages.import') @lang('messages.students')</h4>
+                        <button type="button" class="close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@lang('messages.fistName')</th>
+                                        <th>@lang('messages.lastName')</th>
+                                        <th>Email</th>
+                                        <th>@lang('messages.password')</th>
+                                        <th>@lang('messages.delete')</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listStudentsToAdd">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <button type="button" class="btn btn-primary btn-block" id="BtnAddStudent">
+                                                <i class="fa fa-plus fa-fw"></i> @lang('messages.add') @lang('messages.student')
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <table class="table table-borderless table-sm">
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-block" onclick="closeModal()">
+                                        <i class="fa fa-undo fa-fw"></i> @lang('messages.close')
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        <i class="fa fa-save fa-fw"></i> @lang('messages.create') @lang('messages.students')
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- End Modal -->
 @endsection
 
 @section('javascript')
@@ -133,15 +190,96 @@
                 });
         }
 
+        function checkEmail(element)
+        {
+            if (element.checkValidity())
+            {
+                $.get("{{ route('student.checkEmail') }}", {
+                    email: element.value
+                },
+                function(result)
+                {
+                    if (result.email) {
+                        element.classList.add("is-invalid");
+                    }
+                    else {
+                        element.classList.remove("is-invalid");
+                    }
+                });
+            }            
+        }
+
+        function addStudent()
+        {
+            const id = Date.now();
+
+            let html =
+                `
+                <tr id="student-${id}">
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="firstname[]" value="" maxlength="255" class="form-control" placeholder="@lang('messages.fistName')..." required />
+                        </div>                        
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="lastname[]" value="" maxlength="255" class="form-control" placeholder="@lang('messages.lastName')..." required />
+                        </div>                        
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="email" name="email[]" value="" maxlength="255" class="form-control" placeholder="Email..." required onfocusout="checkEmail(this);" />
+                            <div class="invalid-feedback">@lang("messages.emailExists")</div>
+                        </div>                        
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="password" name="password[]" maxlength="255" minlength="8" value="" class="form-control" placeholder="@lang('messages.password')..." required />
+                        </div>                        
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-block" onclick="removeStudent(${id})">
+                            <i class="fa fa-trash fa-fw"></i>
+                        </button>
+                    </td>
+                </tr>
+                `;
+            $("#listStudentsToAdd").append(html);
+        }
+
+        function removeStudent(id)
+        {
+            const students = $("#listStudentsToAdd tr").length;
+
+            if (students > 1)
+            {
+                $(`#student-${id}`).remove();
+            }
+            else
+            {
+                $(`#student-${id} input`).val("");
+                $(`#student-${id} input`).removeClass("is-invalid");
+            }
+        }
+
+        function closeModal()
+        {
+            $("#listStudentsToAdd").html("");
+            $("#ModalImport").modal("hide");
+        }
+
         $(document).ready(function(){
             $("#datatable").dataTable();
 
             $("#btnModalImport").click(function(){
-                document.getElementById("excel").click();
+                addStudent();
+                $("#ModalImport").modal({
+                    backdrop: 'static'
+                });
             });
 
-            $("#excel").change(function(){
-                document.getElementById("frmExcel").submit();
+            $("#BtnAddStudent").click(function(){
+                addStudent();
             });
         });
     </script>

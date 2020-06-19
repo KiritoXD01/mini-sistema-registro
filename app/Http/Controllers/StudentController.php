@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\StudentExport;
-use App\Imports\StudentImport;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -104,9 +103,26 @@ class StudentController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new StudentImport, $request->file('excel'));
+        for($i = 0; $i < count($request->email); $i++)
+        {
+            Student::create([
+                'firstname' => $request->firstname[$i],
+                'lastname'  => $request->lastname[$i],
+                'email'      => strtolower($request->email[$i]),
+                'code'       => $this->generateCode(6),
+                'created_by' => auth()->user()->id,
+                'password'   => bcrypt($request->password[$i])
+            ]);
+        }
 
-        return redirect(route('user.index'))->with('success', trans('messages.studentsImported'));
+        return redirect(route("student.index"))->with('success', trans('messages.studentsImported'));
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $emailExists = Student::where('email', strtolower($request->email))->exists();
+
+        return response()->json(['email' => $emailExists]);
     }
 
     public function export()

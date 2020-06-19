@@ -117,5 +117,6 @@ return [
     'city' => 'City',
     'rectorSignature' => 'Rector Signature',
     'startDate' => "Start Date",
-    'endDate' => "End Date"
+    'endDate' => "End Date",
+    "emailExists" => "This email already exists.",
 ];

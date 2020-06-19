@@ -118,6 +118,7 @@ return [
     'studying' => 'Cursando',
     'city' => 'Ciudad',
     'rectorSignature' => 'Firma del Rector',
-    'startDate' => "Fecha de Creación",
-    'endDate' => "Fecha de Finalización"
+    'startDate' => "Fecha de Inicio",
+    'endDate' => "Fecha de Finalización",
+    "emailExists" => "Este correo ya existe.",
 ];

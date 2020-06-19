@@ -121,6 +121,8 @@ Route::group(['prefix' => 'student'], function(){
     Route::get('/export', 'StudentController@export')->middleware('auth')->name('student.export');
     //GET: show reset form
     Route::get('/password/reset/{token}', 'AuthStudent\ResetPasswordController@showResetForm')->name('student.password.reset');
+    //GET: check if email exists
+    Route::get('/checkEmail', 'StudentController@checkEmail')->name('student.checkEmail');
     //POST: Create a new student
     Route::post('/', 'StudentController@store')->middleware('auth')->name('student.store');
     //POST: Import teachers from CSV/Excel
