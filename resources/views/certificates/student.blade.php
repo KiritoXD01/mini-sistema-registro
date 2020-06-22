@@ -102,7 +102,7 @@
                     @endif
                 </b>
                 satisfactoriamente <b>{{ $course->studySubject->name }}</b> en <b>{{ $institution->name }}</b>.
-                Esta formación contó con una carga académica de <b>{{ $course->hour_count }}</b> horas interactivas,
+                Esta formaci&oacute;n contó con una carga acad&eacute;mica de <b>{{ $course->hour_count }}</b> horas interactivas,
                 impartida en la modalidad <b>{{ $course->course_modality }}</b>. Dado en
                 <b>
                     @if ($course->city_id > 0 && !empty($course->city_id))
@@ -110,7 +110,7 @@
                     @else
                         {{ $course->country->name }}
                     @endif
-                </b>, el día <b>{{ $course->end_date_formatted->format("l j F Y") }}</b>.
+                </b>, el d&iacute;a <b>{{ $course->end_date_formatted->format("l j F Y") }}</b>.
             </td>
         </tr>
         <tr>
