@@ -49,89 +49,99 @@
         .firmas {
             text-align: center;
             padding: 11px;
-            margin-top: 10px;
         }
 
         .firmas > img {
-            text-align: center;
             width: 128px;
             height: 128px;
         }
 
-        .firmas > span {
-            padding-top: -15px;
+        .nombres {
+            text-align: center;
+            line-height: 5px;
+        }
+
+        .raya {
+            padding-left: 15px;
+            padding-right: 15px;
         }
     </style>
 </head>
 <body>
 <table>
     <tbody>
-    <tr>
-        <td>
-            <img class="logo" src="{{ asset($institution->logo) }}?dummy={{ time() }}">
-        </td>
-        <td class="institution-name">
-            {{ $institution->name }}
-        </td>
-        <td>
-            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(512)->generate(route('course.checkCertification', [$course->id, $student->code]))) !!}" class="qrcode" alt="" />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3" class="diploma">
-            <b>DIPLOMA</b>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3" class="nombre">
-            <b>{{ $student->full_name }}</b>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3" class="texto">
-            Por haber
-            <b>
-                @if($student->points >= 40 && $student->points <= 69)
-                    asistido
-                @else
-                    aprobado
-                @endif
-            </b>
-            satisfactoriamente <b>{{ $course->studySubject->name }}</b> en <b>{{ $institution->name }}</b>.
-            Esta formación contó con una carga académica de <b>{{ $course->hour_count }}</b> horas interactivas,
-            impartida en la modalidad <b>{{ $course->course_modality }}</b>. Dado en
-            <b>
-                @if ($course->city_id > 0 && !empty($course->city_id))
-                    {{ $course->city->name }}, {{ $course->country->name }}
-                @else
-                    {{ $course->country->name }}
-                @endif
-            </b>, el día <b>{{ $course->end_date_formatted->format("l j F Y") }}</b>.
-        </td>
-    </tr>
-    <tr>
-        <td class="firmas">
-            <img src="{{ asset($institution->rector_signature) }}?dummy={{ time() }}">
-            <br>
-            <span>{{ $institution->rector_name }}</span>
-            <hr>
-            <b>Rector</b>
-        </td>
-        <td class="firmas">
-            <img src="{{ $teacher->digital_signature }}?dummy={{ time() }}">
-            <br>
-            <span>{{ $teacher->full_name }}</span>
-            <hr>
-            <b>Profesor</b>
-        </td>
-        <td class="firmas">
-            <img src="{{ $institution->director_signature }}?dummy={{ time() }}">
-            <br>
-            <span>{{ $institution->director_name }}</span>
-            <hr>
-            <b>Director Academico</b>
-        </td>
-    </tr>
+        <tr>
+            <td>
+                <img class="logo" src="{{ asset($institution->logo) }}?dummy={{ time() }}">
+            </td>
+            <td class="institution-name">
+                {{ $institution->name }}
+            </td>
+            <td>
+                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(512)->generate(route('course.checkCertification', [$course->id, $student->code]))) !!}" class="qrcode" alt="" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="diploma">
+                <b>DIPLOMA</b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="nombre">
+                <b>{{ $student->full_name }}</b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="texto">
+                Por haber
+                <b>
+                    @if($student->points >= 40 && $student->points <= 69)
+                        asistido
+                    @else
+                        aprobado
+                    @endif
+                </b>
+                satisfactoriamente <b>{{ $course->studySubject->name }}</b> en <b>{{ $institution->name }}</b>.
+                Esta formación contó con una carga académica de <b>{{ $course->hour_count }}</b> horas interactivas,
+                impartida en la modalidad <b>{{ $course->course_modality }}</b>. Dado en
+                <b>
+                    @if ($course->city_id > 0 && !empty($course->city_id))
+                        {{ $course->city->name }}, {{ $course->country->name }}
+                    @else
+                        {{ $course->country->name }}
+                    @endif
+                </b>, el día <b>{{ $course->end_date_formatted->format("l j F Y") }}</b>.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding-bottom: 10px;"></td>
+        </tr>
+        <tr>
+            <td class="firmas">
+                <img alt="" src="{{ asset($institution->rector_signature) }}?dummy={{ time() }}">
+            </td>
+            <td class="firmas">
+                <img alt="" src="{{ $teacher->digital_signature }}?dummy={{ time() }}">
+            </td>
+            <td class="firmas">
+                <img alt="" src="{{ $institution->director_signature }}?dummy={{ time() }}">
+            </td>
+        </tr>
+        <tr>
+            <td class="nombres">{{ $institution->rector_name }}</td>
+            <td class="nombres">{{ $teacher->full_name }}</td>
+            <td class="nombres">{{ $institution->director_name }}</td>
+        </tr>
+        <tr>
+            <td class="raya"><hr></td>
+            <td class="raya"><hr></td>
+            <td class="raya"><hr></td>
+        </tr>
+        <tr>
+            <td class="nombres">Rector</td>
+            <td class="nombres">Profesor</td>
+            <td class="nombres">Director Academico</td>
+        </tr>
     </tbody>
 </table>
 </body>
