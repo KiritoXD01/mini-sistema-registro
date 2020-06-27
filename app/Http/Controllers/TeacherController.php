@@ -92,7 +92,7 @@ class TeacherController extends Controller
         if ($request->hasFile('digital_signature'))
         {
             $file = $request->file("digital_signature");
-            $fileName = 'firma_'.$data['code'].'.'.$file->getClientOriginalExtension();
+            $fileName = 'firma_'.$teacher->code.'.'.$file->getClientOriginalExtension();
             $request->digital_signature->move(public_path('images/teachers'), $fileName);
             $data['digital_signature'] = 'images/teachers/'.$fileName;
         }
