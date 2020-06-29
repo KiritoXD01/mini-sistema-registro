@@ -80,10 +80,10 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" id="director_name" class="form-control" value="{{ $institution->director_name }}" placeholder="Director..." readonly />
+                    <input type="text" id="director_name" class="form-control" value="{{ $institution->director_name ?? "" }}" placeholder="Director..." readonly />
                 </div>
                 <div class="col-md-6">
-                    <input type="text" id="rector_name" class="form-control" value="{{ $institution->rector_name}}" placeholder="Rector..." readonly />
+                    <input type="text" id="rector_name" class="form-control" value="{{ $institution->rector_name ?? "" }}" placeholder="Rector..." readonly />
                 </div>
             </div>
         </div>

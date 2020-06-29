@@ -284,8 +284,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="student_id">@lang('messages.student')</label>
-                                <select id="student_id" name="student_id" required class="form-control">
-                                    <option value="" disabled hidden selected>-- @lang('messages.student') --</option>
+                                <select id="student_id" name="student_id[]" required class="form-control" multiple>
                                     @foreach($students as $student)
                                         <option value="{{ $student->id }}">{{ $student->full_name }}</option>
                                     @endforeach
@@ -464,6 +463,10 @@
                     cities.required = false;
                     cities.value = "";
                 }
+            });
+
+            $("#student_id").select2({
+                theme: 'bootstrap4'
             });
         });
     </script>

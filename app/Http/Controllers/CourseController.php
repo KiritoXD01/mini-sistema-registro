@@ -81,7 +81,7 @@ class CourseController extends Controller
     {
         $teachers = Teacher::where('status', true)->get();
         $studySubjects = StudySubject::where('status', true)->get();
-        $students = Student::whereNotIn('id', $course->students->pluck('student_id'))->where('status', true)->get();
+        $students = Student::whereNotIn('id', $course->students->pluck('student_id'))->where('status', true)->orderBy("firstname", "desc")->get();
         $courseTypes = CourseType::where('status', true)->get();
         $courseModalities = CourseModality::getItems();
         $countries = Country::where('status', true)->orderBy('name', 'asc')->get();
@@ -150,10 +150,13 @@ class CourseController extends Controller
 
     public function addStudent(Request $request, Course $course)
     {
-        $course->students()->create([
-            "student_id"  => $request->student_id,
-            "assigned_by" => auth()->user()->id
-        ]);
+        foreach($request->student_id as $student)
+        {
+            $course->students()->create([
+                "student_id"  => $student,
+                "assigned_by" => auth()->user()->id
+            ]);
+        }
 
         return redirect(route('course.edit', compact('course')))->with('success', trans('messages.studentAdded'));
     }
