@@ -95,7 +95,7 @@
             <td colspan="3" class="texto">
                 Por haber
                 <b>
-                    @if($student->points >= 40 && $student->points <= 69)
+                    @if($student->points >= 40 || $student->points <= 69)
                         asistido
                     @else
                         aprobado
