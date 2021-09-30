@@ -93,16 +93,9 @@
         </tr>
         <tr>
             <td colspan="3" class="texto">
-                Por haber
-                <b>
-                    @if($student->points >= 40 || $student->points <= 69)
-                        asistido
-                    @else
-                        aprobado
-                    @endif
-                </b>
+                Por haber <b>{{ $status }}</b>
                 satisfactoriamente <b>{{ $course->studySubject->name }}</b> en <b>{{ $institution->name }}</b>.
-                Esta formaci&oacute;n contó con una carga acad&eacute;mica de <b>{{ $course->hour_count }}</b> horas interactivas,
+                Esta formaci&oacute;n cont&oacute; con una carga acad&eacute;mica de <b>{{ $course->hour_count }}</b> horas interactivas,
                 impartida en la modalidad <b>{{ $course->course_modality }}</b>. Dado en
                 <b>
                     @if ($course->city_id > 0 && !empty($course->city_id))

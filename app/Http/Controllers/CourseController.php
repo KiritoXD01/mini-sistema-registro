@@ -217,7 +217,8 @@ class CourseController extends Controller
             'points'      => $courseStudent->points,
             'student'     => $courseStudent->student,
             'institution' => Institution::first(),
-            'teacher'     => $courseStudent->course->teacher
+            'teacher'     => $courseStudent->course->teacher,
+            "status"      => $courseStudent->points <= 69 ? "asistido" : "aprobado"
         ];
 
         $pdf = PDF::loadView('certificates.student', $data);
